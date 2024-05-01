@@ -1,0 +1,356 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > VariantAnnotationSummaryServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.internal</a>
+</div>
+
+<h1>Coverage Summary for Class: VariantAnnotationSummaryServiceImpl (org.cbioportal.genome_nexus.service.internal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VariantAnnotationSummaryServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (8/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86%
+  </span>
+  <span class="absValue">
+    (86/100)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.internal;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.component.annotation.*;
+&nbsp;import org.cbioportal.genome_nexus.model.TranscriptConsequenceSummary;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotationSummary;
+&nbsp;import org.cbioportal.genome_nexus.model.EnsemblTranscript;
+&nbsp;import org.cbioportal.genome_nexus.model.TranscriptConsequence;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.cbioportal.genome_nexus.service.EnsemblService;
+&nbsp;import org.cbioportal.genome_nexus.service.VariantAnnotationService;
+&nbsp;import org.cbioportal.genome_nexus.service.VariantAnnotationSummaryService;
+&nbsp;import org.cbioportal.genome_nexus.service.annotation.EntrezGeneIdResolver;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.EnsemblTranscriptNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.EnsemblWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.util.IsoformOverrideSource;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class VariantAnnotationSummaryServiceImpl implements VariantAnnotationSummaryService
+&nbsp;{
+&nbsp;    private final VariantAnnotationService variantAnnotationService;
+&nbsp;    private final EnsemblService ensemblService;
+&nbsp;    private final CanonicalTranscriptResolver canonicalTranscriptResolver;
+&nbsp;    private final CodonChangeResolver codonChangeResolver;
+&nbsp;    private final AminoAcidsResolver aminoAcidsResolver;
+&nbsp;    private final ConsequenceTermsResolver consequenceTermsResolver;
+&nbsp;    private final EntrezGeneIdResolver entrezGeneIdResolver;
+&nbsp;    private final GenomicLocationResolver genomicLocationResolver;
+&nbsp;    private final HugoGeneSymbolResolver hugoGeneSymbolResolver;
+&nbsp;    private final ProteinChangeResolver proteinChangeResolver;
+&nbsp;    private final ProteinPositionResolver proteinPositionResolver;
+&nbsp;    private final RefSeqResolver refSeqResolver;
+&nbsp;    private final StrandSignResolver strandSignResolver;
+&nbsp;    private final TranscriptIdResolver transcriptIdResolver;
+&nbsp;    private final VariantClassificationResolver variantClassificationResolver;
+&nbsp;    private final VariantTypeResolver variantTypeResolver;
+&nbsp;    private final ExonResolver exonResolver;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public VariantAnnotationSummaryServiceImpl(
+&nbsp;        VariantAnnotationService verifiedHgvsVariantAnnotationService,
+&nbsp;        EnsemblService ensemblService,
+&nbsp;        CanonicalTranscriptResolver canonicalTranscriptResolver,
+&nbsp;        AminoAcidsResolver aminoAcidsResolver,
+&nbsp;        CodonChangeResolver codonChangeResolver,
+&nbsp;        ConsequenceTermsResolver consequenceTermsResolver,
+&nbsp;        EntrezGeneIdResolver entrezGeneIdResolver,
+&nbsp;        GenomicLocationResolver genomicLocationResolver,
+&nbsp;        HugoGeneSymbolResolver hugoGeneSymbolResolver,
+&nbsp;        ProteinChangeResolver proteinChangeResolver,
+&nbsp;        ProteinPositionResolver proteinPositionResolver,
+&nbsp;        RefSeqResolver refSeqResolver,
+&nbsp;        StrandSignResolver strandSignResolver,
+&nbsp;        TranscriptIdResolver transcriptIdResolver,
+&nbsp;        VariantClassificationResolver variantClassificationResolver,
+&nbsp;        VariantTypeResolver variantTypeResolver,
+&nbsp;        ExonResolver exonResolver
+<b class="fc">&nbsp;    ) {</b>
+<b class="fc">&nbsp;        this.variantAnnotationService = verifiedHgvsVariantAnnotationService;</b>
+<b class="fc">&nbsp;        this.ensemblService = ensemblService;</b>
+<b class="fc">&nbsp;        this.canonicalTranscriptResolver = canonicalTranscriptResolver;</b>
+<b class="fc">&nbsp;        this.codonChangeResolver = codonChangeResolver;</b>
+<b class="fc">&nbsp;        this.aminoAcidsResolver = aminoAcidsResolver;</b>
+<b class="fc">&nbsp;        this.consequenceTermsResolver = consequenceTermsResolver;</b>
+<b class="fc">&nbsp;        this.entrezGeneIdResolver = entrezGeneIdResolver;</b>
+<b class="fc">&nbsp;        this.genomicLocationResolver = genomicLocationResolver;</b>
+<b class="fc">&nbsp;        this.hugoGeneSymbolResolver = hugoGeneSymbolResolver;</b>
+<b class="fc">&nbsp;        this.proteinChangeResolver = proteinChangeResolver;</b>
+<b class="fc">&nbsp;        this.proteinPositionResolver = proteinPositionResolver;</b>
+<b class="fc">&nbsp;        this.refSeqResolver = refSeqResolver;</b>
+<b class="fc">&nbsp;        this.strandSignResolver = strandSignResolver;</b>
+<b class="fc">&nbsp;        this.transcriptIdResolver = transcriptIdResolver;</b>
+<b class="fc">&nbsp;        this.variantClassificationResolver = variantClassificationResolver;</b>
+<b class="fc">&nbsp;        this.variantTypeResolver = variantTypeResolver;</b>
+<b class="fc">&nbsp;        this.exonResolver = exonResolver;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public VariantAnnotationSummary getAnnotationSummaryForCanonical(String variant, String isoformOverrideSource)
+&nbsp;        throws VariantAnnotationWebServiceException, VariantAnnotationNotFoundException
+&nbsp;    {
+<b class="nc">&nbsp;        return this.getAnnotationSummaryForCanonical(</b>
+<b class="nc">&nbsp;            this.variantAnnotationService.getAnnotation(variant, isoformOverrideSource, null, null)</b>
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public VariantAnnotationSummary getAnnotationSummaryForCanonical(VariantAnnotation annotation)
+&nbsp;    {
+<b class="fc">&nbsp;        VariantAnnotationSummary annotationSummary = this.getVariantAnnotationSummary(annotation);</b>
+<b class="fc">&nbsp;        TranscriptConsequence canonicalTranscript = this.canonicalTranscriptResolver.resolve(annotation);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (annotationSummary != null &amp;&amp; canonicalTranscript != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            annotationSummary.setTranscriptConsequenceSummary(this.getTranscriptSummary(annotation, canonicalTranscript));</b>
+<b class="fc">&nbsp;            annotationSummary.setCanonicalTranscriptId(canonicalTranscript.getTranscriptId());</b>
+&nbsp;
+&nbsp;            // for backwards compatibility set transcriptConsequences
+<b class="fc">&nbsp;            List&lt;TranscriptConsequenceSummary&gt; transcriptConsequences = new ArrayList&lt;&gt;(1);</b>
+<b class="fc">&nbsp;            transcriptConsequences.add(annotationSummary.getTranscriptConsequenceSummary());</b>
+<b class="fc">&nbsp;            annotationSummary.setTranscriptConsequences(transcriptConsequences);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return annotationSummary;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public VariantAnnotationSummary getAnnotationSummary(String variant, String isoformOverrideSource)
+&nbsp;        throws VariantAnnotationWebServiceException, VariantAnnotationNotFoundException
+&nbsp;    {
+<b class="fc">&nbsp;        return this.getAnnotationSummary(</b>
+<b class="fc">&nbsp;            this.variantAnnotationService.getAnnotation(variant, isoformOverrideSource, null, null)</b>
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;VariantAnnotationSummary&gt; getAnnotationSummary(List&lt;String&gt; variants, String isoformOverrideSource) {
+<b class="fc">&nbsp;        List&lt;VariantAnnotationSummary&gt; summaries = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;VariantAnnotation&gt; annotations =</b>
+<b class="fc">&nbsp;            this.variantAnnotationService.getAnnotations(variants, isoformOverrideSource, null, null);</b>
+&nbsp;
+<b class="fc">&nbsp;        for (VariantAnnotation annotation: annotations) {</b>
+<b class="fc">&nbsp;            summaries.add(this.getAnnotationSummary(annotation));</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return summaries;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;VariantAnnotationSummary&gt; getAnnotationSummaryForCanonical(
+&nbsp;        List&lt;String&gt; variants,
+&nbsp;        String isoformOverrideSource
+&nbsp;    ) {
+<b class="nc">&nbsp;        List&lt;VariantAnnotationSummary&gt; summaries = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;VariantAnnotation&gt; annotations =</b>
+<b class="nc">&nbsp;            this.variantAnnotationService.getAnnotations(variants, isoformOverrideSource, null, null);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (VariantAnnotation annotation: annotations) {</b>
+<b class="nc">&nbsp;            summaries.add(this.getAnnotationSummaryForCanonical(annotation));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return summaries;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public VariantAnnotationSummary getAnnotationSummary(VariantAnnotation annotation)
+&nbsp;    {
+<b class="fc">&nbsp;        VariantAnnotationSummary annotationSummary = this.getAnnotationSummaryForCanonical(annotation);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (annotationSummary != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            List&lt;TranscriptConsequenceSummary&gt; summaries = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;            List&lt;TranscriptConsequence&gt; transcriptConsequences = annotation.getTranscriptConsequences();</b>
+<b class="fc">&nbsp;            if (transcriptConsequences != null) {</b>
+<b class="fc">&nbsp;                for (TranscriptConsequence transcriptConsequence: transcriptConsequences) {</b>
+<b class="fc">&nbsp;                    summaries.add(this.getTranscriptSummary(annotation, transcriptConsequence));</b>
+<b class="fc">&nbsp;                }</b>
+&nbsp;            }
+<b class="fc">&nbsp;            annotationSummary.setTranscriptConsequenceSummaries(summaries);</b>
+<b class="fc">&nbsp;            annotationSummary.setTranscriptConsequences(summaries);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return annotationSummary;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    private String resolveEntrezGeneId(TranscriptConsequence canonicalTranscript)
+&nbsp;    {
+&nbsp;        String entrezGeneId;
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            entrezGeneId = this.entrezGeneIdResolver.resolve(canonicalTranscript);</b>
+<b class="nc">&nbsp;        } catch (EnsemblWebServiceException e) {</b>
+<b class="nc">&nbsp;            entrezGeneId = null;</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return entrezGeneId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    private VariantAnnotationSummary getVariantAnnotationSummary(VariantAnnotation annotation)
+&nbsp;    {
+<b class="fc">&nbsp;        VariantAnnotationSummary summary = null;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (annotation != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            summary = new VariantAnnotationSummary();</b>
+&nbsp;
+<b class="fc">&nbsp;            summary.setVariant(annotation.getVariant());</b>
+<b class="fc">&nbsp;            summary.setGenomicLocation(this.genomicLocationResolver.resolve(annotation));</b>
+<b class="fc">&nbsp;            summary.setStrandSign(this.strandSignResolver.resolve(annotation));</b>
+<b class="fc">&nbsp;            summary.setVariantType(this.variantTypeResolver.resolve(annotation));</b>
+<b class="fc">&nbsp;            summary.setAssemblyName(annotation.getAssemblyName());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return summary;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    private TranscriptConsequenceSummary getTranscriptSummary(VariantAnnotation annotation,
+&nbsp;                                                              TranscriptConsequence transcriptConsequence)
+&nbsp;    {
+<b class="fc">&nbsp;        TranscriptConsequenceSummary summary = null;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (transcriptConsequence != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            summary = new TranscriptConsequenceSummary();</b>
+&nbsp;
+<b class="fc">&nbsp;            summary.setTranscriptId(this.transcriptIdResolver.resolve(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setCodonChange(this.codonChangeResolver.resolve(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setAminoAcids(this.aminoAcidsResolver.resolve(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setAminoAcidRef(this.aminoAcidsResolver.getRefAminoAcid(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setAminoAcidAlt(this.aminoAcidsResolver.getAltAminoAcid(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setEntrezGeneId(this.resolveEntrezGeneId(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setConsequenceTerms(this.consequenceTermsResolver.resolve(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setHugoGeneSymbol(this.hugoGeneSymbolResolver.resolve(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setHgvspShort(this.proteinChangeResolver.resolveHgvspShort(annotation, transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setHgvsp(this.proteinChangeResolver.resolveHgvsp(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setHgvsc(this.proteinChangeResolver.resolveHgvsc(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setProteinPosition(this.proteinPositionResolver.resolve(annotation, transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setRefSeq(this.refSeqResolver.resolve(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setVariantClassification(this.variantClassificationResolver.resolve(annotation, transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setExon(this.exonResolver.resolve(transcriptConsequence));</b>
+<b class="fc">&nbsp;            summary.setPolyphenPrediction(transcriptConsequence.getPolyphenPrediction());</b>
+<b class="fc">&nbsp;            summary.setPolyphenScore(transcriptConsequence.getPolyphenScore());</b>
+<b class="fc">&nbsp;            summary.setSiftPrediction(transcriptConsequence.getSiftPrediction());</b>
+<b class="fc">&nbsp;            summary.setSiftScore(transcriptConsequence.getSiftScore());</b>
+<b class="fc">&nbsp;            if (transcriptConsequence.getTranscriptId() != null) {</b>
+&nbsp;                try {
+<b class="fc">&nbsp;                    String uniprotId = this.ensemblService.getUniprotId(transcriptConsequence.getTranscriptId());</b>
+<b class="fc">&nbsp;                    if (uniprotId != null) {</b>
+<b class="nc">&nbsp;                        summary.setUniprotId(uniprotId);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                } catch (Exception e) {</b>
+&nbsp;                    // TODO Auto-generated catch block
+<b class="nc">&nbsp;                    e.printStackTrace();</b>
+<b class="fc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return summary;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

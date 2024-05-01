@@ -1,0 +1,207 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TranscriptConsequenceMixin</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.web.mixin</a>
+</div>
+
+<h1>Coverage Summary for Class: TranscriptConsequenceMixin (org.cbioportal.genome_nexus.web.mixin)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TranscriptConsequenceMixin</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.web.mixin;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.*;
+&nbsp;import io.swagger.annotations.ApiModelProperty;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;@JsonInclude(JsonInclude.Include.NON_NULL)
+<b class="nc">&nbsp;public class TranscriptConsequenceMixin</b>
+&nbsp;{
+&nbsp;    @JsonProperty(value=&quot;transcript_id&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Ensembl transcript id&quot;, required = true)
+&nbsp;    private String transcriptId;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;hgvsp&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;HGVSp&quot;, required = false)
+&nbsp;    private String hgvsp;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;hgvsc&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;HGVSc&quot;, required = false)
+&nbsp;    private String hgvsc;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;hgvsg&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;HGVSg&quot;, required = false)
+&nbsp;    private String hgvsg;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;variant_allele&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Variant allele&quot;, required = false)
+&nbsp;    private String variantAllele;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;codons&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Codons&quot;, required = false)
+&nbsp;    private String codons;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;protein_id&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Ensembl protein id&quot;, required = false)
+&nbsp;    private String proteinId;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;protein_start&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Protein start position&quot;, required = false)
+&nbsp;    private Integer proteinStart;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;protein_end&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Protein end position&quot;, required = false)
+&nbsp;    private Integer proteinEnd;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;gene_symbol&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Hugo gene symbol&quot;, required = false)
+&nbsp;    private String geneSymbol;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;gene_id&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Ensembl gene id&quot;, required = false)
+&nbsp;    private String geneId;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;amino_acids&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Amino acids&quot;, required = false)
+&nbsp;    private String aminoAcids;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;hgnc_id&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;HGNC id&quot;, required = false)
+&nbsp;    private String hgncId;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;canonical&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Canonical transcript indicator&quot;, required = false)
+&nbsp;    private String canonical;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;polyphen_score&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Polyphen Score&quot;, required = false)
+&nbsp;    private Double polyphenScore;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;polyphen_prediction&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Polyphen Prediction&quot;, required = false)
+&nbsp;    private String polyphenPrediction;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;sift_score&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Sift Score&quot;, required = false)
+&nbsp;    private Double siftScore;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;sift_prediction&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Sift Prediction&quot;, required = false)
+&nbsp;    private String siftPrediction;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;refseq_transcript_ids&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;List of RefSeq transcript ids&quot;, required = false)
+&nbsp;    private List&lt;String&gt; refseqTranscriptIds;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;consequence_terms&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;List of consequence terms&quot;, required = false)
+&nbsp;    private List&lt;String&gt; consequenceTerms;
+&nbsp;
+&nbsp;    @JsonIgnore
+&nbsp;    private Map&lt;String, Object&gt; dynamicProps;
+&nbsp;
+&nbsp;    @JsonAnySetter
+&nbsp;    public void setDynamicProp(String key, Object value) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @JsonAnyGetter
+&nbsp;    public Map&lt;String, Object&gt; getDynamicProps() {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

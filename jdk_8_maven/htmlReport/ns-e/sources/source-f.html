@@ -1,0 +1,210 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > OncokbServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.internal</a>
+</div>
+
+<h1>Coverage Summary for Class: OncokbServiceImpl (org.cbioportal.genome_nexus.service.internal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OncokbServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9,5%
+  </span>
+  <span class="absValue">
+    (4/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.internal;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.NoSuchElementException;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;import org.apache.commons.logging.Log;
+&nbsp;import org.apache.commons.logging.LogFactory;
+&nbsp;import org.cbioportal.genome_nexus.model.Alteration;
+&nbsp;import org.cbioportal.genome_nexus.persistence.OncokbCancerGenesListRepository;
+&nbsp;import org.cbioportal.genome_nexus.service.OncokbService;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.OncokbNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.OncokbWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.ResourceMappingException;
+&nbsp;import org.cbioportal.genome_nexus.service.remote.OncokbDataFetcher;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.client.HttpClientErrorException;
+&nbsp;import org.springframework.web.client.HttpServerErrorException;
+&nbsp;import org.springframework.web.client.ResourceAccessException;
+&nbsp;import org.oncokb.client.CancerGene;
+&nbsp;import org.oncokb.client.IndicatorQueryResp;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class OncokbServiceImpl implements OncokbService {
+<b class="fc">&nbsp;    private static final Log LOG = LogFactory.getLog(OncokbServiceImpl.class);</b>
+&nbsp;
+&nbsp;    private final OncokbDataFetcher oncokbDataFetcher;
+&nbsp;    private final OncokbCancerGenesListRepository oncokbCancerGenesListRepository;
+&nbsp;
+&nbsp;    @Autowired
+<b class="fc">&nbsp;    public OncokbServiceImpl(OncokbDataFetcher oncokbDataFetcher, OncokbCancerGenesListRepository oncokbCancerGenesListRepository) {</b>
+<b class="fc">&nbsp;        this.oncokbDataFetcher = oncokbDataFetcher;</b>
+<b class="fc">&nbsp;        this.oncokbCancerGenesListRepository = oncokbCancerGenesListRepository;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public IndicatorQueryResp getOncokbByProteinChange(Alteration alteration, String token) throws OncokbNotFoundException, OncokbWebServiceException {
+<b class="nc">&nbsp;        Optional&lt;IndicatorQueryResp&gt; oncokb = null;</b>
+&nbsp;        
+<b class="nc">&nbsp;        oncokbDataFetcher.setOncokbToken(token);</b>
+&nbsp;        try {
+&nbsp;            // get the annotation from the web service
+<b class="nc">&nbsp;            List&lt;IndicatorQueryResp&gt; list = oncokbDataFetcher.fetchInstances(generateQueryString(alteration));</b>
+<b class="nc">&nbsp;            if (list.size() &gt; 0) {</b>
+<b class="nc">&nbsp;                oncokb = Optional.ofNullable(list.get(0));</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (HttpServerErrorException e) {</b>
+&nbsp;            // failure fetching external resource
+<b class="nc">&nbsp;            LOG.error(&quot;Failure fetching external resource: &quot; + e.getLocalizedMessage());</b>
+<b class="nc">&nbsp;        } catch (ResourceMappingException e) {</b>
+<b class="nc">&nbsp;            throw new OncokbWebServiceException(e.getMessage());</b>
+<b class="nc">&nbsp;        } catch (HttpClientErrorException e) {</b>
+<b class="nc">&nbsp;            throw new OncokbWebServiceException(e.getResponseBodyAsString(), e.getStatusCode());</b>
+<b class="nc">&nbsp;        } catch (ResourceAccessException e) {</b>
+<b class="nc">&nbsp;            throw new OncokbWebServiceException(e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            return oncokb.get();</b>
+<b class="nc">&nbsp;        } catch (NoSuchElementException e) {</b>
+<b class="nc">&nbsp;            throw new OncokbNotFoundException(alteration);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public IndicatorQueryResp getOncokb(Alteration alteration, String token) throws OncokbNotFoundException, OncokbWebServiceException {
+<b class="nc">&nbsp;        if (alteration != null) {</b>
+<b class="nc">&nbsp;            IndicatorQueryResp oncokb = this.getOncokbByProteinChange(alteration, token);</b>
+<b class="nc">&nbsp;            return oncokb;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private String generateQueryString(Alteration alteration) {
+&nbsp;        // example url: hugoSymbol=BRAF&amp;entrezGeneId=673&amp;alteration=V600E&amp;consequence=missense_variant&amp;proteinStart=600&amp;proteinEnd=600&amp;tumorType=Melanoma
+<b class="nc">&nbsp;        String query = &quot;&quot;;</b>
+<b class="nc">&nbsp;        if (alteration.getHugoSymbol() != null) {</b>
+<b class="nc">&nbsp;            query = query + &quot;hugoSymbol=&quot; + alteration.getHugoSymbol();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (alteration.getEntrezGeneId() != null) {</b>
+<b class="nc">&nbsp;            query = query + &quot;&amp;entrezGeneId=&quot; + alteration.getEntrezGeneId();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (alteration.getAlteration() != null) {</b>
+<b class="nc">&nbsp;            query= query + &quot;&amp;alteration=&quot; + alteration.getAlteration();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (alteration.getConsequence() != null) {</b>
+<b class="nc">&nbsp;            query = query + &quot;&amp;consequence=&quot; + alteration.getConsequence();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (alteration.getProteinStart() != null) {</b>
+<b class="nc">&nbsp;            query = query + &quot;&amp;proteinStart=&quot; + alteration.getProteinStart();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (alteration.getProteinEnd() != null) {</b>
+<b class="nc">&nbsp;            query = query + &quot;&amp;proteinEnd=&quot; + alteration.getProteinEnd();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (alteration.getTumorType() != null) {</b>
+<b class="nc">&nbsp;            query = query + &quot;&amp;tumorType=&quot; + alteration.getTumorType();</b>
+&nbsp;        }
+&nbsp;        // TODO tumorType is optional for the query, currently genome nexus doesn&#39;t have tumorType data
+&nbsp;
+<b class="nc">&nbsp;        return query;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;CancerGene&gt; getOncokbCancerGenesList() {
+<b class="nc">&nbsp;        return this.oncokbCancerGenesListRepository.getOncokbCancerGenesList();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

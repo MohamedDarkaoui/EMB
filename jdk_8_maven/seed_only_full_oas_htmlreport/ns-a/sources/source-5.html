@@ -1,0 +1,254 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CachedMyVariantInfoFetcher</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.cached</a>
+</div>
+
+<h1>Coverage Summary for Class: CachedMyVariantInfoFetcher (org.cbioportal.genome_nexus.service.cached)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CachedMyVariantInfoFetcher</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (38/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.cached;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.databind.DeserializationFeature;
+&nbsp;import com.mongodb.BasicDBList;
+&nbsp;import com.mongodb.DBObject;
+&nbsp;import org.apache.commons.logging.Log;
+&nbsp;import org.apache.commons.logging.LogFactory;
+&nbsp;import org.apache.logging.log4j.util.Strings;
+&nbsp;import org.cbioportal.genome_nexus.model.my_variant_info_model.MyVariantInfo;
+&nbsp;import org.cbioportal.genome_nexus.persistence.MyVariantInfoRepository;
+&nbsp;import org.cbioportal.genome_nexus.persistence.internal.MyVariantInfoRepositoryImpl;
+&nbsp;import org.cbioportal.genome_nexus.service.config.ExternalResourceObjectMapper;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.MyVariantInfoNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.remote.MyVariantInfoDataFetcher;
+&nbsp;import org.cbioportal.genome_nexus.service.transformer.ExternalResourceTransformer;
+&nbsp;import org.cbioportal.genome_nexus.util.Transformer;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;import org.springframework.util.LinkedMultiValueMap;
+&nbsp;import org.springframework.util.MultiValueMap;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Component
+&nbsp;public class CachedMyVariantInfoFetcher extends BaseCachedExternalResourceFetcher&lt;MyVariantInfo, MyVariantInfoRepository&gt;
+&nbsp;{
+<b class="fc">&nbsp;    private static final Log LOG = LogFactory.getLog(CachedMyVariantInfoFetcher.class);</b>
+&nbsp;
+&nbsp;    private final ExternalResourceObjectMapper objectMapper;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public CachedMyVariantInfoFetcher(
+&nbsp;        ExternalResourceTransformer&lt;MyVariantInfo&gt; transformer,
+&nbsp;        MyVariantInfoRepository repository,
+&nbsp;        MyVariantInfoDataFetcher fetcher,
+&nbsp;        @Value(&quot;${myvariantinfo.max_page_size:500}&quot;) Integer maxPageSize
+&nbsp;    )
+&nbsp;    {
+<b class="fc">&nbsp;        super(</b>
+&nbsp;            MyVariantInfoRepositoryImpl.COLLECTION,
+&nbsp;            repository,
+&nbsp;            MyVariantInfo.class,
+&nbsp;            fetcher,
+&nbsp;            transformer,
+&nbsp;            maxPageSize
+&nbsp;        );
+&nbsp;
+&nbsp;        // instantiate a custom object mapper for normalizing purposes
+<b class="fc">&nbsp;        this.objectMapper = new ExternalResourceObjectMapper();</b>
+<b class="fc">&nbsp;        this.objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected Object buildRequestBody(Set&lt;String&gt; ids)
+&nbsp;    {
+<b class="fc">&nbsp;        MultiValueMap&lt;String, String&gt; requestBody= new LinkedMultiValueMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        requestBody.add(&quot;ids&quot;, Strings.join(ids, &#39;,&#39;));</b>
+&nbsp;        // TODO this way it looks cleaner, but it only fetches one result
+&nbsp;        // requestBody.put(&quot;ids&quot;, new ArrayList&lt;&gt;(ids));
+&nbsp;
+<b class="fc">&nbsp;        return requestBody;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected String extractId(MyVariantInfo instance)
+&nbsp;    {
+<b class="fc">&nbsp;        return instance.getVariant();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected String extractId(DBObject dbObject)
+&nbsp;    {
+<b class="fc">&nbsp;        return (String)dbObject.get(&quot;_id&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected DBObject normalizeResponse(DBObject rawJson)
+&nbsp;    {
+<b class="fc">&nbsp;        List&lt;DBObject&gt; curatedList = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;        // MyVariantInfo returns dynamic model (like error responses or inconsistent data model)
+&nbsp;        // which we cannot map exactly to our static model.
+&nbsp;        // Remove/normalize problematic ones so that we don&#39;t save those into the database
+<b class="fc">&nbsp;        for (DBObject dbObject: Transformer.convertToDbObjectList(rawJson))</b>
+&nbsp;        {
+&nbsp;            try {
+&nbsp;                // check for any errors (this throws exception if the response is an error JSON)
+<b class="fc">&nbsp;                this.checkForErrorResponse(dbObject);</b>
+&nbsp;
+&nbsp;                // convert DBObject to a proper instance of the given class type
+<b class="fc">&nbsp;                this.objectMapper.convertValue(dbObject, this.type);</b>
+&nbsp;
+&nbsp;                // if can be successfully converted normalize and add to the curated list
+<b class="fc">&nbsp;                curatedList.add(this.normalizeRawEntity(dbObject));</b>
+<b class="fc">&nbsp;            } catch (MyVariantInfoNotFoundException e) {</b>
+&nbsp;                // fail silently for NotFoundException
+&nbsp;                // TODO we should cache &quot;not found&quot; queries somewhere
+<b class="fc">&nbsp;            } catch (Exception e) {</b>
+<b class="fc">&nbsp;                LOG.warn(this.getId(dbObject) + &quot;: &quot; + e.getLocalizedMessage());</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        BasicDBList list = new BasicDBList();</b>
+<b class="fc">&nbsp;        list.addAll(curatedList);</b>
+<b class="fc">&nbsp;        return list;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Object getId(@NotNull DBObject dbObject) {
+<b class="fc">&nbsp;        return dbObject.get(&quot;_id&quot;) != null ? dbObject.get(&quot;_id&quot;): dbObject.get(&quot;query&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void checkForErrorResponse(@NotNull DBObject dbObject) throws MyVariantInfoNotFoundException
+&nbsp;    {
+<b class="fc">&nbsp;        if (dbObject.get(&quot;notfound&quot;) != null) {</b>
+<b class="fc">&nbsp;            throw new MyVariantInfoNotFoundException(this.getId(dbObject).toString());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private DBObject normalizeRawEntity(DBObject rawJson)
+&nbsp;    {
+<b class="fc">&nbsp;        if (rawJson.get(&quot;dbsnp&quot;) instanceof Map) {</b>
+<b class="fc">&nbsp;            Map&lt;String, Object&gt; dbsnp = (Map&lt;String, Object&gt;) rawJson.get(&quot;dbsnp&quot;);</b>
+<b class="fc">&nbsp;            dbsnp.put(&quot;alleles&quot;, convertToList(dbsnp.get(&quot;alleles&quot;)));</b>
+<b class="fc">&nbsp;            dbsnp.put(&quot;flags&quot;, convertToList(dbsnp.get(&quot;flags&quot;)));</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (rawJson.get(&quot;clinvar&quot;) instanceof Map) {</b>
+<b class="fc">&nbsp;            Map&lt;String, Object&gt; clinvar = (Map&lt;String, Object&gt;) rawJson.get(&quot;clinvar&quot;);</b>
+<b class="fc">&nbsp;            clinvar.put(&quot;rcv&quot;, convertToList(clinvar.get(&quot;rcv&quot;)));</b>
+<b class="fc">&nbsp;            Map&lt;String, Object&gt; hgvs = (Map&lt;String, Object&gt;) clinvar.get(&quot;hgvs&quot;);</b>
+<b class="fc">&nbsp;            hgvs.put(&quot;coding&quot;, convertToList(hgvs.get(&quot;coding&quot;)));</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return rawJson;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private List&lt;Object&gt; convertToList(Object listOrSingleValue)
+&nbsp;    {
+<b class="fc">&nbsp;        if (listOrSingleValue instanceof List) {</b>
+<b class="fc">&nbsp;            return (List&lt;Object&gt;)listOrSingleValue;</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="fc">&nbsp;            return Collections.singletonList(listOrSingleValue);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

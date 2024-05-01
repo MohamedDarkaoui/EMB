@@ -1,0 +1,87 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ExternalResourceFetcher</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service</a>
+</div>
+
+<h1>Coverage Summary for Class: ExternalResourceFetcher (org.cbioportal.genome_nexus.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ExternalResourceFetcher</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service;
+&nbsp;
+&nbsp;import com.mongodb.DBObject;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.ResourceMappingException;
+&nbsp;import org.springframework.web.client.HttpClientErrorException;
+&nbsp;import org.springframework.web.client.ResourceAccessException;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;public interface ExternalResourceFetcher&lt;T&gt;
+&nbsp;{
+&nbsp;    Boolean hasValidURI();
+&nbsp;    DBObject fetchRawValue(Map&lt;String, String&gt; queryParams) throws HttpClientErrorException, ResourceAccessException;
+&nbsp;    DBObject fetchRawValue(String param) throws HttpClientErrorException, ResourceAccessException;
+&nbsp;    DBObject fetchRawValue(Object requestBody) throws HttpClientErrorException, ResourceAccessException;
+&nbsp;    List&lt;T&gt; fetchInstances(Map&lt;String, String&gt; queryParams) throws HttpClientErrorException, ResourceAccessException, ResourceMappingException;
+&nbsp;    List&lt;T&gt; fetchInstances(String param) throws HttpClientErrorException, ResourceAccessException, ResourceMappingException;
+&nbsp;    List&lt;T&gt; fetchInstances(Object requestBody) throws HttpClientErrorException, ResourceAccessException, ResourceMappingException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

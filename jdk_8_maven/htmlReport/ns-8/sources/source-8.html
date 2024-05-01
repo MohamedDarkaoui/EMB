@@ -1,0 +1,98 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MyVariantInfoService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service</a>
+</div>
+
+<h1>Coverage Summary for Class: MyVariantInfoService (org.cbioportal.genome_nexus.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">MyVariantInfoService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.my_variant_info_model.MyVariantInfo;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.MyVariantInfoNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.MyVariantInfoWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationWebServiceException;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface MyVariantInfoService
+&nbsp;{
+&nbsp;    // variant: hgvs variant (ex: 7:g.140453136A&gt;T)
+&nbsp;    MyVariantInfo getMyVariantInfoByHgvsVariant(String variant)
+&nbsp;        throws VariantAnnotationNotFoundException, VariantAnnotationWebServiceException,
+&nbsp;        MyVariantInfoWebServiceException, MyVariantInfoNotFoundException;
+&nbsp;
+&nbsp;    // variant: myvariantinfo variant (ex: chr7:g.140453136A&gt;T)
+&nbsp;    MyVariantInfo getMyVariantInfoByMyVariantInfoVariant(String variant)
+&nbsp;        throws MyVariantInfoNotFoundException, MyVariantInfoWebServiceException;
+&nbsp;
+&nbsp;    // variant: hgvs variant (ex: 7:g.140453136A&gt;T)
+&nbsp;    List&lt;MyVariantInfo&gt; getMyVariantInfoByHgvsVariant(List&lt;String&gt; variants);
+&nbsp;
+&nbsp;    MyVariantInfo getMyVariantInfoByAnnotation(VariantAnnotation annotation)
+&nbsp;        throws MyVariantInfoNotFoundException, MyVariantInfoWebServiceException;
+&nbsp;
+&nbsp;    List&lt;MyVariantInfo&gt; getMyVariantInfoByAnnotation(List&lt;VariantAnnotation&gt; annotations)
+&nbsp;        throws MyVariantInfoWebServiceException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

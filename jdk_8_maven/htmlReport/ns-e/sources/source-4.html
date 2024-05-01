@@ -1,0 +1,254 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CuriousCasesServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.internal</a>
+</div>
+
+<h1>Coverage Summary for Class: CuriousCasesServiceImpl (org.cbioportal.genome_nexus.service.internal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CuriousCasesServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2,9%
+  </span>
+  <span class="absValue">
+    (2/69)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.internal;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.CuriousCases;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.cbioportal.genome_nexus.service.CuriousCasesService;
+&nbsp;import org.cbioportal.genome_nexus.service.GenomicLocationAnnotationService;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.CuriousCasesNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.CuriousCasesWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.util.GenomicLocationUtil;
+&nbsp;import org.cbioportal.genome_nexus.util.GenomicLocationUtil.MutationType;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.client.HttpClientErrorException;
+&nbsp;import org.springframework.web.client.ResourceAccessException;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Xiang Li
+&nbsp; */
+&nbsp;@Service
+&nbsp;public class CuriousCasesServiceImpl implements CuriousCasesService {
+&nbsp;    private final GenomicLocationAnnotationService genomicLocationAnnotationService;
+&nbsp;
+&nbsp;    @Autowired
+<b class="fc">&nbsp;    public CuriousCasesServiceImpl(GenomicLocationAnnotationService genomicLocationAnnotationServiceImpl) {</b>
+<b class="fc">&nbsp;        this.genomicLocationAnnotationService = genomicLocationAnnotationServiceImpl;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public CuriousCases getCuriousCases(String genomicLocation)
+&nbsp;            throws CuriousCasesNotFoundException, CuriousCasesWebServiceException {
+<b class="nc">&nbsp;        CuriousCases CuriousCases = null;</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            VariantAnnotation annotation = genomicLocationAnnotationService.getAnnotation(genomicLocation, null, null, Arrays.asList(&quot;annotation_summary&quot;));</b>
+<b class="nc">&nbsp;            CuriousCases = generateCuriousCases(annotation, genomicLocation);</b>
+<b class="nc">&nbsp;            if (CuriousCases != null) {</b>
+<b class="nc">&nbsp;                CuriousCases.setGenomicLocation(genomicLocation);</b>
+<b class="nc">&nbsp;                return CuriousCases;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                return null;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (HttpClientErrorException e) {</b>
+&nbsp;            // in case of web service error, throw an exception to indicate that there is a
+&nbsp;            // problem with the service.
+<b class="nc">&nbsp;            throw new CuriousCasesWebServiceException(genomicLocation, e.getResponseBodyAsString(), e.getStatusCode());</b>
+<b class="nc">&nbsp;        } catch (ResourceAccessException e) {</b>
+<b class="nc">&nbsp;            throw new CuriousCasesWebServiceException(genomicLocation, e.getMessage());</b>
+<b class="nc">&nbsp;        } catch (VariantAnnotationNotFoundException e) {</b>
+<b class="nc">&nbsp;            throw new CuriousCasesNotFoundException(genomicLocation);</b>
+<b class="nc">&nbsp;        } catch (VariantAnnotationWebServiceException e) {</b>
+<b class="nc">&nbsp;            throw new CuriousCasesNotFoundException(genomicLocation);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private CuriousCases generateCuriousCases(VariantAnnotation annotation, String genomicLocation) {
+<b class="nc">&nbsp;        CuriousCases CuriousCases = null;</b>
+<b class="nc">&nbsp;        if (annotation != null) {</b>
+<b class="nc">&nbsp;            String comment = null;</b>
+<b class="nc">&nbsp;            List&lt;Integer&gt; pubmedIds = null;</b>
+<b class="nc">&nbsp;            String hugoGeneSymbol = annotation.getAnnotationSummary().getTranscriptConsequenceSummary().getHugoGeneSymbol();</b>
+<b class="nc">&nbsp;            String chr = annotation.getSeqRegionName();</b>
+<b class="nc">&nbsp;            int start = annotation.getStart();</b>
+<b class="nc">&nbsp;            int end = annotation.getEnd();</b>
+<b class="nc">&nbsp;            String ref = annotation.getAlleleString().split(&quot;/&quot;)[0];</b>
+<b class="nc">&nbsp;            String var = annotation.getAlleleString().split(&quot;/&quot;)[1];</b>
+<b class="nc">&nbsp;            MutationType variantType = GenomicLocationUtil.getTypeFromGenomicLocation(genomicLocation);</b>
+&nbsp;
+&nbsp;            // Potential KIT Exon 11 inframe deletion
+<b class="nc">&nbsp;            if (chr.equals(&quot;4&quot;) &amp;&amp; start &lt;= 55593580 &amp;&amp; end &gt;= 55593606 &amp;&amp; variantType.equals(MutationType.DEL)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential in-frame deletion event at intron10-exon 11 boundary, commmon in Gastrointestinal Stromal Tumors&quot;;</b>
+<b class="nc">&nbsp;                pubmedIds = new ArrayList&lt;&gt;(Arrays.asList(15507676, 27600498, 32697050));</b>
+&nbsp;            }
+&nbsp;            // Potential KIT Exon 11 inframe deletion
+<b class="nc">&nbsp;            else if (chr.equals(&quot;4&quot;) &amp;&amp; start == 55593580 &amp;&amp; end == 55593580 &amp;&amp; variantType.equals(MutationType.SNP) &amp;&amp; ref.equals(&quot;A&quot;) &amp;&amp; var.equals(&quot;T&quot;)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential in-frame deletion event at intron10-exon 11 boundary, commmon in Gastrointestinal Stromal Tumors&quot;;</b>
+<b class="nc">&nbsp;                pubmedIds = new ArrayList&lt;&gt;(Arrays.asList(15507676, 27600498, 32697050));</b>
+&nbsp;            }
+&nbsp;            // Potential APC Exon 9 intro of cryptic splice acceptor site 
+<b class="nc">&nbsp;            else if (chr.equals(&quot;5&quot;) &amp;&amp; start == 112151184 &amp;&amp; end == 112151184 &amp;&amp; variantType.equals(MutationType.SNP) &amp;&amp; ref.equals(&quot;A&quot;) &amp;&amp; var.equals(&quot;G&quot;)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential introduction of donor splice site, common in colorectal cancers&quot;;</b>
+<b class="nc">&nbsp;                pubmedIds = new ArrayList&lt;&gt;(Arrays.asList(29316426));</b>
+&nbsp;            }
+&nbsp;            // Potential CTNNB1 Exon 3 inframe deletion
+<b class="nc">&nbsp;            else if (chr.equals(&quot;3&quot;) &amp;&amp; start &lt;= 41266015 &amp;&amp; end &gt;= 41266016 &amp;&amp; variantType.equals(MutationType.DEL)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential Exon Skip Event common in Colorectal Cancers&quot;;</b>
+<b class="nc">&nbsp;                pubmedIds = new ArrayList&lt;&gt;(Arrays.asList(29316426));</b>
+&nbsp;            }
+&nbsp;            // Potential CTNNB1 Exon 3 inframe deletion
+<b class="nc">&nbsp;            else if (chr.equals(&quot;3&quot;) &amp;&amp; start &lt;= 41266245 &amp;&amp; end &gt;= 41266246 &amp;&amp; variantType.equals(MutationType.DEL)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential Exon Skip Event common in Colorectal Cancers&quot;;</b>
+<b class="nc">&nbsp;                pubmedIds = new ArrayList&lt;&gt;(Arrays.asList(29316426));</b>
+&nbsp;            }
+&nbsp;            // Potential MET Exon 14 inframe deletion
+<b class="nc">&nbsp;            else if (chr.equals(&quot;7&quot;) &amp;&amp; variantType.equals(MutationType.SNP) &amp;&amp; (start == 116411901 &amp;&amp; end == 116411901 ||</b>
+&nbsp;                start == 116411902 &amp;&amp; end == 116411902 ||
+&nbsp;                start == 116412044 &amp;&amp; end == 116412044 ||
+&nbsp;                start == 116412045 &amp;&amp; end == 116412045)) {
+<b class="nc">&nbsp;                comment = &quot;Potential Exon Skip Event common in Non-small Cell Lung Cancer&quot;;</b>
+&nbsp;            }
+&nbsp;            // Potential MET Exon 14 inframe deletion
+<b class="nc">&nbsp;            else if (chr.equals(&quot;7&quot;) &amp;&amp; start &lt;= 116411901 &amp;&amp; end &gt;= 116411902 &amp;&amp; variantType.equals(MutationType.DEL)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential Exon Skip Event common in Non-small Cell Lung Cancer&quot;;</b>
+&nbsp;            }
+&nbsp;            // Potential MET Exon 14 inframe deletion
+<b class="nc">&nbsp;            else if (chr.equals(&quot;7&quot;) &amp;&amp; start &lt;= 116412044 &amp;&amp; end &gt;= 116412045 &amp;&amp; variantType.equals(MutationType.DEL)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential Exon Skip Event common in Non-small Cell Lung Cancer&quot;;</b>
+&nbsp;            }
+&nbsp;            // Potential PIK3R1 Exon 14 inframe deletions
+<b class="nc">&nbsp;            else if (chr.equals(&quot;5&quot;) &amp;&amp; start == 67591246 &amp;&amp; end == 67591246 &amp;&amp; variantType.equals(MutationType.SNP) &amp;&amp; ref.equals(&quot;A&quot;) &amp;&amp; var.equals(&quot;T&quot;)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential PIK3R1 Exon 14 inframe deletion&quot;;</b>
+&nbsp;            }
+&nbsp;            // Potential PIK3R1 Exon 14 inframe deletions
+<b class="nc">&nbsp;            else if (chr.equals(&quot;5&quot;) &amp;&amp; start &lt;= 67591231 &amp;&amp; end &gt;= 67591258 &amp;&amp; variantType.equals(MutationType.DEL)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential PIK3R1 Exon 14 inframe deletion&quot;;</b>
+&nbsp;            }
+&nbsp;            // Potential PIK3R1 Exon 14 inframe deletions
+<b class="nc">&nbsp;            else if (chr.equals(&quot;5&quot;) &amp;&amp; start &lt;= 67591153 &amp;&amp; end &gt;= 67591154 &amp;&amp; variantType.equals(MutationType.DEL)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Likely not a PIK3R1 Exon 14 inframe deletion&quot;;</b>
+&nbsp;            }
+&nbsp;            // Potential PIK3R1 Exon 14 inframe deletions
+<b class="nc">&nbsp;            else if (chr.equals(&quot;5&quot;) &amp;&amp; start == 67591153 &amp;&amp; end == 67591154 &amp;&amp; variantType.equals(MutationType.INDEL) &amp;&amp; ref.equals(&quot;GT&quot;) &amp;&amp; var.equals(&quot;C&quot;)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Likely not a PIK3R1 Exon 14 inframe deletion&quot;;</b>
+&nbsp;            }
+&nbsp;            // Potential PIK3R1 Exon 11 inframe deletions
+<b class="nc">&nbsp;            else if (chr.equals(&quot;5&quot;) &amp;&amp; start == 68293836 &amp;&amp; end == 68293836 &amp;&amp; variantType.equals(MutationType.SNP) &amp;&amp; ref.equals(&quot;T&quot;) &amp;&amp; var.equals(&quot;G&quot;)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential PIK3R1 Exon 11 inframe deletion&quot;;</b>
+&nbsp;            }
+&nbsp;            // Potential PIK3R1 Exon 11 inframe deletions
+<b class="nc">&nbsp;            else if (chr.equals(&quot;5&quot;) &amp;&amp; start == 68293835 &amp;&amp; end == 68293835 &amp;&amp; variantType.equals(MutationType.SNP) &amp;&amp; ref.equals(&quot;G&quot;) &amp;&amp; var.equals(&quot;A&quot;)) {</b>
+<b class="nc">&nbsp;                comment = &quot;Potential PIK3R1 Exon 11 inframe deletion&quot;;</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (comment != null || pubmedIds != null) {</b>
+<b class="nc">&nbsp;                CuriousCases = new CuriousCases();</b>
+<b class="nc">&nbsp;                CuriousCases.setHugoGeneSymbol(hugoGeneSymbol);</b>
+<b class="nc">&nbsp;                if (comment != null) {</b>
+<b class="nc">&nbsp;                    CuriousCases.setComment(comment);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (pubmedIds != null) {</b>
+<b class="nc">&nbsp;                    CuriousCases.setPubmedIds(pubmedIds);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+<b class="nc">&nbsp;        return CuriousCases;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

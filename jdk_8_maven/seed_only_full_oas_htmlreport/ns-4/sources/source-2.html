@@ -1,0 +1,283 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SignalSearchEngine</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.component.search</a>
+</div>
+
+<h1>Coverage Summary for Class: SignalSearchEngine (org.cbioportal.genome_nexus.component.search)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SignalSearchEngine</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (2/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2,7%
+  </span>
+  <span class="absValue">
+    (2/75)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.component.search;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.*;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;
+&nbsp;@Component
+<b class="fc">&nbsp;public class SignalSearchEngine</b>
+&nbsp;{
+<b class="fc">&nbsp;    private static final Comparator&lt;SignalQuery&gt; QUERY_COMPARATOR =</b>
+<b class="nc">&nbsp;        (o1, o2) -&gt; o1.getMatchType().ordinal() - o2.getMatchType().ordinal();</b>
+&nbsp;
+&nbsp;    public List&lt;SignalQuery&gt; searchByHugoSymbol(
+&nbsp;        List&lt;SignalQuery&gt; signalIndex,
+&nbsp;        String queryString
+&nbsp;    ) {
+<b class="nc">&nbsp;        return signalIndex</b>
+<b class="nc">&nbsp;            .stream()</b>
+<b class="nc">&nbsp;            .filter(m -&gt; filterByHugoSymbol(m, queryString))</b>
+<b class="nc">&nbsp;            .map(SignalQuery::getHugoSymbol)</b>
+<b class="nc">&nbsp;            .distinct()</b>
+<b class="nc">&nbsp;            .map(gene -&gt; this.mapHugoSymbolToQuery(gene, queryString, signalIndex))</b>
+<b class="nc">&nbsp;            .sorted(QUERY_COMPARATOR)</b>
+<b class="nc">&nbsp;            .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;SignalQuery&gt; searchByRegion(
+&nbsp;        List&lt;SignalQuery&gt; signalIndex,
+&nbsp;        String queryString
+&nbsp;    ) {
+<b class="nc">&nbsp;        return signalIndex</b>
+<b class="nc">&nbsp;            .stream()</b>
+<b class="nc">&nbsp;            .filter(m -&gt; this.filterByRegion(m, queryString))</b>
+<b class="nc">&nbsp;            .map(m -&gt; this.mapToVariantQuery(m, SignalQueryType.REGION, queryString))</b>
+<b class="nc">&nbsp;            .sorted(QUERY_COMPARATOR)</b>
+<b class="nc">&nbsp;            .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;SignalQuery&gt; searchByVariant(
+&nbsp;        List&lt;SignalQuery&gt; signalIndex,
+&nbsp;        String queryString
+&nbsp;    ) {
+<b class="nc">&nbsp;        return signalIndex</b>
+<b class="nc">&nbsp;            .stream()</b>
+<b class="nc">&nbsp;            .filter(m -&gt; this.filterByVariant(m, queryString))</b>
+<b class="nc">&nbsp;            .map(m -&gt; this.mapToVariantQuery(m, SignalQueryType.VARIANT, queryString))</b>
+<b class="nc">&nbsp;            .sorted(QUERY_COMPARATOR)</b>
+<b class="nc">&nbsp;            .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;SignalQuery&gt; searchByAlteration(
+&nbsp;        List&lt;SignalQuery&gt; signalIndex,
+&nbsp;        String queryString
+&nbsp;    ) {
+&nbsp;        // special case: we allow hugo gene symbol as a prefix
+&nbsp;        // in case of multiple keywords assume that first one is hugo symbol
+<b class="nc">&nbsp;        String[] parts = queryString.split(&quot;\\s+&quot;);</b>
+<b class="nc">&nbsp;        String geneKeyword = parts.length &gt; 1 ? parts[0]: null;</b>
+<b class="nc">&nbsp;        String alterationKeyword = parts.length &gt; 1 ? parts[1]: queryString;</b>
+&nbsp;
+&nbsp;        // filter the index by hugo symbol (if keyword exists)
+<b class="nc">&nbsp;        List&lt;SignalQuery&gt; filteredIndex = geneKeyword == null ? signalIndex:</b>
+&nbsp;            signalIndex
+<b class="nc">&nbsp;                .stream()</b>
+<b class="nc">&nbsp;                .filter(m -&gt; filterByHugoSymbol(m, geneKeyword))</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;
+<b class="nc">&nbsp;        return filteredIndex</b>
+<b class="nc">&nbsp;            .stream()</b>
+<b class="nc">&nbsp;            .filter(m -&gt; this.filterByAlteration(m, alterationKeyword))</b>
+<b class="nc">&nbsp;            .map(m -&gt; this.mapToVariantQuery(m, SignalQueryType.ALTERATION, alterationKeyword))</b>
+<b class="nc">&nbsp;            .sorted(QUERY_COMPARATOR)</b>
+<b class="nc">&nbsp;            .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public SignalQuery mapToVariantQuery(
+&nbsp;        SignalQuery indexedQuery,
+&nbsp;        SignalQueryType queryType,
+&nbsp;        String queryString
+&nbsp;    ) {
+<b class="nc">&nbsp;        String actualString = null;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (queryType.equals(SignalQueryType.REGION)) {</b>
+<b class="nc">&nbsp;            actualString = indexedQuery.getRegion();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (queryType.equals(SignalQueryType.VARIANT)) {</b>
+<b class="nc">&nbsp;            actualString = indexedQuery.getVariant();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (queryType.equals(SignalQueryType.ALTERATION)) {</b>
+<b class="nc">&nbsp;            actualString = indexedQuery.getAlteration();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        SignalQuery query = new SignalQuery();</b>
+&nbsp;
+<b class="nc">&nbsp;        query.setHugoSymbol(indexedQuery.getHugoSymbol());</b>
+<b class="nc">&nbsp;        query.setRegion(indexedQuery.getRegion());</b>
+<b class="nc">&nbsp;        query.setVariant(indexedQuery.getVariant());</b>
+<b class="nc">&nbsp;        query.setAlteration(indexedQuery.getAlteration());</b>
+<b class="nc">&nbsp;        query.setQueryType(queryType);</b>
+<b class="nc">&nbsp;        query.setMatchType(this.findMatchType(actualString, queryString));</b>
+&nbsp;
+<b class="nc">&nbsp;        return query;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public SignalQuery mapHugoSymbolToQuery(
+&nbsp;        String hugoSymbol,
+&nbsp;        String queryString,
+&nbsp;        List&lt;SignalQuery&gt; signalIndex
+&nbsp;    ) {
+<b class="nc">&nbsp;        long mutationCount = signalIndex.stream().filter(m -&gt; this.filterByHugoSymbol(m, hugoSymbol)).count();</b>
+&nbsp;
+<b class="nc">&nbsp;        SignalQuery query = new SignalQuery();</b>
+<b class="nc">&nbsp;        query.setQueryType(SignalQueryType.GENE);</b>
+<b class="nc">&nbsp;        query.setMatchType(this.findMatchType(hugoSymbol, queryString));</b>
+<b class="nc">&nbsp;        query.setHugoSymbol(hugoSymbol);</b>
+<b class="nc">&nbsp;        query.setDescription(mutationCount + &quot; unique mutations&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        return query;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean filterByHugoSymbol(
+&nbsp;        SignalQuery query,
+&nbsp;        String queryString
+&nbsp;    ) {
+<b class="nc">&nbsp;        return (</b>
+<b class="nc">&nbsp;            query.getHugoSymbol() != null &amp;&amp;</b>
+<b class="nc">&nbsp;                query.getHugoSymbol().contains(queryString.toUpperCase())</b>
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean filterByRegion(
+&nbsp;        SignalQuery query,
+&nbsp;        String queryString
+&nbsp;    ) {
+<b class="nc">&nbsp;        return query.getRegion().contains(queryString);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean filterByVariant(
+&nbsp;        SignalQuery query,
+&nbsp;        String queryString
+&nbsp;    ) {
+<b class="nc">&nbsp;        return query.getVariant() != null &amp;&amp; query.getVariant().toLowerCase().contains(queryString.toLowerCase());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean filterByAlteration(
+&nbsp;        SignalQuery query,
+&nbsp;        String queryString
+&nbsp;    ) {
+<b class="nc">&nbsp;        return query.getAlteration() != null &amp;&amp; query.getAlteration().toLowerCase().contains(queryString.toLowerCase());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public SignalMatchType findMatchType(
+&nbsp;        String actualString,
+&nbsp;        String queryString
+&nbsp;    ) {
+<b class="nc">&nbsp;        if (actualString == null) {</b>
+<b class="nc">&nbsp;            return SignalMatchType.NO_MATCH;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        String actualLowerCase = actualString.toLowerCase();</b>
+<b class="nc">&nbsp;        String queryLowerCase = queryString.toLowerCase();</b>
+&nbsp;
+<b class="nc">&nbsp;        if (actualLowerCase.equals(queryLowerCase)) {</b>
+<b class="nc">&nbsp;            return SignalMatchType.EXACT;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (actualLowerCase.startsWith(queryLowerCase)) {</b>
+<b class="nc">&nbsp;            return SignalMatchType.STARTS_WITH;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (actualLowerCase.contains(queryLowerCase)) {</b>
+<b class="nc">&nbsp;            return SignalMatchType.PARTIAL;</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            return SignalMatchType.NO_MATCH;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

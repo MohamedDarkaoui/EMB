@@ -1,0 +1,92 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SignalMutationRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.persistence</a>
+</div>
+
+<h1>Coverage Summary for Class: SignalMutationRepository (org.cbioportal.genome_nexus.persistence)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">SignalMutationRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.persistence;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.SignalMutation;
+&nbsp;import org.springframework.data.mongodb.repository.MongoRepository;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface SignalMutationRepository extends MongoRepository&lt;SignalMutation, String&gt;
+&nbsp;{
+&nbsp;    List&lt;SignalMutation&gt; findByHugoGeneSymbol(String hugoGeneSymbol);
+&nbsp;    List&lt;SignalMutation&gt; findByHugoGeneSymbolIn(List&lt;String&gt; hugoGeneSymbol);
+&nbsp;    List&lt;SignalMutation&gt; findByChromosomeAndStartPositionAndEndPositionAndReferenceAlleleAndVariantAllele(
+&nbsp;        String chromosome,
+&nbsp;        Long startPosition,
+&nbsp;        Long endPosition,
+&nbsp;        String referenceAllele,
+&nbsp;        String variantAllele
+&nbsp;    );
+&nbsp;    List&lt;SignalMutation&gt; findByChromosomeAndStartPositionAndEndPositionAndVariantAllele(
+&nbsp;        String chromosome,
+&nbsp;        Long startPosition,
+&nbsp;        Long endPosition,
+&nbsp;        String variantAllele
+&nbsp;    );
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

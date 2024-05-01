@@ -7,12 +7,14 @@ import io.swagger.annotations.ApiParam;
 import org.cbioportal.genome_nexus.model.IndexSearch;
 import org.cbioportal.genome_nexus.service.IndexSearchService;
 import org.cbioportal.genome_nexus.web.config.InternalApi;
+import org.cbioportal.genome_nexus.web.config.PublicApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@InternalApi
+//@InternalApi
+@PublicApi
 @RestController
 @CrossOrigin(origins="*")
 @RequestMapping(value= "/")

@@ -1,0 +1,208 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BaseExternalResourceFetcher</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.remote</a>
+</div>
+
+<h1>Coverage Summary for Class: BaseExternalResourceFetcher (org.cbioportal.genome_nexus.service.remote)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BaseExternalResourceFetcher</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (21/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.remote;
+&nbsp;
+&nbsp;import com.mongodb.BasicDBList;
+&nbsp;import com.mongodb.DBObject;
+&nbsp;import org.cbioportal.genome_nexus.service.ExternalResourceFetcher;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.ResourceMappingException;
+&nbsp;import org.springframework.web.client.HttpClientErrorException;
+&nbsp;import org.springframework.web.client.ResourceAccessException;
+&nbsp;import org.springframework.web.client.RestTemplate;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * Base abstract implementation of ExternalResourceFetcher.
+&nbsp; * Provides a generic implementation for convenience.
+&nbsp; *
+&nbsp; * @author Selcuk Onur Sumer
+&nbsp; */
+&nbsp;public abstract class BaseExternalResourceFetcher&lt;T&gt; implements ExternalResourceFetcher&lt;T&gt;
+&nbsp;{
+&nbsp;    protected String URI;
+&nbsp;    protected String mainQueryParam;
+&nbsp;    protected String placeholder;
+&nbsp;
+&nbsp;    public BaseExternalResourceFetcher(String URI, String mainQueryParam, String placeholder)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.URI = URI;</b>
+<b class="fc">&nbsp;        this.mainQueryParam = mainQueryParam;</b>
+<b class="fc">&nbsp;        this.placeholder = placeholder;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Boolean hasValidURI() {
+<b class="fc">&nbsp;        return this.URI.length() &gt; 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Base implementation for a single parameter query.
+&nbsp;     * This method should be overridden if the query has more than one parameter.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public DBObject fetchRawValue(Map&lt;String, String&gt; queryParams)
+&nbsp;        throws HttpClientErrorException, ResourceAccessException
+&nbsp;    {
+&nbsp;        // get the value of the main (single) parameter
+<b class="fc">&nbsp;        String paramValue = queryParams.get(this.mainQueryParam);</b>
+<b class="fc">&nbsp;        String uri = this.URI;</b>
+&nbsp;
+&nbsp;        // replace the placeholder with the value in the uri
+<b class="fc">&nbsp;        if (paramValue != null &amp;&amp; paramValue.length() &gt; 0) {</b>
+<b class="fc">&nbsp;            uri = uri.replace(this.placeholder, paramValue);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return this.getForObject(uri, queryParams);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public DBObject fetchRawValue(String param)
+&nbsp;        throws HttpClientErrorException, ResourceAccessException
+&nbsp;    {
+<b class="fc">&nbsp;        Map&lt;String, String&gt; queryParams = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        queryParams.put(this.mainQueryParam, param);</b>
+&nbsp;
+<b class="fc">&nbsp;        return this.fetchRawValue(queryParams);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public DBObject fetchRawValue(Object requestBody)
+&nbsp;        throws HttpClientErrorException, ResourceAccessException
+&nbsp;    {
+<b class="fc">&nbsp;        return this.postForObject(this.URI, requestBody);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;T&gt; fetchInstances(String param)
+&nbsp;        throws HttpClientErrorException, ResourceAccessException, ResourceMappingException
+&nbsp;    {
+<b class="fc">&nbsp;        Map&lt;String, String&gt; queryParams = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        queryParams.put(this.mainQueryParam, param);</b>
+&nbsp;
+<b class="fc">&nbsp;        return this.fetchInstances(queryParams);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * By default assuming that response is a List. For all other response types this method should be overridden.
+&nbsp;     */
+&nbsp;    protected DBObject getForObject(String uri, Map&lt;String, String&gt; queryParams)
+&nbsp;    {
+<b class="fc">&nbsp;        RestTemplate restTemplate = new RestTemplate();</b>
+&nbsp;
+<b class="fc">&nbsp;        return restTemplate.getForObject(uri, BasicDBList.class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * By default assuming that response is a List. For all other response types this method should be overridden.
+&nbsp;     */
+&nbsp;    protected DBObject postForObject(String uri, Object requestBody)
+&nbsp;    {
+<b class="fc">&nbsp;        RestTemplate restTemplate = new RestTemplate();</b>
+&nbsp;
+<b class="fc">&nbsp;        return restTemplate.postForObject(uri, requestBody, BasicDBList.class);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

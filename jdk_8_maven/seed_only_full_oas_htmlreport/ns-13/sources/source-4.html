@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Hgvs</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.util</a>
+</div>
+
+<h1>Coverage Summary for Class: Hgvs (org.cbioportal.genome_nexus.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Hgvs</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,3%
+  </span>
+  <span class="absValue">
+    (12/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.util;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;public class Hgvs</b>
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Add &quot;chr&quot; prefix to hgvs
+&nbsp;     *
+&nbsp;     * @param hgvs
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public static String addChrPrefix(String hgvs) {
+<b class="fc">&nbsp;        StringBuilder variant = new StringBuilder(hgvs);</b>
+<b class="fc">&nbsp;        if(variant.toString().contains(&quot;g.&quot;) &amp;&amp; !variant.toString().startsWith(&quot;chr&quot;)) {</b>
+<b class="fc">&nbsp;            variant.insert(0,&quot;chr&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return variant.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Normalize &quot;del&quot; and &quot;delins&quot; as per the Hgvs specification
+&nbsp;     *
+&nbsp;     * @param hgvs
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public static String removeDeletedBases(String hgvs) {
+<b class="fc">&nbsp;        StringBuilder variant = new StringBuilder(hgvs);</b>
+&nbsp;        // if contains &quot;del&quot;, remove the deleted nucleotides
+<b class="fc">&nbsp;        if (variant.toString().contains(&quot;del&quot;)) {</b>
+<b class="fc">&nbsp;            int start = variant.lastIndexOf(&quot;del&quot;) + 3;</b>
+<b class="fc">&nbsp;            int end = variant.length();</b>
+&nbsp;            // If contains &quot;del&quot; and &quot;ins&quot;, remove characters between &quot;del&quot; to &quot;ins&quot;
+<b class="fc">&nbsp;            if (variant.toString().contains(&quot;ins&quot;)) {</b>
+<b class="fc">&nbsp;                end = variant.lastIndexOf(&quot;ins&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            variant.delete(start, end);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return variant.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

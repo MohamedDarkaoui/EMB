@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProductsResource</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.javiermf.features.services.rest</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductsResource (org.javiermf.features.services.rest)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductsResource</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.javiermf.features.services.rest;
+&nbsp;
+&nbsp;
+&nbsp;import io.swagger.annotations.Api;
+&nbsp;import org.javiermf.features.models.Product;
+&nbsp;import org.javiermf.features.services.ProductsService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import javax.ws.rs.*;
+&nbsp;import javax.ws.rs.core.Response;
+&nbsp;import java.net.URI;
+&nbsp;import java.net.URISyntaxException;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;
+&nbsp;@Component
+&nbsp;@Path(&quot;/products&quot;)
+&nbsp;@Produces(&quot;application/json&quot;)
+&nbsp;@Api
+<b class="nc">&nbsp;public class ProductsResource {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    ProductsService productsService;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    ProductsConfigurationResource productsConfigurationResource;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    ProductsFeaturesResource productsFeaturesResource;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    ProductsConstraintsResource productsConstraintsResource;
+&nbsp;
+&nbsp;
+&nbsp;    @GET
+&nbsp;    public List&lt;String&gt; getAllProducts() {
+<b class="nc">&nbsp;        return productsService.getAllProductNames();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Path(&quot;{productName}&quot;)
+&nbsp;    @GET
+&nbsp;    public Product getProductByName(@PathParam(&quot;productName&quot;) String productName) {
+<b class="nc">&nbsp;        return productsService.findByName(productName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Path(&quot;{productName}&quot;)
+&nbsp;    @DELETE
+&nbsp;    public Response deleteProductByName(@PathParam(&quot;productName&quot;) String productName) {
+<b class="nc">&nbsp;        productsService.deleteByName(productName);</b>
+<b class="nc">&nbsp;        return Response.noContent().build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Path(&quot;{productName}&quot;)
+&nbsp;    @POST
+&nbsp;    public Response addProduct(@PathParam(&quot;productName&quot;) String productName) throws URISyntaxException {
+<b class="nc">&nbsp;        productsService.add(productName);</b>
+<b class="nc">&nbsp;        return Response.created(new URI(&quot;/products/&quot; + productName)).build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Path(&quot;{productName}/configurations&quot;)
+&nbsp;    public ProductsConfigurationResource productsConfigurationResource() {
+<b class="nc">&nbsp;        return productsConfigurationResource;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Path(&quot;{productName}/features&quot;)
+&nbsp;    public ProductsFeaturesResource productsFeaturesResource() {
+<b class="nc">&nbsp;        return productsFeaturesResource;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Path(&quot;{productName}/constraints&quot;)
+&nbsp;    public ProductsConstraintsResource productsConstraintsResource() {
+<b class="nc">&nbsp;        return productsConstraintsResource;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

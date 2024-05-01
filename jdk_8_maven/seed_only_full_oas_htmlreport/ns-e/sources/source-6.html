@@ -1,0 +1,319 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EnsemblServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.internal</a>
+</div>
+
+<h1>Coverage Summary for Class: EnsemblServiceImpl (org.cbioportal.genome_nexus.service.internal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnsemblServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35,3%
+  </span>
+  <span class="absValue">
+    (6/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    17,8%
+  </span>
+  <span class="absValue">
+    (13/73)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.internal;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.EnsemblGene;
+&nbsp;import org.cbioportal.genome_nexus.model.EnsemblTranscript;
+&nbsp;import org.cbioportal.genome_nexus.persistence.EnsemblRepository;
+&nbsp;import org.cbioportal.genome_nexus.service.EnsemblService;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.EnsemblTranscriptNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.NoEnsemblGeneIdForEntrezGeneIdException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.NoEnsemblGeneIdForHugoSymbolException;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.apache.commons.logging.Log;
+&nbsp;import org.apache.commons.logging.LogFactory;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class EnsemblServiceImpl implements EnsemblService
+&nbsp;{
+&nbsp;    private final EnsemblRepository ensemblRepository;
+<b class="fc">&nbsp;    private Map&lt;String, String&gt; transcriptToUniprotMap = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    private static final Log LOG = LogFactory.getLog(SignalQueryServiceImpl.class);</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public EnsemblServiceImpl(EnsemblRepository ensemblRepository)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.ensemblRepository = ensemblRepository;</b>
+<b class="fc">&nbsp;        LOG.info(&quot;Building transcript to Uniprot id map&quot;);</b>
+<b class="fc">&nbsp;        this.transcriptToUniprotMap = this.buildMap();</b>
+<b class="fc">&nbsp;        LOG.info(&quot;Finished building transcript to Uniprot id map&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public EnsemblTranscript getEnsemblTranscriptsByTranscriptId(String transcriptId) {
+<b class="nc">&nbsp;        return this.ensemblRepository.findOneByTranscriptId(transcriptId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public EnsemblGene getCanonicalEnsemblGeneIdByHugoSymbol(String hugoSymbol)
+&nbsp;        throws NoEnsemblGeneIdForHugoSymbolException
+&nbsp;    {
+<b class="nc">&nbsp;        EnsemblGene ensemblGene = this.ensemblRepository.getCanonicalEnsemblGeneIdByHugoSymbol(hugoSymbol);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (ensemblGene == null) {</b>
+<b class="nc">&nbsp;            throw new NoEnsemblGeneIdForHugoSymbolException(hugoSymbol);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return ensemblGene;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public EnsemblGene getCanonicalEnsemblGeneIdByEntrezGeneId(String entrezGeneId)
+&nbsp;        throws NoEnsemblGeneIdForEntrezGeneIdException
+&nbsp;    {
+<b class="nc">&nbsp;        EnsemblGene ensemblGene = this.ensemblRepository.getCanonicalEnsemblGeneIdByEntrezGeneId(entrezGeneId);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (ensemblGene == null) {</b>
+<b class="nc">&nbsp;            throw new NoEnsemblGeneIdForEntrezGeneIdException(entrezGeneId);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return ensemblGene;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;EnsemblGene&gt; getCanonicalEnsemblGeneIdByHugoSymbols(List&lt;String&gt; hugoSymbols) {
+<b class="nc">&nbsp;        List&lt;EnsemblGene&gt; ensemblGenes = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (String hugoSymbol : hugoSymbols)</b>
+&nbsp;        {
+&nbsp;            try {
+<b class="nc">&nbsp;                ensemblGenes.add(this.getCanonicalEnsemblGeneIdByHugoSymbol(hugoSymbol));</b>
+<b class="nc">&nbsp;            } catch (NoEnsemblGeneIdForHugoSymbolException e) {</b>
+&nbsp;                // ignore the exception for this hugo symbol
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return ensemblGenes;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;EnsemblGene&gt; getCanonicalEnsemblGeneIdByEntrezGeneIds(List&lt;String&gt; entrezGeneIds) {
+<b class="nc">&nbsp;        List&lt;EnsemblGene&gt; ensemblGenes = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (String entrezGeneId : entrezGeneIds)</b>
+&nbsp;        {
+&nbsp;            try {
+<b class="nc">&nbsp;                ensemblGenes.add(this.getCanonicalEnsemblGeneIdByEntrezGeneId(entrezGeneId));</b>
+<b class="nc">&nbsp;            } catch (NoEnsemblGeneIdForEntrezGeneIdException e) {</b>
+&nbsp;                // ignore the exception for this hugo symbol
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return ensemblGenes;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public EnsemblTranscript getCanonicalEnsemblTranscriptByHugoSymbol(String hugoSymbol, String isoformOverrideSource)
+&nbsp;        throws EnsemblTranscriptNotFoundException
+&nbsp;    {
+<b class="nc">&nbsp;        EnsemblTranscript transcript = this.ensemblRepository.findOneByHugoSymbolIgnoreCase(hugoSymbol, isoformOverrideSource);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (transcript == null) {</b>
+<b class="nc">&nbsp;            throw new EnsemblTranscriptNotFoundException(hugoSymbol, isoformOverrideSource);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return transcript;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;EnsemblTranscript&gt; getCanonicalEnsemblTranscriptsByHugoSymbols(List&lt;String&gt; hugoSymbols, String isoformOverrideSource) {
+<b class="nc">&nbsp;        List&lt;EnsemblTranscript&gt; transcripts = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (String hugoSymbol : hugoSymbols)</b>
+&nbsp;        {
+&nbsp;            try {
+<b class="nc">&nbsp;                transcripts.add(this.getCanonicalEnsemblTranscriptByHugoSymbol(hugoSymbol, isoformOverrideSource));</b>
+<b class="nc">&nbsp;            } catch (EnsemblTranscriptNotFoundException e) {</b>
+&nbsp;                // ignore the exception for this transcript
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return transcripts;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;EnsemblTranscript&gt; getEnsemblTranscripts(String geneId, String proteinId, String hugoSymbol)
+&nbsp;    {
+<b class="nc">&nbsp;        if (geneId == null &amp;&amp; proteinId == null &amp;&amp; hugoSymbol == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return new ArrayList&lt;EnsemblTranscript&gt;();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (geneId != null &amp;&amp; proteinId == null &amp;&amp; hugoSymbol == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return this.ensemblRepository.findByGeneId(geneId);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (geneId != null &amp;&amp; proteinId != null &amp;&amp; hugoSymbol == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return this.ensemblRepository.findByGeneIdAndProteinId(geneId, proteinId);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (geneId != null &amp;&amp; proteinId == null &amp;&amp; hugoSymbol != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return this.ensemblRepository.findByGeneIdAndHugoSymbolsIn(geneId, Arrays.&lt;String&gt;asList(hugoSymbol));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (geneId == null &amp;&amp; proteinId != null &amp;&amp; hugoSymbol == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return this.ensemblRepository.findByProteinId(proteinId);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (geneId == null &amp;&amp; proteinId != null &amp;&amp; hugoSymbol != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return this.ensemblRepository.findByProteinIdAndHugoSymbolsIn(proteinId, Arrays.&lt;String&gt;asList(hugoSymbol));</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            return this.ensemblRepository.findByHugoSymbolsIn(Arrays.&lt;String&gt;asList(hugoSymbol));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;EnsemblTranscript&gt; getEnsemblTranscripts(List&lt;String&gt; transcriptIds, List&lt;String&gt; geneIds, List&lt;String&gt; proteinIds, List&lt;String&gt; hugoSymbols) {
+<b class="nc">&nbsp;        if (transcriptIds != null &amp;&amp; transcriptIds.size() &gt; 0) {</b>
+<b class="nc">&nbsp;            return this.ensemblRepository.findByTranscriptIdIn(transcriptIds);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (geneIds != null &amp;&amp; geneIds.size() &gt; 0) {</b>
+<b class="nc">&nbsp;            return this.ensemblRepository.findByGeneIdIn(geneIds);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (proteinIds != null &amp;&amp; proteinIds.size() &gt; 0) {</b>
+<b class="nc">&nbsp;            return this.ensemblRepository.findByProteinIdIn(proteinIds);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (hugoSymbols != null &amp;&amp; hugoSymbols.size() &gt; 0) {</b>
+<b class="nc">&nbsp;            return this.ensemblRepository.findByHugoSymbolsIn(hugoSymbols);</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            return new ArrayList&lt;EnsemblTranscript&gt;();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getEntrezGeneIdByHugoSymbol(String hugoSymbol) {
+<b class="fc">&nbsp;        return this.ensemblRepository.findEntrezGeneIdByHugoSymbol(hugoSymbol);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;String&gt; getEntrezGeneIdByHugoSymbol(String hugoSymbol, Boolean searchInAliases) {
+<b class="nc">&nbsp;        return this.ensemblRepository.findEntrezGeneIdByHugoSymbol(hugoSymbol, searchInAliases);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getHugoSymbolByEntrezGeneId(String entrezGeneId) {
+<b class="nc">&nbsp;        return this.ensemblRepository.findHugoSymbolByEntrezGeneId(entrezGeneId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Set&lt;String&gt; getCanonicalTranscriptIdsBySource(String isoformOverrideSource) {
+<b class="fc">&nbsp;        return this.ensemblRepository.findCanonicalTranscriptIdsBySource(isoformOverrideSource);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Map&lt;String, String&gt; buildMap()
+&nbsp;    {
+<b class="fc">&nbsp;        List&lt;EnsemblTranscript&gt; transcripts = this.ensemblRepository.findAll();</b>
+<b class="fc">&nbsp;        for (EnsemblTranscript transcript : transcripts) {</b>
+<b class="nc">&nbsp;            this.transcriptToUniprotMap.put(transcript.getTranscriptId(), transcript.getUniprotId());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return transcriptToUniprotMap;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getUniprotId(String transcript)
+&nbsp;    {
+<b class="fc">&nbsp;        return this.transcriptToUniprotMap.get(transcript);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > VariantClassificationResolver</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.component.annotation</a>
+</div>
+
+<h1>Coverage Summary for Class: VariantClassificationResolver (org.cbioportal.genome_nexus.component.annotation)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VariantClassificationResolver</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84,3%
+  </span>
+  <span class="absValue">
+    (86/102)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.component.annotation;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.TranscriptConsequence;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Component
+&nbsp;public class VariantClassificationResolver
+&nbsp;{
+<b class="fc">&nbsp;    public static Map&lt;String, String&gt; VARIANT_MAP = initVariantMap();</b>
+&nbsp;
+&nbsp;    private final TranscriptConsequencePrioritizer consequencePrioritizer;
+&nbsp;    private final VariantTypeResolver variantTypeResolver;
+&nbsp;    private final GenomicLocationResolver genomicLocationResolver;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public VariantClassificationResolver(
+&nbsp;        VariantTypeResolver variantTypeResolver,
+&nbsp;        TranscriptConsequencePrioritizer consequencePrioritizer,
+&nbsp;        GenomicLocationResolver genomicLocationResolver
+<b class="fc">&nbsp;    ) {</b>
+<b class="fc">&nbsp;        this.consequencePrioritizer = consequencePrioritizer;</b>
+<b class="fc">&nbsp;        this.variantTypeResolver = variantTypeResolver;</b>
+<b class="fc">&nbsp;        this.genomicLocationResolver = genomicLocationResolver;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    public String resolve(VariantAnnotation variantAnnotation, TranscriptConsequence transcriptConsequence)
+&nbsp;    {
+<b class="fc">&nbsp;        String variantClassification = null;</b>
+<b class="fc">&nbsp;        String variantType = this.variantTypeResolver.resolve(variantAnnotation);</b>
+<b class="fc">&nbsp;        Boolean isInframe = this.isInframe(variantAnnotation);</b>
+&nbsp;
+&nbsp;        // if not null, try to resolve the variant classification for the provided transcript
+<b class="fc">&nbsp;        if (transcriptConsequence != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            variantClassification = this.resolveVariantClassification(</b>
+<b class="fc">&nbsp;                this.consequencePrioritizer.pickHighestPriorityConsequence(transcriptConsequence.getConsequenceTerms()),</b>
+&nbsp;                    variantType, isInframe);
+&nbsp;        }
+&nbsp;        // use the most severe consequence to resolve the variant classification
+<b class="nc">&nbsp;        else if (variantAnnotation != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            variantClassification = resolveVariantClassification(</b>
+<b class="nc">&nbsp;                variantAnnotation.getMostSevereConsequence(), variantType, isInframe);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return variantClassification;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @NotNull
+&nbsp;    public Set&lt;String&gt; resolveAll(VariantAnnotation variantAnnotation, TranscriptConsequence transcriptConsequence)
+&nbsp;    {
+<b class="nc">&nbsp;        Set&lt;String&gt; variantClassifications = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;        String variantType = this.variantTypeResolver.resolve(variantAnnotation);</b>
+<b class="nc">&nbsp;        Boolean isInframe = this.isInframe(variantAnnotation);</b>
+&nbsp;
+&nbsp;        // try to resolve all the variant classifications for the provided transcript
+<b class="nc">&nbsp;        for (String consequenceTerm : transcriptConsequence.getConsequenceTerms())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            variantClassifications.add(this.resolveVariantClassification(consequenceTerm, variantType, isInframe));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return variantClassifications;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @NotNull
+&nbsp;    public Boolean isInframe(VariantAnnotation variantAnnotation)
+&nbsp;    {
+<b class="fc">&nbsp;        Boolean inframe = false;</b>
+&nbsp;
+<b class="fc">&nbsp;        String referenceAllele = this.genomicLocationResolver.resolveReferenceAllele(variantAnnotation);</b>
+<b class="fc">&nbsp;        String variantAllele = this.genomicLocationResolver.resolveVariantAllele(variantAnnotation);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (referenceAllele != null &amp;&amp;</b>
+&nbsp;            variantAllele != null)
+&nbsp;        {
+<b class="fc">&nbsp;            inframe = Math.abs(this.calcAlleleLength(referenceAllele) - this.calcAlleleLength(variantAllele)) % 3 == 0;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return inframe;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @NotNull
+&nbsp;    private Integer calcAlleleLength(String allele)
+&nbsp;    {
+<b class="fc">&nbsp;        return allele == null || allele.equals(&quot;-&quot;) ? 0 : allele.length();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @NotNull
+&nbsp;    private String resolveVariantClassification(String variant, String variantType, Boolean isInframe)
+&nbsp;    {
+<b class="fc">&nbsp;        String defaultValue = &quot;Targeted_Region&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (variant == null || (variantType == null &amp;&amp; !variant.contains(&quot;splice&quot;))) {</b>
+<b class="fc">&nbsp;            return defaultValue;</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="fc">&nbsp;            variant = variant.toLowerCase();</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if ((variant.equals(&quot;frameshift_variant&quot;) || variant.equals(&quot;protein_altering_variant&quot;) ||</b>
+<b class="fc">&nbsp;            variant.equals(&quot;coding_sequence_variant&quot;)) &amp;&amp;</b>
+<b class="fc">&nbsp;            !isInframe)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (variantType.equals(&quot;DEL&quot;)) {</b>
+<b class="nc">&nbsp;                return &quot;Frame_Shift_Del&quot;;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if (variantType.equals(&quot;INS&quot;)) {</b>
+<b class="fc">&nbsp;                return &quot;Frame_Shift_Ins&quot;;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        else if ((variant.equals(&quot;protein_altering_variant&quot;) || variant.equals(&quot;coding_sequence_variant&quot;)) &amp;&amp;</b>
+<b class="nc">&nbsp;            isInframe)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (variantType.equals(&quot;DEL&quot;)) {</b>
+<b class="nc">&nbsp;                return &quot;In_Frame_Del&quot;;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if (variantType.equals(&quot;INS&quot;)) {</b>
+<b class="nc">&nbsp;                return &quot;In_Frame_Ins&quot;;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return VARIANT_MAP.getOrDefault(variant, defaultValue);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static Map&lt;String, String&gt; initVariantMap()
+&nbsp;    {
+<b class="fc">&nbsp;        Map&lt;String, String&gt; variantMap = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        variantMap.put(&quot;splice_acceptor_variant&quot;,       &quot;Splice_Site&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;splice_donor_variant&quot;,          &quot;Splice_Site&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;transcript_ablation&quot;,           &quot;Splice_Site&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;exon_loss_variant&quot;, &quot;Splice_Site&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;stop_gained&quot;,                   &quot;Nonsense_Mutation&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;frameshift_variant&quot;,            &quot;Frame_Shift&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;stop_lost&quot;,                     &quot;Nonstop_Mutation&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;initiator_codon_variant&quot;,       &quot;Translation_Start_Site&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;start_lost&quot;,                    &quot;Translation_Start_Site&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;inframe_insertion&quot;,             &quot;In_Frame_Ins&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;inframe_deletion&quot;,              &quot;In_Frame_Del&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;disruptive_inframe_insertion&quot;, &quot;In_Frame_Ins&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;disrupting_inframe_deletion&quot;, &quot;In_Frame_Del&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;missense_variant&quot;,              &quot;Missense_Mutation&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;protein_altering_variant&quot;,      &quot;Missense_Mutation&quot;); // Not always correct, resolveVariantClassification handles the exceptions</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;coding_sequence_variant&quot;,       &quot;Missense_Mutation&quot;); // Not always correct, resolveVariantClassification handles the exceptions</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;conservative_missense_variant&quot;, &quot;Missense_Mutation&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;rare_amino_acid_variant&quot;,       &quot;Missense_Mutation&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;transcript_amplification&quot;,      &quot;Intron&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;splice_region_variant&quot;,         &quot;Splice_Region&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;intron_variant&quot;,                &quot;Intron&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;intragenic&quot;,                    &quot;Intron&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;intragenic_variant&quot;,            &quot;Intron&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;incomplete_terminal_codon_variant&quot;, &quot;Silent&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;synonymous_variant&quot;,            &quot;Silent&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;start_retained_variant&quot;,        &quot;Silent&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;stop_retained_variant&quot;,         &quot;Silent&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;nmd_transcript_variant&quot;,        &quot;Silent&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;mature_mirna_variant&quot;,          &quot;RNA&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;non_coding_exon_variant&quot;,       &quot;RNA&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;non_coding_transcript_exon_variant&quot;, &quot;RNA&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;non_coding_transcript_variant&quot;, &quot;RNA&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;nc_transcript_variant&quot;,         &quot;RNA&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;exon_variant&quot;, &quot;RNA&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;5_prime_utr_variant&quot;,           &quot;5&#39;UTR&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;5_prime_utr_premature_start_codon_gain_variant&quot;, &quot;5&#39;UTR&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;3_prime_utr_variant&quot;,           &quot;3&#39;UTR&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;tf_binding_site_variant&quot;,       &quot;IGR&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;regulatory_region_variant&quot;,     &quot;IGR&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;regulatory_region&quot;,             &quot;IGR&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;intergenic_variant&quot;,            &quot;IGR&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;intergenic_region&quot;,             &quot;IGR&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;upstream_gene_variant&quot;,         &quot;5&#39;Flank&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;downstream_gene_variant&quot;,       &quot;3&#39;Flank&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;splicing&quot;,                      &quot;Splice_Region&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;nonframeshift_insertion&quot;,       &quot;In_Frame_Ins&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;frameshift_insertion&quot;,          &quot;Frame_Shift_Ins&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;stopgain_SNV&quot;,                  &quot;Nonsense_Mutation&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;frameshift_deletion&quot;,           &quot;Frame_Shift_Del&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;stoploss_SNV&quot;,                  &quot;Nonstop_Mutation&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;upstream&quot;,                      &quot;5&#39;Flank&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;nonframeshift_deletion&quot;,        &quot;In_Frame_Del&quot;);</b>
+<b class="fc">&nbsp;        variantMap.put(&quot;nonsynonymous_SNV&quot;,             &quot;Missense_Mutation&quot;);</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        return variantMap;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,233 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EnsemblCanonical</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.model</a>
+</div>
+
+<h1>Coverage Summary for Class: EnsemblCanonical (org.cbioportal.genome_nexus.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnsemblCanonical</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.model;
+&nbsp;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.springframework.data.mongodb.core.mapping.Document;
+&nbsp;import org.springframework.data.mongodb.core.mapping.Field;
+&nbsp;
+&nbsp;/**
+&nbsp; * Ensembl canonical mappings from Hugo Symbol to Ensembl Gene and Transcript.
+&nbsp; */
+&nbsp;@Document(collection=&quot;ensembl.canonical_transcript_per_hgnc&quot;)
+<b class="nc">&nbsp;public class EnsemblCanonical</b>
+&nbsp;{
+&nbsp;    @Field(value=&quot;hgnc_symbol&quot;)
+&nbsp;    private String hugoSymbol;
+&nbsp;    @Field(value=&quot;ensembl_canonical_gene&quot;)
+&nbsp;    private String ensemblCanonicalGeneId;
+&nbsp;    @Field(value=&quot;ensembl_canonical_transcript&quot;)
+&nbsp;    private String ensemblCanonicalTranscriptId;
+&nbsp;    @Field(value=&quot;genome_nexus_canonical_transcript&quot;)
+&nbsp;    private String genomeNexusCanonicalTranscriptId;
+&nbsp;    @Field(value=&quot;uniprot_canonical_transcript&quot;)
+&nbsp;    private String uniprotCanonicalTranscriptId;
+&nbsp;    @Field(value=&quot;mskcc_canonical_transcript&quot;)
+&nbsp;    private String mskccCanonicalTranscriptId;
+&nbsp;    @Field(value=&quot;hgnc_id&quot;)
+&nbsp;    private String hgncId;
+&nbsp;    @Field(value=&quot;approved_name&quot;)
+&nbsp;    private String approvedName;
+&nbsp;    @Field(value=&quot;status&quot;)
+&nbsp;    private String status;
+&nbsp;    @Field(value=&quot;previous_symbols&quot;)
+&nbsp;    private String previousSymbols; // comma separated
+&nbsp;    @Field(value=&quot;synonyms&quot;)
+&nbsp;    private String synonyms; // comma separated
+&nbsp;    @Field(value=&quot;accession_numbers&quot;)
+&nbsp;    private String accessionNumbers; // comma separated
+&nbsp;    @Field(value=&quot;refseq_ids&quot;)
+&nbsp;    private String refseqIds;
+&nbsp;    @Field(value=&quot;uniprot_id&quot;)
+&nbsp;    private String uniprotId;
+&nbsp;    @Field(value=&quot;entrez_gene_id&quot;)
+&nbsp;    private String entrezGeneId;
+&nbsp;
+&nbsp;    private static String[] splitByComma(String input) {
+<b class="nc">&nbsp;        Pattern p = Pattern.compile(&quot;\\s*,\\s*&quot;);</b>
+<b class="nc">&nbsp;        String[] output = p.split(input);</b>
+<b class="nc">&nbsp;        if (output.length == 0 || (output.length == 1 &amp;&amp; output[0].equals(&quot;&quot;))) {</b>
+<b class="nc">&nbsp;            output = null;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return output;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCanonicalTranscriptId(String isoformOverrideSource) {
+&nbsp;        String canonicalTranscriptId;
+<b class="nc">&nbsp;        if (isoformOverrideSource == null) {</b>
+<b class="nc">&nbsp;            return this.uniprotCanonicalTranscriptId;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            switch (isoformOverrideSource) {</b>
+&nbsp;                case &quot;mskcc&quot;:
+<b class="nc">&nbsp;                    canonicalTranscriptId = this.mskccCanonicalTranscriptId;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case &quot;genome_nexus&quot;:
+<b class="nc">&nbsp;                    canonicalTranscriptId = this.genomeNexusCanonicalTranscriptId;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case &quot;ensembl&quot;:
+<b class="nc">&nbsp;                    canonicalTranscriptId = this.ensemblCanonicalTranscriptId;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                default:
+<b class="nc">&nbsp;                    canonicalTranscriptId = this.uniprotCanonicalTranscriptId;</b>
+&nbsp;                    break;
+&nbsp;            }
+<b class="nc">&nbsp;            return canonicalTranscriptId;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getHugoSymbol() {
+<b class="nc">&nbsp;        return this.hugoSymbol;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setHugoSymbol(String hugoSymbol) {
+<b class="nc">&nbsp;        this.hugoSymbol = hugoSymbol;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String[] getSynonyms() {
+<b class="nc">&nbsp;        return EnsemblCanonical.splitByComma(this.synonyms);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSynonyms(String synonyms) {
+<b class="nc">&nbsp;        this.synonyms = synonyms;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String[] getPreviousSymbols() {
+<b class="nc">&nbsp;        return EnsemblCanonical.splitByComma(this.previousSymbols);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPreviousSymbols(String previousSymbols) {
+<b class="nc">&nbsp;        this.previousSymbols = previousSymbols;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEnsemblCanonicalGeneId() {
+<b class="nc">&nbsp;        return this.ensemblCanonicalGeneId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEnsemblCanonicalGeneId(String ensemblCanonicalGeneId) {
+<b class="nc">&nbsp;        this.ensemblCanonicalGeneId = ensemblCanonicalGeneId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEnsemblCanonicalTranscriptId() {
+<b class="nc">&nbsp;        return this.ensemblCanonicalTranscriptId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEnsemblCanonicalTranscriptId(String ensemblCanonicalTranscriptId) {
+<b class="nc">&nbsp;        this.ensemblCanonicalTranscriptId = ensemblCanonicalTranscriptId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEntrezGeneId() {
+&nbsp;        // remove .0 for backwards compatibility with databases where
+&nbsp;        // entrez_gene_id field is a float
+<b class="nc">&nbsp;        if (this.entrezGeneId != null &amp;&amp; this.entrezGeneId.endsWith(&quot;.0&quot;)) {</b>
+<b class="nc">&nbsp;            return this.entrezGeneId.substring(0, this.entrezGeneId.length() - 2);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            return this.entrezGeneId;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEntrezGeneId(String entrezGeneId) {
+<b class="nc">&nbsp;        this.entrezGeneId = entrezGeneId;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

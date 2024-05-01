@@ -1,0 +1,194 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Product</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.javiermf.features.models</a>
+</div>
+
+<h1>Coverage Summary for Class: Product (org.javiermf.features.models)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Product</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.javiermf.features.models;
+&nbsp;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;import org.javiermf.features.exceptions.ObjectNotFoundException;
+&nbsp;import org.javiermf.features.models.constraints.FeatureConstraint;
+&nbsp;
+&nbsp;import javax.persistence.*;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Entity
+<b class="nc">&nbsp;public class Product {</b>
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @GeneratedValue
+&nbsp;    Long id;
+&nbsp;
+&nbsp;    @Column(nullable = false)
+&nbsp;    String name;
+&nbsp;
+<b class="nc">&nbsp;    @OneToMany(mappedBy = &quot;product&quot;, fetch = FetchType.EAGER, cascade = CascadeType.ALL)</b>
+&nbsp;    Set&lt;Feature&gt; productFeatures = new HashSet&lt;Feature&gt;();
+&nbsp;
+<b class="nc">&nbsp;    @OneToMany(mappedBy = &quot;forProduct&quot;, fetch = FetchType.EAGER, cascade = CascadeType.ALL)</b>
+&nbsp;    Set&lt;FeatureConstraint&gt; productFeatureConstraints = new HashSet&lt;FeatureConstraint&gt;();
+&nbsp;
+&nbsp;    @JsonProperty(&quot;features&quot;)
+&nbsp;    public Set&lt;Feature&gt; getProductFeatures() {
+<b class="nc">&nbsp;        return productFeatures;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Long getId() {
+<b class="nc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addFeature(Feature feature) {
+<b class="nc">&nbsp;        productFeatures.add(feature);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void removeFeature(Feature feature) {
+<b class="nc">&nbsp;        productFeatures.remove(feature);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static Product buildWithFeatures(String... featureNames) {
+<b class="nc">&nbsp;        Product product = new Product();</b>
+<b class="nc">&nbsp;        for (String featureName : featureNames) {</b>
+<b class="nc">&nbsp;            product.addFeature(Feature.withName(product, featureName));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return product;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getName() {
+<b class="nc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setName(String name) {
+<b class="nc">&nbsp;        this.name = name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @JsonProperty(&quot;constraints&quot;)
+&nbsp;    public Set&lt;FeatureConstraint&gt; getProductFeatureConstraints() {
+<b class="nc">&nbsp;        return productFeatureConstraints;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Feature findProductFeatureByName(String featureName) {
+<b class="nc">&nbsp;        for (Feature feature : getProductFeatures()) {</b>
+<b class="nc">&nbsp;            if (feature.name.equalsIgnoreCase(featureName)) {</b>
+<b class="nc">&nbsp;                return feature;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        throw new ObjectNotFoundException(featureName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean hasFeatureNamed(String featureName) {
+<b class="nc">&nbsp;        for (Feature feature : getProductFeatures()) {</b>
+<b class="nc">&nbsp;            if (feature.name.equalsIgnoreCase(featureName)) {</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addFeatureConstraint(FeatureConstraint constraint) {
+<b class="nc">&nbsp;        productFeatureConstraints.add(constraint);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

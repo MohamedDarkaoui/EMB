@@ -1,0 +1,221 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > VariantAnnotationMixin</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.web.mixin</a>
+</div>
+
+<h1>Coverage Summary for Class: VariantAnnotationMixin (org.cbioportal.genome_nexus.web.mixin)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VariantAnnotationMixin</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.web.mixin;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.*;
+&nbsp;import io.swagger.annotations.ApiModelProperty;
+&nbsp;import org.cbioportal.genome_nexus.model.*;
+&nbsp;import org.cbioportal.genome_nexus.model.my_variant_info_model.MyVariantInfoAnnotation;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;@JsonInclude(JsonInclude.Include.NON_NULL)
+<b class="nc">&nbsp;public class VariantAnnotationMixin {</b>
+&nbsp;
+&nbsp;    @JsonProperty(required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Variant key&quot;, required = true)
+&nbsp;    private String variant;
+&nbsp;
+&nbsp;    @JsonProperty(required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Original variant query&quot;, required = true)
+&nbsp;    private String originalVariantQuery;
+&nbsp;
+&nbsp;    @JsonProperty(required = false)
+&nbsp;    @ApiModelProperty(value = &quot;Annotation data as JSON string&quot;, required = false)
+&nbsp;    private String annotationJSON;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;id&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Variant id&quot;, required = true)
+&nbsp;    private String variantId;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;intergenic_consequences&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;intergenicConsequences&quot;, required = true)
+&nbsp;    private List&lt;IntergenicConsequences&gt; intergenicConsequences;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;assembly_name&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;NCBI build number&quot;, required = false)
+&nbsp;    private String assemblyName;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;seq_region_name&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Chromosome&quot;, required = false)
+&nbsp;    private String seqRegionName;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;start&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Start position&quot;, required = false)
+&nbsp;    public Integer getStart()
+&nbsp;    {
+<b class="nc">&nbsp;        return start;</b>
+&nbsp;    }
+&nbsp;    private Integer start;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;end&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;End position&quot;, required = false)
+&nbsp;    private Integer end;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;allele_string&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Allele string (e.g: A/T)&quot;, required = false)
+&nbsp;    private String alleleString;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;strand&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Strand (negative or positive)&quot;, required = false)
+&nbsp;    private Integer strand;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;most_severe_consequence&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Most severe consequence&quot;, required = false)
+&nbsp;    private String mostSevereConsequence;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;transcript_consequences&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;List of transcripts&quot;, required = false)
+&nbsp;    private List&lt;TranscriptConsequence&gt; transcriptConsequences;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;successfully_annotated&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Status flag indicating whether variant was succesfully annotated&quot;, required = false)
+&nbsp;    private Boolean successfullyAnnotated;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;mutation_assessor&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Mutation Assessor Annotation&quot;, required = false)
+&nbsp;    private MutationAssessorAnnotation mutationAssessorAnnotation;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;nucleotide_context&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Nucleotide Context Annotation&quot;, required = false)
+&nbsp;    private NucleotideContextAnnotation nucleotideContextAnnotation;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;hotspots&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Hotspot Annotation&quot;, required = false)
+&nbsp;    private HotspotAnnotation hotspotAnnotation;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;ptms&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Post Translational Modifications&quot;, required = false)
+&nbsp;    private PtmAnnotation ptmAnnotation;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;oncokb&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Oncokb&quot;, required = false)
+&nbsp;    private OncokbAnnotation oncokbAnnotation;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;annotation_summary&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Variant Annotation Summary&quot;, required = false)
+&nbsp;    private VariantAnnotationSummary annotationSummary;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;my_variant_info&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;My Variant Info Annotation&quot;, required = false)
+&nbsp;    private MyVariantInfoAnnotation myVariantInfoAnnotation;
+&nbsp;
+&nbsp;    @JsonProperty(value=&quot;clinvar&quot;, required = true)
+&nbsp;    @ApiModelProperty(value = &quot;ClinVar&quot;, required = false)
+&nbsp;    private ClinvarAnnotation clinvarAnnotation;
+&nbsp;
+&nbsp;    @JsonIgnore
+&nbsp;    private Map&lt;String, Object&gt; dynamicProps;
+&nbsp;
+&nbsp;    @JsonAnySetter
+&nbsp;    public void setDynamicProp(String key, Object value) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @JsonAnyGetter
+&nbsp;    public Map&lt;String, Object&gt; getDynamicProps() {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

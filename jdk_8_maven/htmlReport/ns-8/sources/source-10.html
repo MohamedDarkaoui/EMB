@@ -1,0 +1,84 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > OncokbService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service</a>
+</div>
+
+<h1>Coverage Summary for Class: OncokbService (org.cbioportal.genome_nexus.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">OncokbService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.Alteration;
+&nbsp;import org.oncokb.client.CancerGene;
+&nbsp;import org.oncokb.client.IndicatorQueryResp;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.OncokbNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.OncokbWebServiceException;
+&nbsp;
+&nbsp;public interface OncokbService
+&nbsp;{
+&nbsp;    IndicatorQueryResp getOncokb(Alteration alteration, String token)
+&nbsp;        throws OncokbNotFoundException, OncokbWebServiceException;
+&nbsp;    List&lt;CancerGene&gt;  getOncokbCancerGenesList();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

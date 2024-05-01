@@ -1,0 +1,274 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Hotspot</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Hotspot (org.cbioportal.genome_nexus.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Hotspot</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright (c) 2016 Memorial Sloan-Kettering Cancer Center.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful, but WITHOUT
+&nbsp; * ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS
+&nbsp; * FOR A PARTICULAR PURPOSE. The software and documentation provided hereunder
+&nbsp; * is on an &quot;as is&quot; basis, and Memorial Sloan-Kettering Cancer Center has no
+&nbsp; * obligations to provide maintenance, support, updates, enhancements or
+&nbsp; * modifications. In no event shall Memorial Sloan-Kettering Cancer Center be
+&nbsp; * liable to any party for direct, indirect, special, incidental or
+&nbsp; * consequential damages, including lost profits, arising out of the use of this
+&nbsp; * software and its documentation, even if Memorial Sloan-Kettering Cancer
+&nbsp; * Center has been advised of the possibility of such damage.
+&nbsp; */
+&nbsp;
+&nbsp;/*
+&nbsp; * This file is part of cBioPortal Genome Nexus.
+&nbsp; *
+&nbsp; * cBioPortal is free software: you can redistribute it and/or modify
+&nbsp; * it under the terms of the GNU Affero General Public License as
+&nbsp; * published by the Free Software Foundation, either version 3 of the
+&nbsp; * License.
+&nbsp; *
+&nbsp; * This program is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+&nbsp; * GNU Affero General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Affero General Public License
+&nbsp; * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+&nbsp;*/
+&nbsp;
+&nbsp;package org.cbioportal.genome_nexus.model;
+&nbsp;
+&nbsp;import org.springframework.data.annotation.Id;
+&nbsp;import org.springframework.data.mongodb.core.index.Indexed;
+&nbsp;import org.springframework.data.mongodb.core.mapping.Document;
+&nbsp;import org.springframework.data.mongodb.core.mapping.Field;
+&nbsp;
+&nbsp;@Document(collection = &quot;hotspot.mutation&quot;)
+<b class="nc">&nbsp;public class Hotspot</b>
+&nbsp;{
+&nbsp;    // TODO this is an auto generated id, we may need a composite id instead
+&nbsp;    @Id
+&nbsp;    private String id;
+&nbsp;
+&nbsp;    @Indexed
+&nbsp;    @Field(value=&quot;hugo_symbol&quot;)
+&nbsp;    private String hugoSymbol;
+&nbsp;
+&nbsp;    @Indexed
+&nbsp;    @Field(value=&quot;transcript_id&quot;)
+&nbsp;    private String transcriptId;
+&nbsp;
+&nbsp;    @Field(value=&quot;residue&quot;)
+&nbsp;    private String residue;
+&nbsp;
+&nbsp;    @Field(value=&quot;tumor_count&quot;)
+&nbsp;    private Integer tumorCount;
+&nbsp;
+&nbsp;    @Field(value=&quot;type&quot;)
+&nbsp;    private String type;
+&nbsp;
+&nbsp;    @Field(value=&quot;missense_count&quot;)
+&nbsp;    private Integer missenseCount;
+&nbsp;
+&nbsp;    @Field(value=&quot;trunc_count&quot;)
+&nbsp;    private Integer truncatingCount;
+&nbsp;
+&nbsp;    @Field(value=&quot;inframe_count&quot;)
+&nbsp;    private Integer inframeCount;
+&nbsp;
+&nbsp;    @Field(value=&quot;splice_count&quot;)
+&nbsp;    private Integer spliceCount;
+&nbsp;
+&nbsp;    public String getHugoSymbol() {
+<b class="nc">&nbsp;        return hugoSymbol;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setHugoSymbol(String hugoSymbol) {
+<b class="nc">&nbsp;        this.hugoSymbol = hugoSymbol;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getTranscriptId() {
+<b class="nc">&nbsp;        return this.transcriptId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTranscriptId(String transcriptId) {
+<b class="nc">&nbsp;        this.transcriptId = transcriptId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getResidue() {
+<b class="nc">&nbsp;        return residue;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setResidue(String residue) {
+<b class="nc">&nbsp;        this.residue = residue;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getTumorCount() {
+<b class="nc">&nbsp;        return tumorCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTumorCount(Integer tumorCount) {
+<b class="nc">&nbsp;        this.tumorCount = tumorCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getType() {
+<b class="nc">&nbsp;        return type;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setType(String type) {
+<b class="nc">&nbsp;        this.type = type;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getId() {
+<b class="nc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setId(String id) {
+<b class="nc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getMissenseCount() {
+<b class="nc">&nbsp;        return missenseCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMissenseCount(Integer missenseCount) {
+<b class="nc">&nbsp;        this.missenseCount = missenseCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getTruncatingCount() {
+<b class="nc">&nbsp;        return truncatingCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTruncatingCount(Integer truncatingCount) {
+<b class="nc">&nbsp;        this.truncatingCount = truncatingCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getInframeCount() {
+<b class="nc">&nbsp;        return inframeCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setInframeCount(Integer inframeCount) {
+<b class="nc">&nbsp;        this.inframeCount = inframeCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getSpliceCount() {
+<b class="nc">&nbsp;        return spliceCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSpliceCount(Integer spliceCount) {
+<b class="nc">&nbsp;        this.spliceCount = spliceCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return (hugoSymbol + residue + type + tumorCount).hashCode();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object obj)
+&nbsp;    {
+<b class="nc">&nbsp;        if (obj instanceof Hotspot) {</b>
+<b class="nc">&nbsp;            return this.hashCode() == obj.hashCode();</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            return super.equals(obj);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,248 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SelectedAnnotationServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service</a>
+</div>
+
+<h1>Coverage Summary for Class: SelectedAnnotationServiceImpl (org.cbioportal.genome_nexus.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SelectedAnnotationServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,7%
+  </span>
+  <span class="absValue">
+    (6/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    38,9%
+  </span>
+  <span class="absValue">
+    (14/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright (c) 2021 Memorial Sloan-Kettering Cancer Center.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful, but WITHOUT
+&nbsp; * ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS
+&nbsp; * FOR A PARTICULAR PURPOSE. The software and documentation provided hereunder
+&nbsp; * is on an &quot;as is&quot; basis, and Memorial Sloan-Kettering Cancer Center has no
+&nbsp; * obligations to provide maintenance, support, updates, enhancements or
+&nbsp; * modifications. In no event shall Memorial Sloan-Kettering Cancer Center be
+&nbsp; * liable to any party for direct, indirect, special, incidental or
+&nbsp; * consequential damages, including lost profits, arising out of the use of this
+&nbsp; * software and its documentation, even if Memorial Sloan-Kettering Cancer
+&nbsp; * Center has been advised of the possibility of such damage.
+&nbsp; */
+&nbsp;
+&nbsp;/*
+&nbsp; * This file is part of cBioPortal Genome Nexus.
+&nbsp; *
+&nbsp; * cBioPortal is free software: you can redistribute it and/or modify
+&nbsp; * it under the terms of the GNU Affero General Public License as
+&nbsp; * published by the Free Software Foundation, either version 3 of the
+&nbsp; * License.
+&nbsp; *
+&nbsp; * This program is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+&nbsp; * GNU Affero General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Affero General Public License
+&nbsp; * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+&nbsp;*/
+&nbsp;
+&nbsp;package org.cbioportal.genome_nexus.service;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.component.annotation.NotationConverter;
+&nbsp;import org.cbioportal.genome_nexus.model.GenomicLocation;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.cbioportal.genome_nexus.service.GenomicLocationAnnotationService;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationQueryMixedFormatException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.service.internal.HgvsVariantAnnotationService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import org.apache.commons.logging.LogFactory;
+&nbsp;import org.apache.commons.logging.Log;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class SelectedAnnotationServiceImpl implements SelectedAnnotationService {
+&nbsp;    private final VariantAnnotationService verifiedHgvsVariantAnnotationService;
+&nbsp;    private final GenomicLocationAnnotationService genomicLocationAnnotationService;
+&nbsp;    private final NotationConverter notationConverter;
+&nbsp;    private final Boolean isRegionAnnotationEnabled;
+&nbsp;
+<b class="fc">&nbsp;private static final Log LOG = LogFactory.getLog(SelectedAnnotationServiceImpl.class);</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public SelectedAnnotationServiceImpl(
+&nbsp;            VariantAnnotationService verifiedHgvsVariantAnnotationService,
+&nbsp;            GenomicLocationAnnotationService genomicLocationAnnotationServiceImpl,
+&nbsp;            NotationConverter notationConverter,
+&nbsp;            @Value(&quot;${gn_vep.region.url:}&quot;)
+<b class="fc">&nbsp;            String vepRegionUrl) {</b>
+<b class="fc">&nbsp;        this.verifiedHgvsVariantAnnotationService = verifiedHgvsVariantAnnotationService;</b>
+<b class="fc">&nbsp;        this.genomicLocationAnnotationService = genomicLocationAnnotationServiceImpl;</b>
+<b class="fc">&nbsp;        this.notationConverter = notationConverter;</b>
+<b class="fc">&nbsp;        this.isRegionAnnotationEnabled = vepRegionUrl != null &amp;&amp; vepRegionUrl.length() &gt; 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public VariantAnnotation getAnnotation(
+&nbsp;            String variant,
+&nbsp;            String isoformOverrideSource,
+&nbsp;            Map&lt;String, String&gt; token,
+&nbsp;            List&lt;String&gt; fields) throws VariantAnnotationNotFoundException, VariantAnnotationWebServiceException {
+<b class="fc">&nbsp;        if (needToConvertHgvsToRegionForAnnotation(variant)) {</b>
+<b class="nc">&nbsp;            GenomicLocation variantAsGenomicLocation = notationConverter.hgvsgToGenomicLocation(variant);</b>
+&nbsp;            // TODO: we should provide a getAnnotation() call to genomicLocationAnnotationService which accepts GenomicLocation
+<b class="nc">&nbsp;            return genomicLocationAnnotationService.getAnnotation(variantAsGenomicLocation.toString(), isoformOverrideSource, token, fields);</b>
+&nbsp;        } else {
+&nbsp;            // TODO: do we support configuration of Genome-Nexus where non-hgvs variants will arrive at /annotation/{variant} endpoint and they get sent to a (non-hgvs) vep.url ? If not, make this service hgvs only.
+<b class="fc">&nbsp;            return verifiedHgvsVariantAnnotationService.getAnnotation(variant, isoformOverrideSource, token, fields);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;VariantAnnotation&gt; getAnnotations(
+&nbsp;            List&lt;String&gt; variants,
+&nbsp;            String isoformOverrideSource,
+&nbsp;            Map&lt;String, String&gt; token,
+&nbsp;            List&lt;String&gt; fields) throws VariantAnnotationNotFoundException, VariantAnnotationQueryMixedFormatException, VariantAnnotationWebServiceException {
+<b class="fc">&nbsp;        if (needToConvertHgvsToRegionForAnnotation(variants)) {</b>
+<b class="nc">&nbsp;            List&lt;GenomicLocation&gt; variantsAsGenomicLocations = notationConverter.hgvsgToGenomicLocations(variants);</b>
+<b class="nc">&nbsp;            return genomicLocationAnnotationService.getAnnotations(variantsAsGenomicLocations, isoformOverrideSource, token, fields);</b>
+&nbsp;        } else {
+&nbsp;            // all variants will be sent to the hgvsAnnotationService, so non-hgvs formatted variants will fail annotation and hgvs formatted variants may succeed
+&nbsp;            // TODO: do we support configuration of Genome-Nexus where non-hgvs variants will arrive at /annotation endpoint and they get sent to a (non-hgvs) vep.url ? If not, make this service hgvs only.
+<b class="fc">&nbsp;            return verifiedHgvsVariantAnnotationService.getAnnotations(variants, isoformOverrideSource, token, fields);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isHgvsFormat(String variant) {
+<b class="nc">&nbsp;        return variant.contains(&quot;g.&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean needToConvertHgvsToRegionForAnnotation(String variant) {
+<b class="fc">&nbsp;        if (!isRegionAnnotationEnabled) {</b>
+<b class="fc">&nbsp;            return false; // without a local gn_vep service processing region format queries, all variants are processed via hgvsAnnotationService</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!isHgvsFormat(variant)) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean needToConvertHgvsToRegionForAnnotation(List&lt;String&gt; variants) throws VariantAnnotationQueryMixedFormatException {
+<b class="fc">&nbsp;        if (!isRegionAnnotationEnabled) {</b>
+<b class="fc">&nbsp;            return false; // without a local gn_vep service processing region format queries, all variants are processed via hgvsAnnotationService</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (variants.isEmpty()) {</b>
+<b class="nc">&nbsp;            return false; // no variants to annotate</b>
+&nbsp;        }
+<b class="nc">&nbsp;        boolean someElementIsHgvs = false;</b>
+<b class="nc">&nbsp;        boolean someElementIsNonHgvs = false;</b>
+<b class="nc">&nbsp;        for (String variant : variants) {</b>
+<b class="nc">&nbsp;            if (isHgvsFormat(variant)) {</b>
+<b class="nc">&nbsp;                someElementIsHgvs = true;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                someElementIsNonHgvs = true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (someElementIsHgvs &amp;&amp; someElementIsNonHgvs) {</b>
+<b class="nc">&nbsp;                throw new VariantAnnotationQueryMixedFormatException(&quot;This server cannot process a mixture of HGVS formatted and non-HGVS formatted variants submitted in a single annotation request&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if (!someElementIsHgvs) {</b>
+<b class="nc">&nbsp;            return false; // hgvs not present in any variant</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

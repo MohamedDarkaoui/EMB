@@ -1,0 +1,219 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > HotspotFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.component.annotation</a>
+</div>
+
+<h1>Coverage Summary for Class: HotspotFilter (org.cbioportal.genome_nexus.component.annotation)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HotspotFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (2/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20,9%
+  </span>
+  <span class="absValue">
+    (9/43)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.component.annotation;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.Hotspot;
+&nbsp;import org.cbioportal.genome_nexus.model.IntegerRange;
+&nbsp;import org.cbioportal.genome_nexus.model.ProteinLocation;
+&nbsp;import org.cbioportal.genome_nexus.model.TranscriptConsequence;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.cbioportal.genome_nexus.util.Numerical;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Component
+&nbsp;public class HotspotFilter
+&nbsp;{
+&nbsp;    private final VariantClassificationResolver variantClassificationResolver;
+&nbsp;    private final ProteinPositionResolver proteinPositionResolver;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public HotspotFilter(VariantClassificationResolver variantClassificationResolver,
+&nbsp;                         ProteinPositionResolver proteinPositionResolver)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.variantClassificationResolver = variantClassificationResolver;</b>
+<b class="fc">&nbsp;        this.proteinPositionResolver = proteinPositionResolver;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Boolean filter(Hotspot hotspot, TranscriptConsequence transcript, VariantAnnotation annotation)
+&nbsp;    {
+<b class="nc">&nbsp;        IntegerRange proteinPos = this.proteinPositionResolver.resolve(annotation, transcript);</b>
+&nbsp;
+<b class="nc">&nbsp;        return (</b>
+&nbsp;            proteinPos != null &amp;&amp;
+&nbsp;            // filter by protein position:
+&nbsp;            // only include the hotspot if the protein change position overlaps with the current transcript
+<b class="nc">&nbsp;            Numerical.overlaps(hotspot.getResidue(), proteinPos.getStart(), proteinPos.getEnd()) &amp;&amp;</b>
+&nbsp;            // filter by mutation type:
+&nbsp;            // only include the hotspot if the variant classification matches the hotspot type
+<b class="nc">&nbsp;            this.typeMatches(hotspot.getType(), this.variantClassificationResolver.resolveAll(annotation, transcript))</b>
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    public Boolean typeMatches(String hotspotType, Set&lt;String&gt; variantClassifications)
+&nbsp;    {
+<b class="nc">&nbsp;        Boolean typeMatches = false;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (String variantClassification : variantClassifications)</b>
+&nbsp;        {
+&nbsp;            // just one match is enough
+<b class="nc">&nbsp;            if (typeMatches(hotspotType, variantClassification)) {</b>
+<b class="nc">&nbsp;                typeMatches = true;</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return typeMatches;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Boolean typeMatches(String hotspotType, String variantClassification)
+&nbsp;    {
+<b class="nc">&nbsp;        Boolean typeMatches = true;</b>
+&nbsp;
+&nbsp;        // for single residue hotspots, filter out anything but missense mutations
+<b class="nc">&nbsp;        if (hotspotType.contains(&quot;single residue&quot;)) {</b>
+<b class="nc">&nbsp;            typeMatches = variantClassification.toLowerCase().contains(&quot;missense&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (hotspotType.contains(&quot;splice site&quot;)) {</b>
+<b class="nc">&nbsp;            typeMatches = variantClassification.toLowerCase().contains(&quot;splice&quot;);</b>
+&nbsp;        }
+&nbsp;        // for in-frame indel hotspots, filter out anything but in-frame mutations
+<b class="nc">&nbsp;        else if (hotspotType.contains(&quot;in-frame&quot;))  {</b>
+<b class="nc">&nbsp;            typeMatches = variantClassification.toLowerCase().contains(&quot;inframe&quot;) ||</b>
+<b class="nc">&nbsp;                variantClassification.toLowerCase().contains(&quot;in_frame&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (hotspotType.contains(&quot;3d&quot;))  {</b>
+<b class="nc">&nbsp;            typeMatches = variantClassification.toLowerCase().contains(&quot;missense&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return typeMatches;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Hotspot&gt; proteinLocationHotspotsFilter(List&lt;Hotspot&gt; hotspots, ProteinLocation proteinLocation) {
+<b class="fc">&nbsp;        int start = proteinLocation.getStart();</b>
+<b class="fc">&nbsp;        int end = proteinLocation.getEnd();</b>
+<b class="fc">&nbsp;        String type = proteinLocation.getMutationType();</b>
+<b class="fc">&nbsp;        List&lt;Hotspot&gt; result = new ArrayList&lt;&gt;();</b>
+&nbsp;        
+<b class="fc">&nbsp;        for (Hotspot hotspot: hotspots) {</b>
+&nbsp;            // Protein location
+<b class="nc">&nbsp;            IntegerRange hotspotProteinPosition = proteinPositionResolver.extractProteinPos(hotspot.getResidue());</b>
+&nbsp;
+<b class="nc">&nbsp;            if (hotspotProteinPosition != null) {</b>
+<b class="nc">&nbsp;                int hotspotStart = hotspotProteinPosition.getStart();</b>
+<b class="nc">&nbsp;                int hotspotStop = hotspotProteinPosition.getEnd();</b>
+&nbsp;
+&nbsp;                // as long as there is overlap, it should be valid position
+<b class="nc">&nbsp;                boolean validPosition = start &lt;= hotspotStop &amp;&amp; end &gt;= hotspotStart;</b>
+&nbsp;
+&nbsp;                // Mutation type
+<b class="nc">&nbsp;                boolean validMissense = type.equals(&quot;Missense_Mutation&quot;) &amp;&amp; (hotspot.getType().contains(&quot;3d&quot;) || hotspot.getType().contains(&quot;single residue&quot;));</b>
+<b class="nc">&nbsp;                boolean validInFrameInsertion = type.equals(&quot;In_Frame_Ins&quot;) &amp;&amp; hotspot.getType().contains(&quot;in-frame&quot;);</b>
+<b class="nc">&nbsp;                boolean validInFrameDeletion = type.equals(&quot;In_Frame_Del&quot;) &amp;&amp; hotspot.getType().contains(&quot;in-frame&quot;);</b>
+<b class="nc">&nbsp;                boolean validSplice = (type.equals(&quot;Splice_Site&quot;) || type.equals(&quot;Splice_Region&quot;)) &amp;&amp; hotspot.getType().contains(&quot;splice&quot;);</b>
+&nbsp;
+&nbsp;                // Add hotspot
+<b class="nc">&nbsp;                if (validPosition &amp;&amp; (validMissense || validInFrameInsertion || validInFrameDeletion || validSplice)) {</b>
+<b class="nc">&nbsp;                    result.add(hotspot);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

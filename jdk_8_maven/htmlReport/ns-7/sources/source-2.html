@@ -1,0 +1,282 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EnsemblRepositoryImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.persistence.internal</a>
+</div>
+
+<h1>Coverage Summary for Class: EnsemblRepositoryImpl (org.cbioportal.genome_nexus.persistence.internal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnsemblRepositoryImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81,8%
+  </span>
+  <span class="absValue">
+    (9/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58,9%
+  </span>
+  <span class="absValue">
+    (43/73)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.persistence.internal;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.EnsemblCanonical;
+&nbsp;import org.cbioportal.genome_nexus.model.EnsemblGene;
+&nbsp;import org.cbioportal.genome_nexus.model.EnsemblTranscript;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.mongodb.core.MongoTemplate;
+&nbsp;import org.springframework.data.mongodb.core.query.Criteria;
+&nbsp;import org.springframework.data.mongodb.core.query.Query;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public class EnsemblRepositoryImpl implements EnsemblRepositoryCustom
+&nbsp;{
+&nbsp;    private final MongoTemplate mongoTemplate;
+<b class="fc">&nbsp;    private Map&lt;String, String&gt; hugoSymbolToEntrezGeneIdMap = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    private Map&lt;String, String&gt; entrezGeneIdToHugoSymbolMap = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    private Map&lt;String, List&lt;String&gt;&gt; geneAliasToEntrezGeneIdMap = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public EnsemblRepositoryImpl(MongoTemplate mongoTemplate)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.mongoTemplate = mongoTemplate;</b>
+<b class="fc">&nbsp;        initHugoSymbolToEntrezGeneIdMap();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static final String CANONICAL_TRANSCRIPTS_COLLECTION = &quot;ensembl.canonical_transcript_per_hgnc&quot;;
+&nbsp;    public static final String TRANSCRIPTS_COLLECTION = &quot;ensembl.biomart_transcripts&quot;;
+&nbsp;
+&nbsp;    private EnsemblCanonical findOneCanonicalByHugoSymbol(String hugoSymbol) {
+&nbsp;        EnsemblCanonical ensemblCanonical;
+&nbsp;        Query query;
+&nbsp;
+&nbsp;        // check approved symbols
+<b class="fc">&nbsp;        Criteria approvedSymbolCriteria = Criteria.where(&quot;hgnc_symbol&quot;).regex(&quot;^&quot; + hugoSymbol + &quot;$&quot;, &quot;i&quot;);</b>
+<b class="fc">&nbsp;        query = new Query();</b>
+<b class="fc">&nbsp;        query.addCriteria(approvedSymbolCriteria);</b>
+<b class="fc">&nbsp;        ensemblCanonical = mongoTemplate.findOne(query,</b>
+&nbsp;            EnsemblCanonical.class, CANONICAL_TRANSCRIPTS_COLLECTION);
+&nbsp;
+<b class="fc">&nbsp;        if (ensemblCanonical == null) {</b>
+&nbsp;            // check prev symbols
+<b class="fc">&nbsp;            Criteria prevSymbolsCriteria = Criteria.where(&quot;previous_symbols&quot;).regex(&quot;(^| |,)&quot; + hugoSymbol + &quot;($| |,)&quot;, &quot;i&quot;);</b>
+<b class="fc">&nbsp;            query = new Query();</b>
+<b class="fc">&nbsp;            query.addCriteria(prevSymbolsCriteria);</b>
+<b class="fc">&nbsp;            ensemblCanonical = mongoTemplate.findOne(query,</b>
+&nbsp;                EnsemblCanonical.class, CANONICAL_TRANSCRIPTS_COLLECTION);
+&nbsp;
+<b class="fc">&nbsp;            if (ensemblCanonical == null) {</b>
+&nbsp;                // check synonyms
+<b class="fc">&nbsp;                Criteria synonymCriteria = Criteria.where(&quot;synonyms&quot;).regex(&quot;(^| |,)&quot; + hugoSymbol + &quot;($| |,)&quot;, &quot;i&quot;);</b>
+<b class="fc">&nbsp;                query = new Query();</b>
+<b class="fc">&nbsp;                query.addCriteria(synonymCriteria);</b>
+<b class="fc">&nbsp;                ensemblCanonical = mongoTemplate.findOne(query,</b>
+&nbsp;                    EnsemblCanonical.class, CANONICAL_TRANSCRIPTS_COLLECTION);
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return ensemblCanonical;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private EnsemblCanonical findOneCanonicalByEntrezGeneId(String entrezGeneId) {
+&nbsp;        EnsemblCanonical ensemblCanonical;
+&nbsp;        Query query;
+&nbsp;
+&nbsp;        // search by entrez gene id
+<b class="fc">&nbsp;        Criteria criteria = Criteria.where(&quot;entrez_gene_id&quot;).is(Integer.valueOf(entrezGeneId));</b>
+<b class="fc">&nbsp;        query = new Query();</b>
+<b class="fc">&nbsp;        query.addCriteria(criteria);</b>
+<b class="fc">&nbsp;        ensemblCanonical = mongoTemplate.findOne(query,</b>
+&nbsp;            EnsemblCanonical.class, CANONICAL_TRANSCRIPTS_COLLECTION);
+&nbsp;
+<b class="fc">&nbsp;        return ensemblCanonical;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public EnsemblGene getCanonicalEnsemblGeneIdByHugoSymbol(String hugoSymbol) {
+<b class="fc">&nbsp;        EnsemblCanonical ensemblCanonical = this.findOneCanonicalByHugoSymbol(hugoSymbol);</b>
+<b class="fc">&nbsp;        if (ensemblCanonical != null) {</b>
+<b class="nc">&nbsp;            return new EnsemblGene(ensemblCanonical);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public EnsemblGene getCanonicalEnsemblGeneIdByEntrezGeneId(String entrezGeneId) {
+<b class="fc">&nbsp;        EnsemblCanonical ensemblCanonical = this.findOneCanonicalByEntrezGeneId(entrezGeneId);</b>
+<b class="fc">&nbsp;        if (ensemblCanonical != null) {</b>
+<b class="nc">&nbsp;            return new EnsemblGene(ensemblCanonical);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public EnsemblTranscript findOneByHugoSymbolIgnoreCase(String hugoSymbol, String isoformOverrideSource) {
+<b class="fc">&nbsp;        EnsemblCanonical ensemblCanonical = this.findOneCanonicalByHugoSymbol(hugoSymbol);</b>
+<b class="fc">&nbsp;        if (ensemblCanonical != null) {</b>
+<b class="nc">&nbsp;            Query query = new Query();</b>
+<b class="nc">&nbsp;            query.addCriteria(Criteria.where(EnsemblTranscript.TRANSCRIPT_ID_FIELD_NAME).is(ensemblCanonical.getCanonicalTranscriptId(isoformOverrideSource)));</b>
+&nbsp;
+<b class="nc">&nbsp;            EnsemblTranscript transcript = mongoTemplate.findOne(query, EnsemblTranscript.class, TRANSCRIPTS_COLLECTION);</b>
+<b class="nc">&nbsp;            if (transcript != null) {</b>
+<b class="nc">&nbsp;                return transcript;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void initHugoSymbolToEntrezGeneIdMap() {
+<b class="fc">&nbsp;        List&lt;EnsemblCanonical&gt; transcripts = mongoTemplate.findAll(EnsemblCanonical.class, CANONICAL_TRANSCRIPTS_COLLECTION);</b>
+<b class="fc">&nbsp;        for (EnsemblCanonical transcript : transcripts) {</b>
+<b class="nc">&nbsp;            String[] previousSymbols = transcript.getPreviousSymbols();</b>
+<b class="nc">&nbsp;            String[] synonyms = transcript.getSynonyms();</b>
+&nbsp;
+<b class="nc">&nbsp;            hugoSymbolToEntrezGeneIdMap.put(transcript.getHugoSymbol(), transcript.getEntrezGeneId());</b>
+<b class="nc">&nbsp;            entrezGeneIdToHugoSymbolMap.put(transcript.getEntrezGeneId(), transcript.getHugoSymbol());</b>
+&nbsp;
+&nbsp;            // treat previous symbols as an alias for current entrez id
+<b class="nc">&nbsp;            if (previousSymbols != null) {</b>
+<b class="nc">&nbsp;                for (String previousSymbol : previousSymbols) {</b>
+<b class="nc">&nbsp;                    List&lt;String&gt; aliases = geneAliasToEntrezGeneIdMap.getOrDefault(previousSymbol, new ArrayList&lt;&gt;());</b>
+<b class="nc">&nbsp;                    if (!aliases.contains(transcript.getEntrezGeneId())){</b>
+<b class="nc">&nbsp;                        aliases.add(transcript.getEntrezGeneId());</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    geneAliasToEntrezGeneIdMap.put(previousSymbol, aliases);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;            // add current entrez id to each of its aliases set of ids
+<b class="nc">&nbsp;            if (synonyms != null) {</b>
+<b class="nc">&nbsp;                for (String synonym : synonyms) {</b>
+<b class="nc">&nbsp;                    List&lt;String&gt; aliases = geneAliasToEntrezGeneIdMap.getOrDefault(synonym, new ArrayList&lt;&gt;());</b>
+<b class="nc">&nbsp;                    if (!aliases.contains(transcript.getEntrezGeneId())){</b>
+<b class="nc">&nbsp;                        aliases.add(transcript.getEntrezGeneId());</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    geneAliasToEntrezGeneIdMap.put(synonym, aliases);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String findEntrezGeneIdByHugoSymbol(String hugoSymbol) {
+<b class="fc">&nbsp;        return hugoSymbolToEntrezGeneIdMap.get(hugoSymbol);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;String&gt; findEntrezGeneIdByHugoSymbol(String hugoSymbol, Boolean searchInAliases) {
+<b class="nc">&nbsp;        List&lt;String&gt; entrezGeneIdMatches = Arrays.asList(hugoSymbolToEntrezGeneIdMap.get(hugoSymbol));</b>
+&nbsp;        // if searching in aliases then also return matching entrez ids from alias map
+<b class="nc">&nbsp;        if (searchInAliases) {</b>
+<b class="nc">&nbsp;            if (geneAliasToEntrezGeneIdMap.containsKey(hugoSymbol)) {</b>
+<b class="nc">&nbsp;                entrezGeneIdMatches.addAll(geneAliasToEntrezGeneIdMap.get(hugoSymbol));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return entrezGeneIdMatches;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String findHugoSymbolByEntrezGeneId(String entrezGeneId) {
+<b class="nc">&nbsp;        return entrezGeneIdToHugoSymbolMap.get(entrezGeneId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Set&lt;String&gt; findCanonicalTranscriptIdsBySource(String isoformOverrideSource) {
+<b class="fc">&nbsp;        List&lt;EnsemblCanonical&gt; transcripts = mongoTemplate.findAll(</b>
+&nbsp;            EnsemblCanonical.class, CANONICAL_TRANSCRIPTS_COLLECTION);
+&nbsp;
+<b class="fc">&nbsp;        return transcripts</b>
+<b class="fc">&nbsp;            .stream()</b>
+<b class="fc">&nbsp;            .map(t -&gt; t.getCanonicalTranscriptId(isoformOverrideSource))</b>
+<b class="fc">&nbsp;            .collect(Collectors.toSet());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

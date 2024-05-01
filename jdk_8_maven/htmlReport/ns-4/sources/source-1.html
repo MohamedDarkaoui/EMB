@@ -1,0 +1,229 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SignalIndexBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.component.search</a>
+</div>
+
+<h1>Coverage Summary for Class: SignalIndexBuilder (org.cbioportal.genome_nexus.component.search)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SignalIndexBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    41,7%
+  </span>
+  <span class="absValue">
+    (5/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    39,1%
+  </span>
+  <span class="absValue">
+    (18/46)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.component.search;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.component.annotation.NotationConverter;
+&nbsp;import org.cbioportal.genome_nexus.component.annotation.ProteinChangeResolver;
+&nbsp;import org.cbioportal.genome_nexus.model.*;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Component
+&nbsp;public class SignalIndexBuilder
+&nbsp;{
+&nbsp;    private final NotationConverter notationConverter;
+&nbsp;    private final ProteinChangeResolver proteinChangeResolver;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public SignalIndexBuilder(
+&nbsp;        NotationConverter notationConverter,
+&nbsp;        ProteinChangeResolver proteinChangeResolver
+<b class="fc">&nbsp;    ) {</b>
+<b class="fc">&nbsp;        this.notationConverter = notationConverter;</b>
+<b class="fc">&nbsp;        this.proteinChangeResolver = proteinChangeResolver;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;SignalQuery&gt; buildQueryIndex(
+&nbsp;        List&lt;SignalMutation&gt; mutations,
+&nbsp;        List&lt;VariantAnnotation&gt; annotations
+&nbsp;    )
+&nbsp;    {
+<b class="fc">&nbsp;        Map&lt;String, String&gt; genomicLocationToVariant = this.genomicLocationToVariant(mutations);</b>
+<b class="fc">&nbsp;        Map&lt;String, String&gt; variantToProteinChange = this.variantToProteinChange(annotations);</b>
+&nbsp;
+<b class="fc">&nbsp;        return mutations</b>
+<b class="fc">&nbsp;            .stream()</b>
+<b class="fc">&nbsp;            .map(m -&gt; this.mapMutationToExactQuery(m, genomicLocationToVariant, variantToProteinChange))</b>
+<b class="fc">&nbsp;            .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;String&gt; findUniqueVariants(List&lt;SignalMutation&gt; mutations)
+&nbsp;    {
+<b class="fc">&nbsp;        return this.genomicLocationToVariant(mutations).values().stream().distinct().collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Map&lt;String, String&gt; genomicLocationToVariant(List&lt;SignalMutation&gt; mutations)
+&nbsp;    {
+<b class="fc">&nbsp;        return mutations</b>
+<b class="fc">&nbsp;            .stream()</b>
+<b class="fc">&nbsp;            .filter(m -&gt; m.getChromosome() != null &amp;&amp; m.getVariantAllele() != null &amp;&amp; m.getReferenceAllele() != null)</b>
+<b class="fc">&nbsp;            .map(this::generateGenomicLocation)</b>
+<b class="fc">&nbsp;            .collect(Collectors.toMap(</b>
+&nbsp;                // key
+&nbsp;                GenomicLocation::toString,
+&nbsp;                // value
+&nbsp;                gl -&gt; {
+<b class="nc">&nbsp;                    String variant = this.notationConverter.genomicToHgvs(gl);</b>
+<b class="nc">&nbsp;                    return variant == null ? &quot;&quot; : variant;</b>
+&nbsp;                },
+&nbsp;                // this is to ignore duplicates
+<b class="nc">&nbsp;                (v1, v2) -&gt; v1</b>
+&nbsp;            ));
+&nbsp;    }
+&nbsp;
+&nbsp;    public Map&lt;String, String&gt; variantToProteinChange(List&lt;VariantAnnotation&gt; annotations)
+&nbsp;    {
+<b class="fc">&nbsp;        return annotations</b>
+<b class="fc">&nbsp;            .stream()</b>
+<b class="fc">&nbsp;            .collect(Collectors.toMap(</b>
+&nbsp;                VariantAnnotation::getVariantId,
+<b class="nc">&nbsp;                annotation -&gt; this.normalizeAlteration(this.proteinChangeResolver.resolveHgvspShort(annotation))</b>
+&nbsp;            ));
+&nbsp;    }
+&nbsp;
+&nbsp;    public SignalQuery mapMutationToExactQuery(
+&nbsp;        SignalMutation mutation,
+&nbsp;        Map&lt;String, String&gt; genomicLocationToVariant,
+&nbsp;        Map&lt;String, String&gt; variantToProteinChange
+&nbsp;    ) {
+<b class="nc">&nbsp;        String region = this.generateRegion(mutation);</b>
+<b class="nc">&nbsp;        String variant = genomicLocationToVariant.get(generateGenomicLocation(mutation).toString());</b>
+<b class="nc">&nbsp;        String alteration = variantToProteinChange.get(variant);</b>
+&nbsp;
+<b class="nc">&nbsp;        SignalQuery query = new SignalQuery();</b>
+&nbsp;
+<b class="nc">&nbsp;        query.setMatchType(SignalMatchType.EXACT);</b>
+<b class="nc">&nbsp;        query.setHugoSymbol(mutation.getHugoGeneSymbol());</b>
+<b class="nc">&nbsp;        query.setRegion(region);</b>
+<b class="nc">&nbsp;        query.setVariant(variant);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (alteration != null &amp;&amp; alteration.length() &gt; 0) {</b>
+<b class="nc">&nbsp;            query.setAlteration(alteration);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return query;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String generateRegion(SignalMutation mutation) {
+<b class="nc">&nbsp;        return mutation.getChromosome() + &quot;:&quot; + mutation.getStartPosition() + &quot;-&quot; + mutation.getEndPosition();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public GenomicLocation generateGenomicLocation(SignalMutation mutation) {
+<b class="nc">&nbsp;        GenomicLocation gl = new GenomicLocation();</b>
+&nbsp;
+<b class="nc">&nbsp;        gl.setChromosome(mutation.getChromosome());</b>
+<b class="nc">&nbsp;        gl.setStart(mutation.getStartPosition().intValue());</b>
+<b class="nc">&nbsp;        gl.setEnd(mutation.getEndPosition().intValue());</b>
+<b class="nc">&nbsp;        gl.setReferenceAllele(mutation.getReferenceAllele());</b>
+<b class="nc">&nbsp;        gl.setVariantAllele(mutation.getVariantAllele());</b>
+&nbsp;
+<b class="nc">&nbsp;        return gl;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private String normalizeAlteration(String proteinChange) {
+<b class="nc">&nbsp;        if (proteinChange == null) {</b>
+<b class="nc">&nbsp;            return &quot;&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (proteinChange.contains(&quot;p.&quot;)) {</b>
+<b class="nc">&nbsp;            return proteinChange.replace(&quot;p.&quot;, &quot;&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return proteinChange;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

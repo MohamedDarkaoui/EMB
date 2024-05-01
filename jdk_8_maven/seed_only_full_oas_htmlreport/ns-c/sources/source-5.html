@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > IsoformAnnotationEnricher</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.enricher</a>
+</div>
+
+<h1>Coverage Summary for Class: IsoformAnnotationEnricher (org.cbioportal.genome_nexus.service.enricher)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">IsoformAnnotationEnricher</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    77,3%
+  </span>
+  <span class="absValue">
+    (17/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.enricher;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.TranscriptConsequence;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.cbioportal.genome_nexus.service.EnsemblService;
+&nbsp;import org.cbioportal.genome_nexus.util.IsoformOverrideSource;
+&nbsp;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;
+&nbsp;public class IsoformAnnotationEnricher extends BaseAnnotationEnricher
+&nbsp;{
+&nbsp;    String source;
+&nbsp;    EnsemblService ensemblService;
+&nbsp;
+&nbsp;    public IsoformAnnotationEnricher(
+&nbsp;        String id,
+&nbsp;        String source,
+&nbsp;        EnsemblService ensemblService
+&nbsp;    ) {
+<b class="fc">&nbsp;        super(id);</b>
+<b class="fc">&nbsp;        this.source = source;</b>
+<b class="fc">&nbsp;        this.ensemblService = ensemblService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void enrich(VariantAnnotation annotation)
+&nbsp;    {
+&nbsp;        // no transcripts to enrich, abort.
+<b class="fc">&nbsp;        if (annotation.getTranscriptConsequences() == null) {</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+&nbsp;        // get transcript overrides for the given isoform override source
+&nbsp;        // if no isoform override source is provided, then the default is uniprot
+<b class="fc">&nbsp;        Set&lt;String&gt; predefinedCanonicalTranscriptIds = this.ensemblService.getCanonicalTranscriptIdsBySource(</b>
+<b class="fc">&nbsp;            IsoformOverrideSource.getOrDefault(this.source)</b>
+&nbsp;        );
+&nbsp;
+<b class="fc">&nbsp;        List&lt;TranscriptConsequence&gt; canonicalTranscriptCandidates = this.findCanonicalTranscriptCandidates(</b>
+<b class="fc">&nbsp;            annotation.getTranscriptConsequences(),</b>
+&nbsp;            predefinedCanonicalTranscriptIds
+&nbsp;        );
+&nbsp;
+&nbsp;        // if at least one canonical transcript candidate is found
+&nbsp;        // then mark all transcripts as non-canonical.
+&nbsp;        //
+&nbsp;        // if no override, then we should leave the transcript list intact
+&nbsp;        // (rely on the canonical info provided by the web service in that case).
+<b class="fc">&nbsp;        if (canonicalTranscriptCandidates.size() &gt; 0) {</b>
+<b class="nc">&nbsp;            for (TranscriptConsequence transcript: annotation.getTranscriptConsequences()) {</b>
+<b class="nc">&nbsp;                transcript.setCanonical(null);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // override the canonical field for all the candidates
+<b class="fc">&nbsp;        for (TranscriptConsequence transcript: canonicalTranscriptCandidates) {</b>
+<b class="nc">&nbsp;            transcript.setCanonical(&quot;1&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Tries to find a matching transcript consequence by using
+&nbsp;     * the given predefined canonical assignment.
+&nbsp;     */
+&nbsp;    private List&lt;TranscriptConsequence&gt; findCanonicalTranscriptCandidates(
+&nbsp;        List&lt;TranscriptConsequence&gt; transcriptConsequences,
+&nbsp;        Set&lt;String&gt; predefinedCanonicalTranscriptIds
+&nbsp;    ) {
+<b class="fc">&nbsp;        List&lt;TranscriptConsequence&gt; transcripts = Collections.emptyList();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (predefinedCanonicalTranscriptIds != null) {</b>
+<b class="fc">&nbsp;            transcripts = transcriptConsequences</b>
+<b class="fc">&nbsp;                .stream()</b>
+<b class="fc">&nbsp;                .filter(t -&gt; predefinedCanonicalTranscriptIds.contains(t.getTranscriptId()))</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return transcripts;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

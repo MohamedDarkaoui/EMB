@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PdbController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.web</a>
+</div>
+
+<h1>Coverage Summary for Class: PdbController (org.cbioportal.genome_nexus.web)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PdbController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.web;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.PdbHeader;
+&nbsp;import org.cbioportal.genome_nexus.service.PdbDataService;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.PdbHeaderNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.PdbHeaderWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.web.config.PublicApi;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.CrossOrigin;
+&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestMethod;
+&nbsp;import org.springframework.web.bind.annotation.RestController;
+&nbsp;
+&nbsp;import io.swagger.annotations.Api;
+&nbsp;import io.swagger.annotations.ApiOperation;
+&nbsp;import io.swagger.annotations.ApiParam;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Selcuk Onur Sumer
+&nbsp; */
+&nbsp;@PublicApi
+&nbsp;@RestController // shorthand for @Controller, @ResponseBody
+&nbsp;@CrossOrigin(origins=&quot;*&quot;) // allow all cross-domain requests
+&nbsp;@RequestMapping(value= &quot;/&quot;)
+&nbsp;@Api(tags = &quot;pdb-controller&quot;, description = &quot;PDB Controller&quot;)
+&nbsp;public class PdbController
+&nbsp;{
+&nbsp;    private final PdbDataService pdbDataService;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public PdbController(PdbDataService pdbDataService)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.pdbDataService = pdbDataService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves PDB header info by a PDB id&quot;,
+&nbsp;        nickname = &quot;fetchPdbHeaderGET&quot;)
+&nbsp;    @RequestMapping(value = &quot;pdb/header/{pdbId}&quot;,
+&nbsp;        method = RequestMethod.GET,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public PdbHeader fetchPdbHeaderGET(
+&nbsp;        @ApiParam(value = &quot;PDB id, for example 1a37&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @PathVariable String pdbId) throws PdbHeaderNotFoundException, PdbHeaderWebServiceException
+&nbsp;    {
+<b class="fc">&nbsp;        return pdbDataService.getPdbHeader(pdbId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves PDB header info by a PDB id&quot;,
+&nbsp;        nickname = &quot;fetchPdbHeaderPOST&quot;)
+&nbsp;    @RequestMapping(value = &quot;pdb/header&quot;,
+&nbsp;        method = RequestMethod.POST,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public List&lt;PdbHeader&gt; fetchPdbHeaderPOST(
+&nbsp;        @ApiParam(value = &quot;List of pdb ids, for example [\&quot;1a37\&quot;,\&quot;1a4o\&quot;]&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @RequestBody List&lt;String&gt; pdbIds)
+&nbsp;    {
+<b class="fc">&nbsp;        return this.pdbDataService.getPdbHeaders(pdbIds);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

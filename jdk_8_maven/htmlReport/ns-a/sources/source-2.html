@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BaseCachedVariantAnnotationFetcher</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.cached</a>
+</div>
+
+<h1>Coverage Summary for Class: BaseCachedVariantAnnotationFetcher (org.cbioportal.genome_nexus.service.cached)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BaseCachedVariantAnnotationFetcher</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,7%
+  </span>
+  <span class="absValue">
+    (6/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,3%
+  </span>
+  <span class="absValue">
+    (26/27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.cached;
+&nbsp;
+&nbsp;import com.mongodb.DBObject;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.cbioportal.genome_nexus.persistence.VariantAnnotationRepository;
+&nbsp;import org.apache.commons.logging.Log;
+&nbsp;import org.apache.commons.logging.LogFactory;
+&nbsp;import org.cbioportal.genome_nexus.persistence.GenericMongoRepository;
+&nbsp;import org.cbioportal.genome_nexus.service.CachedExternalResourceFetcher;
+&nbsp;import org.cbioportal.genome_nexus.service.ExternalResourceFetcher;
+&nbsp;import org.cbioportal.genome_nexus.service.ResourceTransformer;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.ResourceMappingException;
+&nbsp;import org.cbioportal.genome_nexus.util.NaturalOrderComparator;
+&nbsp;import org.springframework.dao.DataAccessResourceFailureException;
+&nbsp;import org.springframework.dao.DataIntegrityViolationException;
+&nbsp;import org.springframework.data.mongodb.repository.MongoRepository;
+&nbsp;import org.springframework.web.client.HttpClientErrorException;
+&nbsp;import org.springframework.web.client.HttpServerErrorException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;public abstract class BaseCachedVariantAnnotationFetcher
+&nbsp;    extends BaseCachedExternalResourceFetcher&lt;VariantAnnotation, VariantAnnotationRepository&gt;
+&nbsp;{
+<b class="fc">&nbsp;    private static final Log LOG = LogFactory.getLog(BaseCachedVariantAnnotationFetcher.class);</b>
+&nbsp;
+&nbsp;    protected String collection;
+&nbsp;    protected VariantAnnotationRepository repository;
+&nbsp;    protected Class&lt;VariantAnnotation&gt; type;
+&nbsp;    protected ExternalResourceFetcher&lt;VariantAnnotation&gt; fetcher;
+&nbsp;    protected ResourceTransformer&lt;VariantAnnotation&gt; transformer;
+&nbsp;    protected Integer maxPageSize;
+&nbsp;
+&nbsp;    public BaseCachedVariantAnnotationFetcher(String collection,
+&nbsp;                                             VariantAnnotationRepository repository,
+&nbsp;                                             Class&lt;VariantAnnotation&gt; type,
+&nbsp;                                             ExternalResourceFetcher&lt;VariantAnnotation&gt; fetcher,
+&nbsp;                                             ResourceTransformer&lt;VariantAnnotation&gt; transformer)
+&nbsp;    {
+<b class="nc">&nbsp;        super(collection, repository, type, fetcher, transformer, Integer.MAX_VALUE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public BaseCachedVariantAnnotationFetcher(String collection,
+&nbsp;                                             VariantAnnotationRepository repository,
+&nbsp;                                             Class&lt;VariantAnnotation&gt; type,
+&nbsp;                                             ExternalResourceFetcher&lt;VariantAnnotation&gt; fetcher,
+&nbsp;                                             ResourceTransformer&lt;VariantAnnotation&gt; transformer,
+&nbsp;                                             Integer maxPageSize)
+&nbsp;    {
+<b class="fc">&nbsp;        super(collection, repository, type, fetcher, transformer, maxPageSize);</b>
+&nbsp;    }
+&nbsp;   
+&nbsp;    @Override
+&nbsp;    protected String extractId(VariantAnnotation instance)
+&nbsp;    {
+<b class="fc">&nbsp;        return instance.getVariantId();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected String extractId(DBObject dbObject)
+&nbsp;    {
+<b class="fc">&nbsp;        return (String)dbObject.get(&quot;input&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override 
+&nbsp;    public VariantAnnotation fetchAndCache(String id) throws ResourceMappingException
+&nbsp;    {
+<b class="fc">&nbsp;        VariantAnnotation variantAnnotation = null;</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            variantAnnotation = super.fetchAndCache(id);</b>
+<b class="fc">&nbsp;            if (variantAnnotation == null) {</b>
+<b class="fc">&nbsp;                variantAnnotation = new VariantAnnotation(id);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                variantAnnotation.setSuccessfullyAnnotated(true);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        } catch (Exception e) {</b>
+<b class="fc">&nbsp;            return new VariantAnnotation(id);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return variantAnnotation;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Override
+&nbsp;    public List&lt;VariantAnnotation&gt; fetchAndCache(List&lt;String&gt; ids) throws ResourceMappingException
+&nbsp;    {
+<b class="fc">&nbsp;        Map&lt;String, VariantAnnotation&gt; variantResponse = this.constructFetchedMap(ids); </b>
+<b class="fc">&nbsp;        for (String variantId : variantResponse.keySet()) {</b>
+<b class="fc">&nbsp;            if (variantResponse.get(variantId) == null) {</b>
+<b class="fc">&nbsp;                VariantAnnotation variantAnnotation = new VariantAnnotation(variantId);</b>
+<b class="fc">&nbsp;                variantResponse.put(variantId, variantAnnotation);</b>
+<b class="fc">&nbsp;            } else {</b>
+<b class="fc">&nbsp;                variantResponse.get(variantId).setSuccessfullyAnnotated(true);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;        // some util function to return response (values) with duplicates
+&nbsp;        // need to pass in a list representing indexes of original request
+<b class="fc">&nbsp;        List&lt;VariantAnnotation&gt; values = new ArrayList();</b>
+<b class="fc">&nbsp;        for (String id : ids) {</b>
+<b class="fc">&nbsp;           values.add(variantResponse.get(id));</b>
+<b class="fc">&nbsp;        } </b>
+<b class="fc">&nbsp;        return values;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

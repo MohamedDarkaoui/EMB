@@ -1,0 +1,209 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Mutdb</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.model.my_variant_info_model</a>
+</div>
+
+<h1>Coverage Summary for Class: Mutdb (org.cbioportal.genome_nexus.model.my_variant_info_model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Mutdb</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.model.my_variant_info_model;
+&nbsp;
+&nbsp;import org.springframework.data.mongodb.core.mapping.Field;
+&nbsp;
+<b class="fc">&nbsp;public class Mutdb</b>
+&nbsp;{
+&nbsp;
+&nbsp;    @Field(value = &quot;rsid&quot;)
+&nbsp;    private String rsid;
+&nbsp;
+&nbsp;    @Field(value = &quot;ref&quot;)
+&nbsp;    private String ref;
+&nbsp;
+&nbsp;    @Field(value = &quot;alt&quot;)
+&nbsp;    private String alt;
+&nbsp;
+&nbsp;    @Field(value = &quot;uniprot_id&quot;)
+&nbsp;    private String uniprotId;
+&nbsp;
+&nbsp;    @Field(value = &quot;mutpred_score&quot;)
+&nbsp;    private Double mutpredScore;
+&nbsp;
+&nbsp;    @Field(value = &quot;cosmic_id&quot;)
+&nbsp;    private String cosmicId;
+&nbsp;
+&nbsp;    @Field(value = &quot;chrom&quot;)
+&nbsp;    private String chrom;
+&nbsp;
+&nbsp;    @Field(value = &quot;hg19&quot;)
+&nbsp;    private Hg19 hg19;
+&nbsp;
+&nbsp;
+&nbsp;    public String getRsid()
+&nbsp;    {
+<b class="fc">&nbsp;        return rsid;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRsid(String rsid)
+&nbsp;    {
+<b class="fc">&nbsp;        this.rsid = rsid;</b>
+&nbsp;    }
+&nbsp;    public String getRef()
+&nbsp;    {
+<b class="fc">&nbsp;        return ref;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRef(String ref)
+&nbsp;    {
+<b class="fc">&nbsp;        this.ref = ref;</b>
+&nbsp;    }
+&nbsp;    public String getAlt()
+&nbsp;    {
+<b class="fc">&nbsp;        return alt;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAlt(String alt)
+&nbsp;    {
+<b class="fc">&nbsp;        this.alt = alt;</b>
+&nbsp;    }
+&nbsp;    public String getUniprotId()
+&nbsp;    {
+<b class="fc">&nbsp;        return uniprotId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUniprotId(String uniprotId)
+&nbsp;    {
+<b class="fc">&nbsp;        this.uniprotId = uniprotId;</b>
+&nbsp;    }
+&nbsp;    public Double getMutpredScore()
+&nbsp;    {
+<b class="fc">&nbsp;        return mutpredScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMutpredScore(Double mutpredScore)
+&nbsp;    {
+<b class="fc">&nbsp;        this.mutpredScore = mutpredScore;</b>
+&nbsp;    }
+&nbsp;    public String getCosmicId()
+&nbsp;    {
+<b class="fc">&nbsp;        return cosmicId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCosmicId(String cosmicId)
+&nbsp;    {
+<b class="fc">&nbsp;        this.cosmicId = cosmicId;</b>
+&nbsp;    }
+&nbsp;    public String getChrom()
+&nbsp;    {
+<b class="fc">&nbsp;        return chrom;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setChrom(String chrom)
+&nbsp;    {
+<b class="fc">&nbsp;        this.chrom = chrom;</b>
+&nbsp;    }
+&nbsp;    public Hg19 getHg19()
+&nbsp;    {
+<b class="fc">&nbsp;        return hg19;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setHg19(Hg19 hg19)
+&nbsp;    {
+<b class="fc">&nbsp;        this.hg19 = hg19;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

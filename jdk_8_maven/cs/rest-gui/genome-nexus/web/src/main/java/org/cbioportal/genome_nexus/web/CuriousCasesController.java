@@ -5,6 +5,7 @@ import org.cbioportal.genome_nexus.service.CuriousCasesService;
 import org.cbioportal.genome_nexus.service.exception.CuriousCasesNotFoundException;
 import org.cbioportal.genome_nexus.service.exception.CuriousCasesWebServiceException;
 import org.cbioportal.genome_nexus.web.config.InternalApi;
+import org.cbioportal.genome_nexus.web.config.PublicApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@InternalApi
+//@InternalApi
+@PublicApi
 @RestController // shorthand for @Controller, @ResponseBody
 @CrossOrigin(origins="*") // allow all cross-domain requests
 @RequestMapping(value= "/")

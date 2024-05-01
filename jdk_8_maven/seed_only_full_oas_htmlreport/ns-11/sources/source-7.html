@@ -1,0 +1,174 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PdbHeaderDataFetcher</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.remote</a>
+</div>
+
+<h1>Coverage Summary for Class: PdbHeaderDataFetcher (org.cbioportal.genome_nexus.service.remote)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PdbHeaderDataFetcher</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (2/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (6/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.remote;
+&nbsp;
+&nbsp;import com.mongodb.BasicDBObject;
+&nbsp;import com.mongodb.DBObject;
+&nbsp;import org.cbioportal.genome_nexus.model.PdbHeader;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.ResourceMappingException;
+&nbsp;import org.cbioportal.genome_nexus.service.transformer.PdbHeaderTransformer;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;import org.springframework.web.client.HttpClientErrorException;
+&nbsp;import org.springframework.web.client.ResourceAccessException;
+&nbsp;import org.springframework.web.client.RestTemplate;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;@Component
+&nbsp;public class PdbHeaderDataFetcher extends BaseExternalResourceFetcher&lt;PdbHeader&gt;
+&nbsp;{
+&nbsp;    private static final String MAIN_QUERY_PARAM = &quot;pdbId&quot;;
+&nbsp;    private static final String PLACEHOLDER = &quot;PDB_ID&quot;;
+&nbsp;
+&nbsp;    private final PdbHeaderTransformer transformer;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public PdbHeaderDataFetcher(PdbHeaderTransformer transformer,
+&nbsp;                                @Value(&quot;${pdb.header_service_url}&quot;) String headerServiceUrl)
+&nbsp;    {
+&nbsp;        //http://www.rcsb.org/pdb/files/PDB_ID.pdb?headerOnly=YES
+&nbsp;        //http://files.rcsb.org/header/PDB_ID.pdb
+<b class="fc">&nbsp;        super(headerServiceUrl, MAIN_QUERY_PARAM, PLACEHOLDER);</b>
+<b class="fc">&nbsp;        this.transformer = transformer;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;PdbHeader&gt; fetchInstances(Map&lt;String, String&gt; queryParams)
+&nbsp;        throws HttpClientErrorException, ResourceAccessException, ResourceMappingException
+&nbsp;    {
+<b class="nc">&nbsp;        DBObject rawValue = this.fetchRawValue(queryParams);</b>
+&nbsp;
+<b class="nc">&nbsp;        return this.transformer.transform(rawValue, PdbHeader.class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;PdbHeader&gt; fetchInstances(Object requestBody)
+&nbsp;        throws HttpClientErrorException, ResourceAccessException, ResourceMappingException
+&nbsp;    {
+<b class="nc">&nbsp;        return this.transformer.transform(this.fetchRawValue(requestBody), PdbHeader.class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * We need to override this method, since PDB header response is plain text.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected DBObject getForObject(String uri, Map&lt;String, String&gt; queryParams)
+&nbsp;    {
+<b class="fc">&nbsp;        RestTemplate restTemplate = new RestTemplate();</b>
+&nbsp;
+&nbsp;        // read to string as plain text
+<b class="fc">&nbsp;        String response = restTemplate.getForObject(uri, String.class);</b>
+<b class="fc">&nbsp;        String pdbId = queryParams.get(MAIN_QUERY_PARAM);</b>
+&nbsp;
+&nbsp;        // construct a new simple DBObject with the pdbId and response pair
+<b class="fc">&nbsp;        return new BasicDBObject(pdbId, response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public PdbHeaderTransformer getTransformer() {
+<b class="nc">&nbsp;        return transformer;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EnsemblTranscriptMixin</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.web.mixin</a>
+</div>
+
+<h1>Coverage Summary for Class: EnsemblTranscriptMixin (org.cbioportal.genome_nexus.web.mixin)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnsemblTranscriptMixin</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.web.mixin;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonInclude;
+&nbsp;import io.swagger.annotations.ApiModelProperty;
+&nbsp;
+&nbsp;@JsonInclude(JsonInclude.Include.NON_NULL)
+<b class="nc">&nbsp;public class EnsemblTranscriptMixin {</b>
+&nbsp;    @ApiModelProperty(value = &quot;Ensembl transcript id&quot;, position=1, required = true)
+&nbsp;    private String transcriptId;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Ensembl gene id&quot;, position=2, required = true)
+&nbsp;    private String geneId;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Ensembl protein id&quot;, position=3, required = true)
+&nbsp;    private String proteinId;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Length of protein&quot;, position=4)
+&nbsp;    private Integer proteinLength;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Pfam domains&quot;, position=5, dataType=&quot;List&quot;)
+&nbsp;    private List&lt;PfamDomainRangeMixin&gt; pfamDomains;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Hugo symbols&quot;, position=6, dataType=&quot;List&quot;)
+&nbsp;    private List&lt;String&gt; hugoSymbols;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;RefSeq mRNA ID&quot;, position=7)
+&nbsp;    private String refseqMrnaId;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Consensus CDS (CCDS) ID&quot;, position=8)
+&nbsp;    private String ccdsId;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Exon information&quot;, position=9, dataType=&quot;List&quot;)
+&nbsp;    private List&lt;ExonMixin&gt; exons;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;UTR information&quot;, position=10, dataType=&quot;List&quot;)
+&nbsp;    private List&lt;UntranslatedRegionMixin&gt; utrs;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TranscriptConsequenceSummaryMixin</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.web.mixin</a>
+</div>
+
+<h1>Coverage Summary for Class: TranscriptConsequenceSummaryMixin (org.cbioportal.genome_nexus.web.mixin)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TranscriptConsequenceSummaryMixin</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.web.mixin;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonInclude;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;import io.swagger.annotations.ApiModelProperty;
+&nbsp;import org.cbioportal.genome_nexus.model.IntegerRange;
+&nbsp;
+&nbsp;@JsonInclude(JsonInclude.Include.NON_NULL)
+<b class="nc">&nbsp;public class TranscriptConsequenceSummaryMixin</b>
+&nbsp;{
+&nbsp;    @JsonProperty(required = true)
+&nbsp;    @ApiModelProperty(value = &quot;Transcript id&quot;, required = true)
+&nbsp;    private String transcriptId;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Codon change&quot;)
+&nbsp;    private String codonChange;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Amino acids change&quot;)
+&nbsp;    private String aminoAcids;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Reference Amino Acid&quot;)
+&nbsp;    private String aminoAcidRef;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Alt Amino Acid&quot;)
+&nbsp;    private String aminoAcidAlt;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Entrez gene id&quot;)
+&nbsp;    private String entrezGeneId;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Consequence terms (comma separated)&quot;)
+&nbsp;    private String consequenceTerms;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Hugo gene symbol&quot;)
+&nbsp;    private String hugoGeneSymbol;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;HGVSp short&quot;)
+&nbsp;    private String hgvspShort;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;HGVSp&quot;)
+&nbsp;    private String hgvsp;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;HGVSc&quot;)
+&nbsp;    private String hgvsc;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Protein position (start and end)&quot;)
+&nbsp;    private IntegerRange proteinPosition;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;RefSeq id&quot;)
+&nbsp;    private String refSeq;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Variant classification&quot;)
+&nbsp;    private String variantClassification;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Polyphen Score&quot;)
+&nbsp;    private Double polyphenScore;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Polyphen Prediction&quot;)
+&nbsp;    private String polyphenPrediction;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Sift Score&quot;)
+&nbsp;    private Double siftScore;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Sift Prediction&quot;)
+&nbsp;    private String siftPrediction;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = &quot;Uniprot ID&quot;)
+&nbsp;    private String uniprotId;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,460 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > VariantAnnotation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.model</a>
+</div>
+
+<h1>Coverage Summary for Class: VariantAnnotation (org.cbioportal.genome_nexus.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VariantAnnotation</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81,8%
+  </span>
+  <span class="absValue">
+    (45/55)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,6%
+  </span>
+  <span class="absValue">
+    (56/67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright (c) 2015 Memorial Sloan-Kettering Cancer Center.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful, but WITHOUT
+&nbsp; * ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS
+&nbsp; * FOR A PARTICULAR PURPOSE. The software and documentation provided hereunder
+&nbsp; * is on an &quot;as is&quot; basis, and Memorial Sloan-Kettering Cancer Center has no
+&nbsp; * obligations to provide maintenance, support, updates, enhancements or
+&nbsp; * modifications. In no event shall Memorial Sloan-Kettering Cancer Center be
+&nbsp; * liable to any party for direct, indirect, special, incidental or
+&nbsp; * consequential damages, including lost profits, arising out of the use of this
+&nbsp; * software and its documentation, even if Memorial Sloan-Kettering Cancer
+&nbsp; * Center has been advised of the possibility of such damage.
+&nbsp; */
+&nbsp;
+&nbsp;/*
+&nbsp; * This file is part of cBioPortal Genome Nexus.
+&nbsp; *
+&nbsp; * cBioPortal is free software: you can redistribute it and/or modify
+&nbsp; * it under the terms of the GNU Affero General Public License as
+&nbsp; * published by the Free Software Foundation, either version 3 of the
+&nbsp; * License.
+&nbsp; *
+&nbsp; * This program is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+&nbsp; * GNU Affero General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Affero General Public License
+&nbsp; * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+&nbsp;*/
+&nbsp;
+&nbsp;package org.cbioportal.genome_nexus.model;
+&nbsp;
+&nbsp;import java.util.LinkedHashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.my_variant_info_model.MyVariantInfoAnnotation;
+&nbsp;import org.springframework.data.annotation.Id;
+&nbsp;import org.springframework.data.mongodb.core.mapping.Document;
+&nbsp;import org.springframework.data.mongodb.core.mapping.Field;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Benjamin Gross
+&nbsp; * @author Selcuk Onur Sumer
+&nbsp; */
+&nbsp;@Document(collection = &quot;vep.annotation&quot;)
+&nbsp;public class VariantAnnotation
+&nbsp;{
+&nbsp;    @Id
+&nbsp;    private String variant;        // used as an id for mongodb record
+&nbsp;    private String annotationJSON; // raw annotation JSON
+&nbsp;
+&nbsp;    private String variantId;     // variant id
+&nbsp;    private String assemblyName;  // NCBI build number
+&nbsp;    private String seqRegionName; // chromosome
+&nbsp;    private Integer start;         // start position
+&nbsp;    private Integer end;           // end position
+&nbsp;    private String alleleString;  // reference allele &amp; variant allele
+&nbsp;    private Integer strand;
+&nbsp;    private String mostSevereConsequence;
+&nbsp;    private List&lt;ColocatedVariant&gt; colocatedVariants;
+&nbsp;    private List&lt;IntergenicConsequences&gt; intergenicConsequences;
+&nbsp;    private List&lt;TranscriptConsequence&gt; transcriptConsequences;
+&nbsp;    private Boolean successfullyAnnotated;
+&nbsp;
+&nbsp;    private MutationAssessorAnnotation mutationAssessorAnnotation;
+&nbsp;    private NucleotideContextAnnotation nucleotideContextAnnotation;
+&nbsp;    private MyVariantInfoAnnotation myVariantInfoAnnotation;
+&nbsp;    private HotspotAnnotation hotspotAnnotation;
+&nbsp;    private PtmAnnotation ptmAnnotation;
+&nbsp;    private OncokbAnnotation oncokbAnnotation;
+&nbsp;    private ClinvarAnnotation clinvarAnnotation;
+&nbsp;    private VariantAnnotationSummary annotationSummary;
+&nbsp;    private SignalAnnotation signalAnnotation;
+&nbsp;    private String originalVariantQuery;
+&nbsp;    private Map&lt;String, Object&gt; dynamicProps;
+&nbsp;
+&nbsp;    public VariantAnnotation()
+&nbsp;    {
+<b class="fc">&nbsp;        this(null, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public VariantAnnotation(String variant)
+&nbsp;    {
+<b class="fc">&nbsp;        this(variant, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public VariantAnnotation(String variant, String annotationJSON)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.variant = variant;</b>
+<b class="fc">&nbsp;        this.annotationJSON = annotationJSON;</b>
+<b class="fc">&nbsp;        this.dynamicProps = new LinkedHashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.successfullyAnnotated = !(annotationJSON == null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getVariant()
+&nbsp;    {
+<b class="fc">&nbsp;        return variant;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setVariant(String variant)
+&nbsp;    {
+<b class="fc">&nbsp;        this.variant = variant;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getAnnotationJSON()
+&nbsp;    {
+<b class="fc">&nbsp;        return annotationJSON;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAnnotationJSON(String annotationJSON)
+&nbsp;    {
+<b class="nc">&nbsp;        this.annotationJSON = annotationJSON;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;id&quot;)
+&nbsp;    public String getVariantId()
+&nbsp;    {
+<b class="fc">&nbsp;        return variantId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setVariantId(String variantId)
+&nbsp;    {
+<b class="fc">&nbsp;        this.variantId = variantId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;assembly_name&quot;)
+&nbsp;    public String getAssemblyName()
+&nbsp;    {
+<b class="fc">&nbsp;        return assemblyName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAssemblyName(String assemblyName)
+&nbsp;    {
+<b class="fc">&nbsp;        this.assemblyName = assemblyName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;seq_region_name&quot;)
+&nbsp;    public String getSeqRegionName()
+&nbsp;    {
+<b class="fc">&nbsp;        return seqRegionName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSeqRegionName(String seqRegionName)
+&nbsp;    {
+<b class="fc">&nbsp;        this.seqRegionName = seqRegionName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;start&quot;)
+&nbsp;    public Integer getStart()
+&nbsp;    {
+<b class="fc">&nbsp;        return start;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setStart(Integer start)
+&nbsp;    {
+<b class="fc">&nbsp;        this.start = start;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;end&quot;)
+&nbsp;    public Integer getEnd()
+&nbsp;    {
+<b class="fc">&nbsp;        return end;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEnd(Integer end)
+&nbsp;    {
+<b class="fc">&nbsp;        this.end = end;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;allele_string&quot;)
+&nbsp;    public String getAlleleString()
+&nbsp;    {
+<b class="fc">&nbsp;        return alleleString;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAlleleString(String alleleString)
+&nbsp;    {
+<b class="fc">&nbsp;        this.alleleString = alleleString;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;strand&quot;)
+&nbsp;    public Integer getStrand()
+&nbsp;    {
+<b class="fc">&nbsp;        return strand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setStrand(Integer strand)
+&nbsp;    {
+<b class="fc">&nbsp;        this.strand = strand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;most_severe_consequence&quot;)
+&nbsp;    public String getMostSevereConsequence()
+&nbsp;    {
+<b class="fc">&nbsp;        return mostSevereConsequence;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMostSevereConsequence(String mostSevereConsequence)
+&nbsp;    {
+<b class="fc">&nbsp;        this.mostSevereConsequence = mostSevereConsequence;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;colocated_variants&quot;)
+&nbsp;    public List&lt;ColocatedVariant&gt; getColocatedVariants()
+&nbsp;    {
+<b class="fc">&nbsp;        return colocatedVariants;</b>
+&nbsp;    }
+&nbsp;    public void set(List&lt;ColocatedVariant&gt; colocatedVariants)
+&nbsp;    {
+<b class="nc">&nbsp;        this.colocatedVariants = colocatedVariants;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;intergenic_consequences&quot;)
+&nbsp;    public List&lt;IntergenicConsequences&gt; getIntergenicConsequences()
+&nbsp;    {
+<b class="fc">&nbsp;        return intergenicConsequences;</b>
+&nbsp;    }
+&nbsp;    public void setIntergenicConsequences(List&lt;IntergenicConsequences&gt; intergenicConsequences)
+&nbsp;    {
+<b class="fc">&nbsp;        this.intergenicConsequences = intergenicConsequences;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(value=&quot;transcript_consequences&quot;)
+&nbsp;    public List&lt;TranscriptConsequence&gt; getTranscriptConsequences()
+&nbsp;    {
+<b class="fc">&nbsp;        return transcriptConsequences;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTranscriptConsequences(List&lt;TranscriptConsequence&gt; transcriptConsequences)
+&nbsp;    {
+<b class="fc">&nbsp;        this.transcriptConsequences = transcriptConsequences;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public VariantAnnotationSummary getAnnotationSummary() {
+<b class="fc">&nbsp;        return annotationSummary;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAnnotationSummary(VariantAnnotationSummary annotationSummary) {
+<b class="fc">&nbsp;        this.annotationSummary = annotationSummary;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString()
+&nbsp;    {
+<b class="nc">&nbsp;        return annotationJSON;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public NucleotideContextAnnotation getNucleotideContextAnnotation() {
+<b class="fc">&nbsp;        return nucleotideContextAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setNucleotideContextAnnotation(NucleotideContextAnnotation nucleotideContextAnnotation) {
+<b class="fc">&nbsp;        this.nucleotideContextAnnotation = nucleotideContextAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public MutationAssessorAnnotation getMutationAssessorAnnotation() {
+<b class="fc">&nbsp;        return mutationAssessorAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMutationAssessorAnnotation(MutationAssessorAnnotation mutationAssessorAnnotation) {
+<b class="nc">&nbsp;        this.mutationAssessorAnnotation = mutationAssessorAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public MyVariantInfoAnnotation getMyVariantInfoAnnotation() {
+<b class="fc">&nbsp;        return myVariantInfoAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMyVariantInfoAnnotation(MyVariantInfoAnnotation myVariantInfoAnnotation) {
+<b class="fc">&nbsp;        this.myVariantInfoAnnotation = myVariantInfoAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public HotspotAnnotation getHotspotAnnotation() {
+<b class="fc">&nbsp;        return hotspotAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setHotspotAnnotation(HotspotAnnotation hotspotAnnotation) {
+<b class="nc">&nbsp;        this.hotspotAnnotation = hotspotAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public PtmAnnotation getPtmAnnotation() {
+<b class="fc">&nbsp;        return ptmAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getHgvsg() {
+<b class="fc">&nbsp;        if (this.getVariantId() != null &amp;&amp; this.getVariantId().contains(&quot;g.&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return this.getVariantId();</b>
+<b class="fc">&nbsp;        } else if (this.getTranscriptConsequences() == null) {</b>
+<b class="fc">&nbsp;            return null;</b>
+&nbsp;        } else {
+&nbsp;            // id is not of hgvsg format
+<b class="fc">&nbsp;            for (TranscriptConsequence ts : this.getTranscriptConsequences()) {</b>
+<b class="fc">&nbsp;                if (ts.getHgvsg() != null &amp;&amp; !ts.getHgvsg().isEmpty()) {</b>
+<b class="nc">&nbsp;                    return ts.getHgvsg();</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPtmAnnotation(PtmAnnotation ptmAnnotation) {
+<b class="nc">&nbsp;        this.ptmAnnotation = ptmAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public SignalAnnotation getSignalAnnotation() {
+<b class="fc">&nbsp;        return signalAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSignalAnnotation(SignalAnnotation signalAnnotation) {
+<b class="nc">&nbsp;        this.signalAnnotation = signalAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public OncokbAnnotation getOncokbAnnotation() {
+<b class="fc">&nbsp;        return oncokbAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setOncokbAnnotation(OncokbAnnotation oncokbAnnotation) {
+<b class="nc">&nbsp;        this.oncokbAnnotation = oncokbAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ClinvarAnnotation getClinvarAnnotation() {
+<b class="fc">&nbsp;        return clinvarAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setClinvarAnnotation(ClinvarAnnotation clinvarAnnotation) {
+<b class="nc">&nbsp;        this.clinvarAnnotation = clinvarAnnotation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSuccessfullyAnnotated(Boolean successfullyAnnotated) {
+<b class="fc">&nbsp;        this.successfullyAnnotated = successfullyAnnotated;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Boolean isSuccessfullyAnnotated() {
+<b class="fc">&nbsp;        return successfullyAnnotated;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setOriginalVariantQuery(String originalVariantQuery) {
+<b class="fc">&nbsp;        this.originalVariantQuery = originalVariantQuery;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getOriginalVariantQuery() {
+<b class="fc">&nbsp;        return this.originalVariantQuery;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDynamicProp(String key, Object value)
+&nbsp;    {
+<b class="nc">&nbsp;        this.dynamicProps.put(key, value);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Map&lt;String, Object&gt; getDynamicProps()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.dynamicProps;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

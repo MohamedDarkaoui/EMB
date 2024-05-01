@@ -1,0 +1,449 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GenomicVariantUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.util</a>
+</div>
+
+<h1>Coverage Summary for Class: GenomicVariantUtil (org.cbioportal.genome_nexus.util)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GenomicVariantUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    55,6%
+  </span>
+  <span class="absValue">
+    (10/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    43,2%
+  </span>
+  <span class="absValue">
+    (60/139)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GenomicVariantUtil$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    57,9%
+  </span>
+  <span class="absValue">
+    (11/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    43,6%
+  </span>
+  <span class="absValue">
+    (61/140)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.util;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileNotFoundException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.*;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.util.exception.InvalidHgvsException;
+&nbsp;import org.cbioportal.genome_nexus.util.exception.RefTypeNotSupportedException;
+&nbsp;import org.cbioportal.genome_nexus.util.exception.TypeNotSupportedException;
+&nbsp;
+<b class="nc">&nbsp;public class GenomicVariantUtil {</b>
+&nbsp;
+&nbsp;    public static GenomicVariant fromHgvs(String hgvs) {
+<b class="fc">&nbsp;        GenomicVariant.RefType refType = getRefTypeFromHgvs(hgvs);</b>
+<b class="fc">&nbsp;        String chr = getChrFromHgvs(hgvs);</b>
+<b class="fc">&nbsp;        Integer start = getStartFromHgvs(hgvs);</b>
+<b class="fc">&nbsp;        Integer end = getEndFromHgvs(hgvs, start);</b>
+<b class="fc">&nbsp;        GenomicVariant.Type type = getTypeFromHgvs(hgvs);</b>
+<b class="fc">&nbsp;        if (type == GenomicVariant.Type.INSERTION &amp;&amp; end != start + 1) {</b>
+<b class="nc">&nbsp;            throw new InvalidHgvsException(&quot;insertion encountered where end position did not equal start position plus 1&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String ref = getRefFromHgvs(hgvs, type);</b>
+<b class="fc">&nbsp;        String alt = getAltFromHgvs(hgvs, type);</b>
+<b class="fc">&nbsp;        return new GenomicVariant(chr, refType, start, end, type, ref, alt);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;/* The following (fromRegion) code is invalid
+&nbsp; * The problem is that the relative size of the start and end members
+&nbsp; * in a region string determine the type and appropriate alleles for
+&nbsp; * the GenomicVariant format. When the start is more than the end in
+&nbsp; * region format, the end should always be equal to (start - 1). The
+&nbsp; * meaning of this pattern is that an insertion is denoted with the
+&nbsp; * alt allele nucleotides being added in the observed allele between
+&nbsp; * the two nucleotide positions given in the reference allele. When
+&nbsp; * the start is less than the end, it means that the nucleotides
+&nbsp; * in the reference allele from position start to end (inclusive) are
+&nbsp; * no longer present in the observed allele and the alt alelle nucleotides
+&nbsp; * (if any) are present in that location instead.
+&nbsp; * see : https://m.ensembl.org/info/docs/tools/vep/vep_formats.html#input
+&nbsp; */
+&nbsp;
+&nbsp;    public static GenomicVariant fromRegion(String region) {
+<b class="nc">&nbsp;        if (!isRegion(region)) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;region is invalid&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        GenomicVariant.RefType refType = null; // WARNING : refType must be determined in order for other utility functions to work correctly - perhaps this should alwyas be GENOMIC unless &quot;M&quot; is a valid chromosome</b>
+<b class="nc">&nbsp;        String chr = getPattern(&quot;^\\d{1,2}(?=:)&quot;, region);</b>
+<b class="nc">&nbsp;        Integer start = Integer.parseInt(getPattern(&quot;(?&lt;=:)\\d+(?=-)&quot;, region));</b>
+<b class="nc">&nbsp;        Integer end = Integer.parseInt(getPattern(&quot;(?&lt;=-)\\d+(?=:)&quot;, region));</b>
+<b class="nc">&nbsp;        GenomicVariant.Type type = null; // WARNING : type must be determined in order for other utility functions to work correctly</b>
+<b class="nc">&nbsp;        String ref = null;</b>
+<b class="nc">&nbsp;        String alt = getPattern(&quot;(?&lt;=:-?1/)[ATCG]+|-$&quot;, region);</b>
+<b class="nc">&nbsp;        return new GenomicVariant(chr, refType, start, end, type, ref, alt);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String toRegion(GenomicVariant variant) {
+<b class="pc">&nbsp;        switch (variant.getType()) {</b>
+&nbsp;            case SUBSTITUTION:
+&nbsp;            case INDEL:
+<b class="nc">&nbsp;                return variant.getChromosome() + &quot;:&quot; + variant.getStart() + &quot;-&quot; + variant.getEnd() + &quot;:1/&quot; + variant.getAlt();</b>
+&nbsp;            case INSERTION:
+<b class="nc">&nbsp;                return variant.getChromosome() + &quot;:&quot; + variant.getEnd() + &quot;-&quot; + variant.getStart() + &quot;:1/&quot; + variant.getAlt();</b>
+&nbsp;            case DELETION:
+<b class="nc">&nbsp;                return variant.getChromosome() + &quot;:&quot; + variant.getStart() + &quot;-&quot; + variant.getEnd() + &quot;:1/-&quot;;</b>
+&nbsp;            default:
+<b class="nc">&nbsp;                throw new InvalidHgvsException(); // Never reached</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static ArrayList&lt;String&gt; getMafs(String maf_file) {
+<b class="nc">&nbsp;        if (!isMafFile(maf_file)) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;maf file not found&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        ArrayList&lt;String&gt; list = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            list = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;            File file = new File(maf_file);</b>
+<b class="nc">&nbsp;            Scanner sc = new Scanner(file);</b>
+<b class="nc">&nbsp;            while (sc.hasNextLine()) {</b>
+<b class="nc">&nbsp;                String line = sc.nextLine();</b>
+<b class="nc">&nbsp;                if (!line.startsWith(&quot;#&quot;)) {</b>
+<b class="nc">&nbsp;                    list.add(line);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            sc.close();</b>
+<b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return list;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // WARNING : the Genomic Variant returned by this function has an undetermined type (null). This prevents proper function of other utility functions in this class.
+&nbsp;    public static GenomicVariant fromMaf(String maf, String[] key) {
+<b class="nc">&nbsp;        String[] arr = maf.split(&quot;\\s&quot;);</b>
+&nbsp;        // [Chromosome, Start_Position, End_Position, Reference_Allele, Tumor_Seq_Allele]
+<b class="nc">&nbsp;        int chr_index = 0;</b>
+<b class="nc">&nbsp;        int start_index = 0;</b>
+<b class="nc">&nbsp;        int end_index = 0;</b>
+<b class="nc">&nbsp;        int ref_index = 0;</b>
+<b class="nc">&nbsp;        int alt_index = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; key.length; i++) {</b>
+<b class="nc">&nbsp;            switch (key[i]) {</b>
+&nbsp;                case &quot;Chromosome&quot;:
+<b class="nc">&nbsp;                    chr_index = i;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case &quot;Start_Position&quot;:
+<b class="nc">&nbsp;                    start_index = i;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case &quot;End_Position&quot;:
+<b class="nc">&nbsp;                    end_index = i;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case &quot;Reference_Allele&quot;:
+<b class="nc">&nbsp;                    ref_index = i;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case &quot;Tumor_Seq_Allele&quot;:
+<b class="nc">&nbsp;                    alt_index = i;</b>
+&nbsp;                    break;
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return new GenomicVariant(arr[chr_index],</b>
+&nbsp;                null,
+<b class="nc">&nbsp;                Integer.parseInt(arr[start_index]),</b>
+<b class="nc">&nbsp;                Integer.parseInt(arr[end_index]),</b>
+&nbsp;                null,
+&nbsp;                arr[ref_index],
+&nbsp;                arr[alt_index]);
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean isRegion(String variant) {
+<b class="nc">&nbsp;        return variant.contains(&quot;/&quot;);</b>
+&nbsp;        // TODO : do fuller validation of region format, such as below (however, the line below does not cover X and Y chromosomes)
+&nbsp;        // return Pattern.matches(&quot;^\\d{1,2}:\\d+-\\d+:-?1/([ATCG]+|-)$&quot;, variant);
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean isMafFile(String file) {
+<b class="nc">&nbsp;        return Pattern.matches(&quot;^[\\w\\-\\./]+(\\.maf)|^[\\w\\-\\./]+(\\.tsv)|^[\\w\\-\\./]+(\\.txt)$$&quot;, file);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Hgvs formatted variants of several types are parsed for provided Reference Alleles
+&nbsp;    // empty string is returned if no reference allele can be extracted
+&nbsp;    public static String providedReferenceAlleleFromHgvs(String hgvs) {
+&nbsp;        // Substitutions require a single nucleotide reference sequence:
+&nbsp;        // 1g.123456A&gt;G  (chromosome 1, genomic position 123456, reference sequence A, substituted with G)
+&nbsp;        // ref: http://varnomen.hgvs.org/recommendations/DNA/variant/substitution/
+<b class="fc">&nbsp;        String match = getPattern(&quot;(?&lt;=[^ATGC])[ATGC]&gt;&quot;, hgvs);</b>
+<b class="fc">&nbsp;        if (match != null &amp;&amp; match.trim().length() &gt; 0) {</b>
+<b class="fc">&nbsp;            return match.substring(0, 1);</b>
+&nbsp;        }
+&nbsp;        // Deletion-Insertions are recommended to *not* include specified deleted seqeunce/Reference Allele, but it is not prohibited.
+&nbsp;        // Examples showing specified deleted sequence/ReferenceAllele are mentioned here : http://varnomen.hgvs.org/recommendations/DNA/variant/delins/
+&nbsp;        // 1g.123456_123457delAAinsTT (chromosome 1, genomic positions 123456-123457, reference sequence AA deleted, sequence TT inserted in place)
+&nbsp;        // recommended representation omits the deleted nucleotides &quot;1g.123456_123457delinsTT&quot;
+<b class="fc">&nbsp;        match = getPattern(&quot;del[ATGC]*ins&quot;, hgvs);</b>
+<b class="fc">&nbsp;        if (match != null &amp;&amp; match.trim().length() &gt; 0) {</b>
+<b class="fc">&nbsp;            return match.trim().substring(3, match.trim().length() - 3);</b>
+&nbsp;        }
+&nbsp;        // Deletions are recommended to *not* include specified deleted seqeunce/Reference Allele, but it is not prohibited.
+&nbsp;        // An example showing a specified deletion is mentioned here : http://varnomen.hgvs.org/recommendations/DNA/variant/alleles/
+&nbsp;        // 1g.123456_123457delAA (chromosome 1, genomic positions 123456-123457, reference sequence AA deleted)
+&nbsp;        // recommended representation omits the deleted nucleotides &quot;1g.123456_123457del&quot;
+<b class="fc">&nbsp;        match = getPattern(&quot;del[ATGC]*&quot;, hgvs);</b>
+<b class="fc">&nbsp;        if (match != null &amp;&amp; match.trim().length() &gt; 0) {</b>
+<b class="fc">&nbsp;            return match.trim().substring(3);</b>
+&nbsp;        }
+&nbsp;        // Duplications are not supported by this system, but would be handled with logic similar to deletions
+&nbsp;        // Examples showing specified deleted sequence/ReferenceAllele are mentioned here : http://varnomen.hgvs.org/recommendations/DNA/variant/duplication/
+&nbsp;        // 1g.123456_123457dupAA (chromosome 1, genomic positions 123456-123457, reference sequence AA duplicated)
+&nbsp;        // Hgvs repeats and inversions are not supported by this system and this method does not attempt to parse these formats
+&nbsp;        //
+&nbsp;        // no reference allele was found
+<b class="fc">&nbsp;        return &quot;&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // postcondition: returns a substring of hgvs that matched to the regex, or null if not matched
+&nbsp;    private static String getPattern(String regex, String hgvs) {
+<b class="fc">&nbsp;        Pattern p = Pattern.compile(regex);</b>
+<b class="fc">&nbsp;        Matcher m = p.matcher(hgvs);</b>
+<b class="fc">&nbsp;        if (m.find()) {</b>
+<b class="fc">&nbsp;            return hgvs.substring(m.start(), m.end());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static GenomicVariant.RefType getRefTypeFromHgvs(String hgvs) {
+<b class="fc">&nbsp;        String refTypeString = getPattern(&quot;(?&lt;=:)[cgmnopr](?=.)&quot;, hgvs);</b>
+<b class="fc">&nbsp;        if (refTypeString == null || refTypeString.trim().length() == 0) {</b>
+<b class="nc">&nbsp;            throw new InvalidHgvsException();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        switch (refTypeString.trim()) {</b>
+&nbsp;            case &quot;g&quot;:
+<b class="fc">&nbsp;                return GenomicVariant.RefType.GENOMIC;</b>
+&nbsp;            case &quot;m&quot;:
+&nbsp;                // MITOCHONDRIAL ref type not yet supported
+&nbsp;            case &quot;c&quot;:
+&nbsp;            case &quot;n&quot;:
+&nbsp;            case &quot;o&quot;:
+&nbsp;            case &quot;p&quot;:
+&nbsp;            case &quot;r&quot;:
+&nbsp;            default:
+&nbsp;                // GenomicVariant representation does not accept other HGVS types (coding_dna, non_coding_dna, circular_genomic_reference, protein, rna_transcript)
+<b class="nc">&nbsp;                throw new RefTypeNotSupportedException();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private static String getChrFromHgvs(String hgvs) {
+<b class="fc">&nbsp;        String chr = getPattern(&quot;^.+(?=:)&quot;, hgvs);</b>
+<b class="fc">&nbsp;        if (chr == null || chr.trim().length() == 0) {</b>
+<b class="nc">&nbsp;            throw new InvalidHgvsException();</b>
+&nbsp;        }
+&nbsp;        // valid chromosomes are &quot;X&quot;, &quot;Y&quot;, or any positive integer
+<b class="fc">&nbsp;        if (!chr.equalsIgnoreCase(&quot;X&quot;) &amp;&amp; !chr.equalsIgnoreCase(&quot;Y&quot;)) {</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                if (Integer.parseInt(chr) &lt;= 0) {</b>
+<b class="nc">&nbsp;                    throw new InvalidHgvsException(&quot;Chromosome reference is negative or zero&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                throw new InvalidHgvsException(e);</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return chr;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static Integer getStartFromHgvs(String hgvs) {
+<b class="fc">&nbsp;        String startString = getPattern(&quot;(?&lt;=\\.)\\d+(?=[_ATGC]|del)&quot;, hgvs);</b>
+<b class="fc">&nbsp;        if (startString == null || startString.trim().length() == 0) {</b>
+<b class="nc">&nbsp;            throw new InvalidHgvsException(&quot;Start position could not be parsed&quot;);</b>
+&nbsp;        }
+&nbsp;        try {
+<b class="fc">&nbsp;            return Integer.parseInt(startString);</b>
+<b class="nc">&nbsp;        } catch (NumberFormatException e) {</b>
+&nbsp;            // position is out of range for Integer
+<b class="nc">&nbsp;            throw new InvalidHgvsException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private static Integer getEndFromHgvs(String hgvs, Integer start) {
+<b class="fc">&nbsp;        String endString = getPattern(&quot;(?&lt;=_)\\d+(?=[a-z]+)&quot;, hgvs);</b>
+<b class="fc">&nbsp;        if (endString == null || endString.trim().length() == 0) {</b>
+<b class="fc">&nbsp;            return start;</b>
+&nbsp;        }
+&nbsp;        try {
+<b class="fc">&nbsp;            return Integer.parseInt(endString);</b>
+<b class="nc">&nbsp;        } catch (NumberFormatException e) {</b>
+&nbsp;            // position is out of range for Integer
+<b class="nc">&nbsp;            throw new InvalidHgvsException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private static GenomicVariant.Type getTypeFromHgvs(String hgvs) {
+<b class="fc">&nbsp;        String type = getPattern(&quot;(?&lt;=\\d+[ATGC]?)[a-z&gt;]+(?=[ATCG]*)&quot;, hgvs);</b>
+<b class="fc">&nbsp;        if (type == null || type.trim().length() == 0) {</b>
+<b class="nc">&nbsp;            throw new InvalidHgvsException(&quot;variant type could not be parsed&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        switch(type) {</b>
+&nbsp;            case &quot;&gt;&quot;:
+<b class="fc">&nbsp;                return GenomicVariant.Type.SUBSTITUTION;</b>
+&nbsp;            case &quot;ins&quot;:
+<b class="fc">&nbsp;                return GenomicVariant.Type.INSERTION;</b>
+&nbsp;            case &quot;del&quot;:
+<b class="fc">&nbsp;                return GenomicVariant.Type.DELETION;</b>
+&nbsp;            case &quot;delins&quot;:
+<b class="nc">&nbsp;                return GenomicVariant.Type.INDEL;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        throw new TypeNotSupportedException();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static String sameLengthUnknownNucleotideString(String s) {
+<b class="nc">&nbsp;        if (s == null || s.trim().length() == 0) {</b>
+<b class="nc">&nbsp;            return &quot;&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return String.join(&quot;&quot;, Collections.nCopies(s.trim().length(), &quot;X&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static String getRefFromHgvs(String hgvs, GenomicVariant.Type type) {
+&nbsp;        String s;
+<b class="fc">&nbsp;        switch(type) {</b>
+&nbsp;            case SUBSTITUTION:
+<b class="fc">&nbsp;                s = getPattern(&quot;(?&lt;=\\d+)[ATCG]+(?=&gt;)&quot;, hgvs);</b>
+<b class="fc">&nbsp;                if (s == null || s.trim().length() == 0) {</b>
+<b class="nc">&nbsp;                    throw new InvalidHgvsException(&quot;reference allele in substitution could not be parsed&quot;);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                return s.trim();</b>
+&nbsp;            case INSERTION:
+<b class="fc">&nbsp;                return &quot;-&quot;;</b>
+&nbsp;            case DELETION:
+<b class="fc">&nbsp;                s = getPattern(&quot;(?&lt;=[a-z+&gt;])[ATCG]*$&quot;, hgvs);</b>
+<b class="fc">&nbsp;                if (s == null || s.trim().length() == 0) {</b>
+<b class="nc">&nbsp;                    return &quot;-&quot;;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                return s.trim();</b>
+&nbsp;            case INDEL:
+&nbsp;                // use a string of &quot;X&quot; equal to length of alt allele
+&nbsp;                // TODO : check if this is used anywhere and drop this if not .. also check if this is needed above for DELETION
+<b class="nc">&nbsp;                s = getPattern(&quot;(?&lt;=[a-z+&gt;])[ATCG]+$&quot;, hgvs);</b>
+<b class="nc">&nbsp;                return sameLengthUnknownNucleotideString(s);</b>
+&nbsp;            default:
+<b class="nc">&nbsp;                throw new InvalidHgvsException(); // Never reached</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private static String getAltFromHgvs(String hgvs, GenomicVariant.Type type) {
+&nbsp;        String s;
+<b class="fc">&nbsp;        switch(type) {</b>
+&nbsp;            case SUBSTITUTION:
+&nbsp;            case INSERTION:
+&nbsp;            case INDEL:
+<b class="fc">&nbsp;                s  = getPattern(&quot;(?&lt;=[a-z+&gt;])[ATCG]+$&quot;, hgvs);</b>
+<b class="fc">&nbsp;                if (s == null || s.trim().length() == 0) {</b>
+<b class="nc">&nbsp;                    return &quot;-&quot;;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                return s.trim();</b>
+&nbsp;            case DELETION:
+<b class="fc">&nbsp;                return &quot;-&quot;;</b>
+&nbsp;            default:
+<b class="nc">&nbsp;                throw new InvalidHgvsException(); // Never reached</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,163 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PfamController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.web</a>
+</div>
+
+<h1>Coverage Summary for Class: PfamController (org.cbioportal.genome_nexus.web)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PfamController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.web;
+&nbsp;
+&nbsp;import io.swagger.annotations.Api;
+&nbsp;import io.swagger.annotations.ApiOperation;
+&nbsp;import io.swagger.annotations.ApiParam;
+&nbsp;import org.cbioportal.genome_nexus.model.PfamDomain;
+&nbsp;import org.cbioportal.genome_nexus.service.PfamDomainService;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.PfamDomainNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.web.config.PublicApi;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Selcuk Onur Sumer
+&nbsp; */
+&nbsp;@PublicApi
+&nbsp;@RestController // shorthand for @Controller, @ResponseBody
+&nbsp;@CrossOrigin(origins=&quot;*&quot;) // allow all cross-domain requests
+&nbsp;@RequestMapping(value= &quot;/&quot;)
+&nbsp;@Api(tags = &quot;pfam-controller&quot;, description = &quot;PFAM Controller&quot;)
+&nbsp;public class PfamController
+&nbsp;{
+&nbsp;    private final PfamDomainService pfamDomainService;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public PfamController(PfamDomainService pfamDomainService)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.pfamDomainService = pfamDomainService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves PFAM domains by PFAM domain accession IDs&quot;,
+&nbsp;        nickname = &quot;fetchPfamDomainsByPfamAccessionPOST&quot;)
+&nbsp;    @RequestMapping(value = &quot;/pfam/domain&quot;,
+&nbsp;        method = RequestMethod.POST,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public List&lt;PfamDomain&gt; fetchPfamDomainsByPfamAccessionPOST(
+&nbsp;        @ApiParam(value = &quot;List of PFAM domain accession IDs. For example [\&quot;PF02827\&quot;,\&quot;PF00093\&quot;,\&quot;PF15276\&quot;]&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @RequestBody List&lt;String&gt; pfamAccessions)
+&nbsp;    {
+<b class="fc">&nbsp;        return this.pfamDomainService.getPfamDomainsByPfamAccession(pfamAccessions);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves a PFAM domain by a PFAM domain ID&quot;,
+&nbsp;        nickname = &quot;fetchPfamDomainsByAccessionGET&quot;)
+&nbsp;    @RequestMapping(value = &quot;/pfam/domain/{pfamAccession}&quot;,
+&nbsp;        method = RequestMethod.GET,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public PfamDomain fetchPfamDomainsByAccessionGET(
+&nbsp;        @ApiParam(value = &quot;A PFAM domain accession ID. For example PF02827&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @PathVariable String pfamAccession) throws PfamDomainNotFoundException
+&nbsp;    {
+<b class="fc">&nbsp;        return this.pfamDomainService.getPfamDomainByPfamAccession(pfamAccession);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

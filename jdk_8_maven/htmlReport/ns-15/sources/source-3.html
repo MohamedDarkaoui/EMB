@@ -1,0 +1,242 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CancerHotspotsController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.web</a>
+</div>
+
+<h1>Coverage Summary for Class: CancerHotspotsController (org.cbioportal.genome_nexus.web)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CancerHotspotsController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12,5%
+  </span>
+  <span class="absValue">
+    (1/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22,2%
+  </span>
+  <span class="absValue">
+    (2/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.web;
+&nbsp;
+&nbsp;import io.swagger.annotations.Api;
+&nbsp;import io.swagger.annotations.ApiOperation;
+&nbsp;import io.swagger.annotations.ApiParam;
+&nbsp;import org.cbioportal.genome_nexus.model.GenomicLocation;
+&nbsp;import org.cbioportal.genome_nexus.model.Hotspot;
+&nbsp;import org.cbioportal.genome_nexus.model.ProteinLocation;
+&nbsp;import org.cbioportal.genome_nexus.model.AggregatedHotspots;
+&nbsp;import org.cbioportal.genome_nexus.service.CancerHotspotService;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.CancerHotspotsWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.web.config.InternalApi;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@InternalApi
+&nbsp;@RestController // shorthand for @Controller, @ResponseBody
+&nbsp;@CrossOrigin(origins=&quot;*&quot;) // allow all cross-domain requests
+&nbsp;@RequestMapping(value= &quot;/&quot;)
+&nbsp;@Api(tags = &quot;cancer-hotspots-controller&quot;, description = &quot;Cancer Hotspots Controller&quot;)
+&nbsp;public class CancerHotspotsController
+&nbsp;{
+&nbsp;    private final CancerHotspotService hotspotService;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public CancerHotspotsController(CancerHotspotService hotspotService)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.hotspotService = hotspotService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves hotspot annotations for a specific variant&quot;,
+&nbsp;        nickname = &quot;fetchHotspotAnnotationByHgvsGET&quot;)
+&nbsp;    @RequestMapping(value = &quot;/cancer_hotspots/hgvs/{variant:.+}&quot;,
+&nbsp;        method = RequestMethod.GET,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public List&lt;Hotspot&gt; fetchHotspotAnnotationByHgvsGET(
+&nbsp;        @ApiParam(value=&quot;A variant. For example 7:g.140453136A&gt;T&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @PathVariable String variant)
+&nbsp;        throws VariantAnnotationNotFoundException, VariantAnnotationWebServiceException,
+&nbsp;        CancerHotspotsWebServiceException
+&nbsp;    {
+<b class="nc">&nbsp;        return this.hotspotService.getHotspotAnnotationsByVariant(variant);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves hotspot annotations for the provided list of variants&quot;,
+&nbsp;        nickname = &quot;fetchHotspotAnnotationByHgvsPOST&quot;)
+&nbsp;    @RequestMapping(value = &quot;/cancer_hotspots/hgvs&quot;,
+&nbsp;        method = RequestMethod.POST,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public List&lt;AggregatedHotspots&gt; fetchHotspotAnnotationByHgvsPOST(
+&nbsp;        @ApiParam(value=&quot;List of variants. For example [\&quot;7:g.140453136A&gt;T\&quot;,\&quot;12:g.25398285C&gt;A\&quot;]&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @RequestBody List&lt;String&gt; variants) throws CancerHotspotsWebServiceException
+&nbsp;    {
+<b class="nc">&nbsp;        return this.hotspotService.getHotspotAnnotationsByVariants(variants);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves hotspot annotations for a specific genomic location&quot;,
+&nbsp;        nickname = &quot;fetchHotspotAnnotationByGenomicLocationGET&quot;)
+&nbsp;    @RequestMapping(value = &quot;/cancer_hotspots/genomic/{genomicLocation:.+}&quot;,
+&nbsp;        method = RequestMethod.GET,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public List&lt;Hotspot&gt; fetchHotspotAnnotationByGenomicLocationGET(
+&nbsp;        @ApiParam(value=&quot;A genomic location. For example 7,140453136,140453136,A,T&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @PathVariable String genomicLocation)
+&nbsp;        throws VariantAnnotationNotFoundException, VariantAnnotationWebServiceException,
+&nbsp;        CancerHotspotsWebServiceException
+&nbsp;    {
+<b class="nc">&nbsp;        return this.hotspotService.getHotspotAnnotationsByGenomicLocation(genomicLocation);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves hotspot annotations for the provided list of genomic locations&quot;,
+&nbsp;        nickname = &quot;fetchHotspotAnnotationByGenomicLocationPOST&quot;)
+&nbsp;    @RequestMapping(value = &quot;/cancer_hotspots/genomic&quot;,
+&nbsp;        method = RequestMethod.POST,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public List&lt;AggregatedHotspots&gt; fetchHotspotAnnotationByGenomicLocationPOST(
+&nbsp;        @ApiParam(value=&quot;List of genomic locations.&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @RequestBody List&lt;GenomicLocation&gt; genomicLocations) throws CancerHotspotsWebServiceException
+&nbsp;    {
+<b class="nc">&nbsp;        return this.hotspotService.getHotspotAnnotationsByGenomicLocations(genomicLocations);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves hotspot annotations for the provided transcript ID&quot;,
+&nbsp;        nickname = &quot;fetchHotspotAnnotationByTranscriptIdGET&quot;)
+&nbsp;    @RequestMapping(value = &quot;/cancer_hotspots/transcript/{transcriptId}&quot;,
+&nbsp;        method = RequestMethod.GET,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public List&lt;Hotspot&gt; fetchHotspotAnnotationByTranscriptIdGET(
+&nbsp;        @ApiParam(value=&quot;A Transcript Id. For example ENST00000288602&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @PathVariable String transcriptId)
+&nbsp;        throws VariantAnnotationNotFoundException, VariantAnnotationWebServiceException,
+&nbsp;        CancerHotspotsWebServiceException
+&nbsp;    {
+<b class="nc">&nbsp;        return this.hotspotService.getHotspots(transcriptId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves hotspot annotations for the provided list of transcript ID&quot;,
+&nbsp;        nickname = &quot;fetchHotspotAnnotationByTranscriptIdPOST&quot;)
+&nbsp;    @RequestMapping(value = &quot;/cancer_hotspots/transcript&quot;,
+&nbsp;        method = RequestMethod.POST,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public List&lt;AggregatedHotspots&gt; fetchHotspotAnnotationByTranscriptIdPOST(
+&nbsp;        @ApiParam(value=&quot;List of transcript Id. For example [\&quot;ENST00000288602\&quot;,\&quot;ENST00000256078\&quot;]&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @RequestBody List&lt;String&gt; transcriptIds)
+&nbsp;        throws CancerHotspotsWebServiceException
+&nbsp;    {
+<b class="nc">&nbsp;        return this.hotspotService.getHotspotsByTranscriptIds(transcriptIds);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves hotspot annotations for the provided list of transcript id, protein location and mutation type&quot;,
+&nbsp;        nickname = &quot;fetchHotspotAnnotationByProteinLocationsPOST&quot;)
+&nbsp;    @RequestMapping(value = &quot;/cancer_hotspots/proteinLocations&quot;,
+&nbsp;        method = RequestMethod.POST,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public List&lt;AggregatedHotspots&gt; fetchHotspotAnnotationByProteinLocationsPOST(
+&nbsp;        @ApiParam(value=&quot;List of transcript id, protein start location, protein end location, mutation type. The mutation types are limited to &#39;Missense_Mutation&#39;, &#39;In_Frame_Ins&#39;, &#39;In_Frame_Del&#39;, &#39;Splice_Site&#39;, and &#39;Splice_Region&#39;&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @RequestBody List&lt;ProteinLocation&gt; proteinLocations) throws CancerHotspotsWebServiceException
+&nbsp;    {
+<b class="nc">&nbsp;        return this.hotspotService.getHotspotAnnotationsByProteinLocations(proteinLocations);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

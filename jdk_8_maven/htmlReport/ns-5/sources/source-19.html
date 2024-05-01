@@ -1,0 +1,362 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MutationAssessor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.model</a>
+</div>
+
+<h1>Coverage Summary for Class: MutationAssessor (org.cbioportal.genome_nexus.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MutationAssessor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/49)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/49)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.model;
+&nbsp;
+&nbsp;import org.springframework.data.annotation.Id;
+&nbsp;import org.springframework.data.mongodb.core.mapping.Document;
+&nbsp;import org.springframework.data.mongodb.core.mapping.Field;
+&nbsp;
+&nbsp;@Document(collection = &quot;mutation_assessor.annotation&quot;)
+<b class="nc">&nbsp;public class MutationAssessor</b>
+&nbsp;{
+&nbsp;    @Id
+&nbsp;    private String input;
+&nbsp;
+&nbsp;    private String hgvs;
+&nbsp;
+&nbsp;    private String hugoSymbol;
+&nbsp;
+&nbsp;    private String referenceGenomeVariant;
+&nbsp;    private String referenceGenomeVariantType;
+&nbsp;
+&nbsp;    private String functionalImpact;
+&nbsp;    private Double functionalImpactScore;
+&nbsp;
+&nbsp;    private String msaLink;
+&nbsp;    private String pdbLink;
+&nbsp;
+&nbsp;    private Double variantConservationScore;
+&nbsp;    private Double variantSpecificityScore;
+&nbsp;
+&nbsp;    private String mappingIssue;
+&nbsp;    private String variant;
+&nbsp;    private String uniprotId;
+&nbsp;    private String refseqId;
+&nbsp;
+&nbsp;    private Double msaGaps;
+&nbsp;    private Integer msaHeight;
+&nbsp;
+&nbsp;    private String codonStartPosition;
+&nbsp;    private Integer uniprotPosition;
+&nbsp;    private String uniprotResidue;
+&nbsp;    private Integer refseqPosition;
+&nbsp;    private String refseqResidue;
+&nbsp;
+&nbsp;    private Integer cosmicCount;
+&nbsp;    private Integer snpCount;
+&nbsp;
+&nbsp;    public String getInput() {
+<b class="nc">&nbsp;        return input;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setInput(String input) {
+<b class="nc">&nbsp;        this.input = input;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getHgvs() {
+<b class="nc">&nbsp;        return hgvs;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setHgvs(String hgvs) {
+<b class="nc">&nbsp;        this.hgvs = hgvs;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;gene&quot;)
+&nbsp;    public String getHugoSymbol() {
+<b class="nc">&nbsp;        return hugoSymbol;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setHugoSymbol(String hugoSymbol) {
+<b class="nc">&nbsp;        this.hugoSymbol = hugoSymbol;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;rgaa&quot;)
+&nbsp;    public String getReferenceGenomeVariant() {
+<b class="nc">&nbsp;        return referenceGenomeVariant;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setReferenceGenomeVariant(String referenceGenomeVariant) {
+<b class="nc">&nbsp;        this.referenceGenomeVariant = referenceGenomeVariant;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;rgvt&quot;)
+&nbsp;    public String getReferenceGenomeVariantType() {
+<b class="nc">&nbsp;        return referenceGenomeVariantType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setReferenceGenomeVariantType(String referenceGenomeVariantType) {
+<b class="nc">&nbsp;        this.referenceGenomeVariantType = referenceGenomeVariantType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;F_impact&quot;)
+&nbsp;    public String getFunctionalImpact() {
+<b class="nc">&nbsp;        return functionalImpact;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFunctionalImpact(String functionalImpact) {
+<b class="nc">&nbsp;        this.functionalImpact = functionalImpact;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;F_score&quot;)
+&nbsp;    public Double getFunctionalImpactScore() {
+<b class="nc">&nbsp;        return functionalImpactScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFunctionalImpactScore(Double functionalImpactScore) {
+<b class="nc">&nbsp;        this.functionalImpactScore = functionalImpactScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;msa&quot;)
+&nbsp;    public String getMsaLink() {
+<b class="nc">&nbsp;        return msaLink;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMsaLink(String msaLink) {
+<b class="nc">&nbsp;        this.msaLink = msaLink;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;pdb&quot;)
+&nbsp;    public String getPdbLink() {
+<b class="nc">&nbsp;        return pdbLink;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPdbLink(String pdbLink) {
+<b class="nc">&nbsp;        this.pdbLink = pdbLink;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;vc_score&quot;)
+&nbsp;    public Double getVariantConservationScore() {
+<b class="nc">&nbsp;        return variantConservationScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setVariantConservationScore(Double variantConservationScore) {
+<b class="nc">&nbsp;        this.variantConservationScore = variantConservationScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;vs_score&quot;)
+&nbsp;    public Double getVariantSpecificityScore() {
+<b class="nc">&nbsp;        return variantSpecificityScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setVariantSpecificityScore(Double variantSpecificityScore) {
+<b class="nc">&nbsp;        this.variantSpecificityScore = variantSpecificityScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;info&quot;)
+&nbsp;    public String getMappingIssue() {
+<b class="nc">&nbsp;        return mappingIssue;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMappingIssue(String mappingIssue) {
+<b class="nc">&nbsp;        this.mappingIssue = mappingIssue;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;var&quot;)
+&nbsp;    public String getVariant() {
+<b class="nc">&nbsp;        return variant;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setVariant(String variant) {
+<b class="nc">&nbsp;        this.variant = variant;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;uprot&quot;)
+&nbsp;    public String getUniprotId() {
+<b class="nc">&nbsp;        return uniprotId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUniprotId(String uniprotId) {
+<b class="nc">&nbsp;        this.uniprotId = uniprotId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;rsprot&quot;)
+&nbsp;    public String getRefseqId() {
+<b class="nc">&nbsp;        return refseqId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRefseqId(String refseqId) {
+<b class="nc">&nbsp;        this.refseqId = refseqId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;gaps&quot;)
+&nbsp;    public Double getMsaGaps() {
+<b class="nc">&nbsp;        return msaGaps;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMsaGaps(Double msaGaps) {
+<b class="nc">&nbsp;        this.msaGaps = msaGaps;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;msa_height&quot;)
+&nbsp;    public Integer getMsaHeight() {
+<b class="nc">&nbsp;        return msaHeight;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMsaHeight(Integer msaHeight) {
+<b class="nc">&nbsp;        this.msaHeight = msaHeight;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;chr&quot;)
+&nbsp;    public String getCodonStartPosition() {
+<b class="nc">&nbsp;        return codonStartPosition;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCodonStartPosition(String codonStartPosition) {
+<b class="nc">&nbsp;        this.codonStartPosition = codonStartPosition;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;up_pos&quot;)
+&nbsp;    public Integer getUniprotPosition() {
+<b class="nc">&nbsp;        return uniprotPosition;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUniprotPosition(Integer uniprotPosition) {
+<b class="nc">&nbsp;        this.uniprotPosition = uniprotPosition;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;up_res&quot;)
+&nbsp;    public String getUniprotResidue() {
+<b class="nc">&nbsp;        return uniprotResidue;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUniprotResidue(String uniprotResidue) {
+<b class="nc">&nbsp;        this.uniprotResidue = uniprotResidue;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;rs_pos&quot;)
+&nbsp;    public Integer getRefseqPosition() {
+<b class="nc">&nbsp;        return refseqPosition;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRefseqPosition(Integer refseqPosition) {
+<b class="nc">&nbsp;        this.refseqPosition = refseqPosition;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;rs_res&quot;)
+&nbsp;    public String getRefseqResidue() {
+<b class="nc">&nbsp;        return refseqResidue;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRefseqResidue(String refseqResidue) {
+<b class="nc">&nbsp;        this.refseqResidue = refseqResidue;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;cnt_cosmic&quot;)
+&nbsp;    public Integer getCosmicCount() {
+<b class="nc">&nbsp;        return cosmicCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCosmicCount(Integer cosmicCount) {
+<b class="nc">&nbsp;        this.cosmicCount = cosmicCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Field(&quot;cnt_snps&quot;)
+&nbsp;    public Integer getSnpCount() {
+<b class="nc">&nbsp;        return snpCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSnpCount(Integer snpCount) {
+<b class="nc">&nbsp;        this.snpCount = snpCount;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

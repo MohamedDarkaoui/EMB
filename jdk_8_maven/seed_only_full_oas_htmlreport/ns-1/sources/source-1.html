@@ -1,0 +1,261 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EmbeddedEvoMasterController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">em.embedded.org.cbioportal.genome_nexus</a>
+</div>
+
+<h1>Coverage Summary for Class: EmbeddedEvoMasterController (em.embedded.org.cbioportal.genome_nexus)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EmbeddedEvoMasterController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    53,3%
+  </span>
+  <span class="absValue">
+    (8/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    65,2%
+  </span>
+  <span class="absValue">
+    (30/46)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package em.embedded.org.cbioportal.genome_nexus;
+&nbsp;
+&nbsp;import com.mongodb.MongoClient;
+&nbsp;import org.cbioportal.genome_nexus.GenomeNexusAnnotation;
+&nbsp;import org.evomaster.client.java.controller.EmbeddedSutController;
+&nbsp;import org.evomaster.client.java.controller.InstrumentedSutStarter;
+&nbsp;import org.evomaster.client.java.controller.api.dto.auth.AuthenticationDto;
+&nbsp;import org.evomaster.client.java.controller.api.dto.SutInfoDto;
+&nbsp;import org.evomaster.client.java.sql.DbSpecification;
+&nbsp;import org.evomaster.client.java.controller.problem.ProblemInfo;
+&nbsp;import org.evomaster.client.java.controller.problem.RestProblem;
+&nbsp;import org.springframework.boot.SpringApplication;
+&nbsp;import org.springframework.context.ConfigurableApplicationContext;
+&nbsp;import org.testcontainers.containers.GenericContainer;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class used to start/stop the SUT. This will be controller by the EvoMaster process
+&nbsp; */
+&nbsp;public class EmbeddedEvoMasterController extends EmbeddedSutController {
+&nbsp;
+&nbsp;    public static void main(String[] args) {
+&nbsp;
+<b class="nc">&nbsp;        int port = 40410;</b>
+<b class="nc">&nbsp;        if (args.length &gt; 0) {</b>
+<b class="nc">&nbsp;            port = Integer.parseInt(args[0]);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        EmbeddedEvoMasterController controller = new EmbeddedEvoMasterController(port);</b>
+<b class="nc">&nbsp;        InstrumentedSutStarter starter = new InstrumentedSutStarter(controller);</b>
+&nbsp;
+<b class="nc">&nbsp;        starter.start();</b>
+&nbsp;        //controller.startSut();
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    private ConfigurableApplicationContext ctx;
+&nbsp;
+&nbsp;    private static final int MONGODB_PORT = 27017;
+&nbsp;
+&nbsp;    private static final String MONGODB_VERSION = &quot;3.6.2&quot;;
+&nbsp;
+&nbsp;    private static final String MONGODB_DATABASE_NAME = &quot;annotator&quot;;
+&nbsp;
+<b class="fc">&nbsp;    private static final GenericContainer mongodbContainer = new GenericContainer(&quot;mongo:&quot; + MONGODB_VERSION)</b>
+<b class="fc">&nbsp;            .withTmpFs(Collections.singletonMap(&quot;/data/db&quot;, &quot;rw&quot;))</b>
+<b class="fc">&nbsp;            .withExposedPorts(MONGODB_PORT);</b>
+&nbsp;
+&nbsp;
+&nbsp;    private MongoClient mongoClient;
+&nbsp;
+&nbsp;
+&nbsp;    public EmbeddedEvoMasterController() {
+<b class="fc">&nbsp;        this(0);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public EmbeddedEvoMasterController(int port) {</b>
+<b class="fc">&nbsp;        setControllerPort(port);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String startSut() {
+<b class="fc">&nbsp;        System.out.println(&quot;STARTING SUT &gt;&gt;&gt;&gt;&quot;);</b>
+<b class="fc">&nbsp;        mongodbContainer.start();</b>
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            mongoClient = new MongoClient(mongodbContainer.getContainerIpAddress(),</b>
+<b class="fc">&nbsp;                    mongodbContainer.getMappedPort(MONGODB_PORT));</b>
+&nbsp;
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;ERROR: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        String jacocoAgentPath = &quot;C:\\Users\\moham\\Desktop\\jacoco-0.8.12\\lib\\jacocoagent.jar&quot;;</b>
+<b class="fc">&nbsp;        String reportOutputPath = &quot;target/jacoco.exec&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        String[] springBootArgs = {</b>
+&nbsp;                &quot;--server.port=38888&quot;,
+<b class="fc">&nbsp;                &quot;--spring.data.mongodb.uri=mongodb://&quot; + mongodbContainer.getContainerIpAddress() + &quot;:&quot; + mongodbContainer.getMappedPort(MONGODB_PORT) + &quot;/&quot; + MONGODB_DATABASE_NAME,</b>
+&nbsp;                &quot;--spring.cache.type=NONE&quot;
+&nbsp;        };
+&nbsp;
+<b class="fc">&nbsp;        String[] newArgs = Arrays.copyOf(springBootArgs, springBootArgs.length + 2);</b>
+<b class="fc">&nbsp;        newArgs[springBootArgs.length] = &quot;-javaagent:&quot; + jacocoAgentPath + &quot;=destfile=&quot; + reportOutputPath;</b>
+<b class="fc">&nbsp;        newArgs[springBootArgs.length + 1] = &quot;--spring.profiles.active=test&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        ctx = SpringApplication.run(GenomeNexusAnnotation.class, newArgs);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;JVM Args: &quot; + Arrays.toString(newArgs));</b>
+<b class="fc">&nbsp;        return &quot;http://localhost:&quot; + getSutPort();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected int getSutPort() {
+<b class="fc">&nbsp;        return (Integer) ((Map) ctx.getEnvironment()</b>
+<b class="fc">&nbsp;                .getPropertySources().get(&quot;server.ports&quot;).getSource())</b>
+<b class="fc">&nbsp;                .get(&quot;local.server.port&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean isSutRunning() {
+<b class="nc">&nbsp;        return ctx != null &amp;&amp; ctx.isRunning();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void stopSut() {
+<b class="fc">&nbsp;        ctx.stop();</b>
+<b class="fc">&nbsp;        ctx.close();</b>
+&nbsp;
+<b class="fc">&nbsp;        mongoClient.close();</b>
+<b class="fc">&nbsp;        mongodbContainer.stop();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getPackagePrefixesToCover() {
+<b class="nc">&nbsp;        return &quot;org.cbioportal.genome_nexus.&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void resetStateOfSUT() {
+<b class="fc">&nbsp;        mongoClient.getDatabase(MONGODB_DATABASE_NAME).drop();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;DbSpecification&gt; getDbSpecifications() {
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;AuthenticationDto&gt; getInfoForAuthentication() {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ProblemInfo getProblemInfo() {
+<b class="nc">&nbsp;        return new RestProblem(</b>
+<b class="nc">&nbsp;                &quot;http://localhost:&quot; + getSutPort() + &quot;/v2/api-docs&quot;,</b>
+&nbsp;                null
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public SutInfoDto.OutputFormat getPreferredOutputFormat() {
+<b class="nc">&nbsp;        return SutInfoDto.OutputFormat.JAVA_JUNIT_4;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+<b class="nc">&nbsp;    public Object getMongoConnection() {return mongoClient;}</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

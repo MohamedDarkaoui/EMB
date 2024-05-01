@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > VariantTypeResolver</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.component.annotation</a>
+</div>
+
+<h1>Coverage Summary for Class: VariantTypeResolver (org.cbioportal.genome_nexus.component.annotation)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VariantTypeResolver</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,8%
+  </span>
+  <span class="absValue">
+    (15/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.component.annotation;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;@Component
+&nbsp;public class VariantTypeResolver
+&nbsp;{
+&nbsp;    private final GenomicLocationResolver genomicLocationResolver;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public VariantTypeResolver(GenomicLocationResolver genomicLocationResolver)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.genomicLocationResolver = genomicLocationResolver;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    public String resolve(VariantAnnotation variantAnnotation)
+&nbsp;    {
+<b class="fc">&nbsp;        String variantType = null;</b>
+&nbsp;
+<b class="fc">&nbsp;        String referenceAllele = this.genomicLocationResolver.resolveReferenceAllele(variantAnnotation);</b>
+<b class="fc">&nbsp;        String variantAllele = this.genomicLocationResolver.resolveVariantAllele(variantAnnotation);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (referenceAllele != null &amp;&amp;</b>
+&nbsp;            variantAllele != null)
+&nbsp;        {
+<b class="fc">&nbsp;            variantType = resolveVariantType(referenceAllele, variantAllele);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return variantType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    private String resolveVariantType(String referenceAllele, String variantAllele)
+&nbsp;    {
+<b class="fc">&nbsp;        String npType[] = {&quot;SNP&quot;, &quot;DNP&quot;, &quot;TNP&quot;};</b>
+&nbsp;
+<b class="fc">&nbsp;        Integer refLength = referenceAllele == null || referenceAllele.equals(&quot;-&quot;) ? 0 : referenceAllele.length();</b>
+<b class="fc">&nbsp;        Integer varLength = variantAllele == null || variantAllele.equals(&quot;-&quot;) ? 0 : variantAllele.length();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (refLength.equals(varLength))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (refLength - 1 &lt; 0) {</b>
+&nbsp;                // TODO log.info(&quot;Check &quot; + mRecord.getTUMOR_SAMPLE_BARCODE() + &quot; &quot; + mRecord.getHUGO_SYMBOL());??
+<b class="nc">&nbsp;                return null;</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            return refLength &lt;= 3 ? npType[refLength - 1] : &quot;ONP&quot;;</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="fc">&nbsp;            return refLength &lt; varLength ? &quot;INS&quot; : &quot;DEL&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

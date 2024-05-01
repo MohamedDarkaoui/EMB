@@ -1,0 +1,193 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProductsDAO</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.javiermf.features.daos</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductsDAO (org.javiermf.features.daos)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductsDAO</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.javiermf.features.daos;
+&nbsp;
+&nbsp;import com.mysema.query.jpa.impl.JPADeleteClause;
+&nbsp;import com.mysema.query.jpa.impl.JPAQuery;
+&nbsp;import org.javiermf.features.exceptions.ObjectNotFoundException;
+&nbsp;import org.javiermf.features.models.Feature;
+&nbsp;import org.javiermf.features.models.Product;
+&nbsp;import org.javiermf.features.models.QFeature;
+&nbsp;import org.javiermf.features.models.QProduct;
+&nbsp;import org.javiermf.features.models.constraints.FeatureConstraint;
+&nbsp;import org.javiermf.features.models.constraints.QFeatureConstraint;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;
+&nbsp;import javax.persistence.EntityManager;
+&nbsp;import javax.persistence.PersistenceContext;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Repository
+<b class="nc">&nbsp;public class ProductsDAO {</b>
+&nbsp;
+&nbsp;    @PersistenceContext
+&nbsp;    private EntityManager entityManager;
+&nbsp;
+<b class="nc">&nbsp;    QProduct qProduct = QProduct.product;</b>
+<b class="nc">&nbsp;    QFeature qFeature = QFeature.feature;</b>
+<b class="nc">&nbsp;    QFeatureConstraint qFeatureConstraint = QFeatureConstraint.featureConstraint;</b>
+&nbsp;
+&nbsp;    public List&lt;Product&gt; findAll() {
+<b class="nc">&nbsp;        JPAQuery query = new JPAQuery(entityManager);</b>
+&nbsp;
+<b class="nc">&nbsp;        return query.from(qProduct).list(qProduct);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Product findByName(String name) {
+<b class="nc">&nbsp;        JPAQuery query = new JPAQuery(entityManager);</b>
+&nbsp;
+<b class="nc">&nbsp;        query.from(qProduct).where(qProduct.name.eq(name));</b>
+<b class="nc">&nbsp;        Product product = query.singleResult(qProduct);</b>
+<b class="nc">&nbsp;        if (product == null) {</b>
+<b class="nc">&nbsp;            throw new ObjectNotFoundException(name);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return product;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void deleteByName(String productName) {
+<b class="nc">&nbsp;        Product product = findByName(productName);</b>
+<b class="nc">&nbsp;        entityManager.remove(product);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void deleteConstraintsForProduct(String productName) {
+<b class="nc">&nbsp;        Product product = findByName(productName);</b>
+<b class="nc">&nbsp;        for (FeatureConstraint featureConstraint : product.getProductFeatureConstraints()) {</b>
+<b class="nc">&nbsp;            entityManager.remove(featureConstraint);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        product.getProductFeatureConstraints().clear();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void insert(Product product) {
+<b class="nc">&nbsp;        entityManager.persist(product);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void insertFeature(Feature feature) {
+<b class="nc">&nbsp;        entityManager.persist(feature);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void deleteFeature(Feature feature) {
+<b class="nc">&nbsp;        JPADeleteClause deleteClause = new JPADeleteClause(entityManager, qFeature);</b>
+<b class="nc">&nbsp;        deleteClause.where(qFeature.id.eq(feature.getId()));</b>
+<b class="nc">&nbsp;        deleteClause.execute();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void insertConstraint(FeatureConstraint constraint) {
+<b class="nc">&nbsp;        entityManager.persist(constraint);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void deleteConstraintForProduct(String productName, Long constraintId) {
+<b class="nc">&nbsp;        JPADeleteClause deleteClause = new JPADeleteClause(entityManager, qFeatureConstraint);</b>
+<b class="nc">&nbsp;        deleteClause.where(qFeatureConstraint.id.eq(constraintId));</b>
+<b class="nc">&nbsp;        deleteClause.execute();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

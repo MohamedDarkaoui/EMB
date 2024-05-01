@@ -1,0 +1,167 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EnsemblFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.web.param</a>
+</div>
+
+<h1>Coverage Summary for Class: EnsemblFilter (org.cbioportal.genome_nexus.web.param)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnsemblFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.web.param;
+&nbsp;
+&nbsp;import io.swagger.annotations.ApiModelProperty;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="fc">&nbsp;public class EnsemblFilter</b>
+&nbsp;{
+&nbsp;    public static final String TRANSCRIPT_ID_DESC =
+&nbsp;        &quot;List of Ensembl transcript IDs. For example [\&quot;ENST00000361390\&quot;, \&quot;ENST00000361453\&quot;, \&quot;ENST00000361624\&quot;]&quot;;
+&nbsp;
+&nbsp;    public static final String PROTEIN_ID_DESC =
+&nbsp;        &quot;List of Ensembl protein IDs. For example [\&quot;ENSP00000439985\&quot;, \&quot;ENSP00000478460\&quot;, \&quot;ENSP00000346196\&quot;]&quot;;
+&nbsp;
+&nbsp;    public static final String GENE_ID_DESC =
+&nbsp;        &quot;List of Ensembl gene IDs. For example [\&quot;ENSG00000136999\&quot;, \&quot;ENSG00000272398\&quot;, \&quot;ENSG00000198695\&quot;]&quot;;
+&nbsp;
+&nbsp;    public static final String HUGO_SYMBOL_DESC =
+&nbsp;        &quot;List of Hugo Symbols. For example [\&quot;TP53\&quot;, \&quot;PIK3CA\&quot;, \&quot;BRCA1\&quot;]&quot;;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = TRANSCRIPT_ID_DESC)
+&nbsp;    private List&lt;String&gt; transcriptIds;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = PROTEIN_ID_DESC)
+&nbsp;    private List&lt;String&gt; proteinIds;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = GENE_ID_DESC)
+&nbsp;    private List&lt;String&gt; geneIds;
+&nbsp;
+&nbsp;    @ApiModelProperty(value = HUGO_SYMBOL_DESC)
+&nbsp;    private List&lt;String&gt; hugoSymbols;
+&nbsp;
+&nbsp;    public List&lt;String&gt; getTranscriptIds() {
+<b class="fc">&nbsp;        return transcriptIds;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTranscriptIds(List&lt;String&gt; transcriptIds) {
+<b class="fc">&nbsp;        this.transcriptIds = transcriptIds;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;String&gt; getProteinIds() {
+<b class="fc">&nbsp;        return proteinIds;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setProteinIds(List&lt;String&gt; proteinIds) {
+<b class="fc">&nbsp;        this.proteinIds = proteinIds;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;String&gt; getGeneIds() {
+<b class="fc">&nbsp;        return geneIds;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setGeneIds(List&lt;String&gt; geneIds) {
+<b class="fc">&nbsp;        this.geneIds = geneIds;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;String&gt; getHugoSymbols() {
+<b class="fc">&nbsp;        return hugoSymbols;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setHugoSymbols(List&lt;String&gt; hugoSymbols) {
+<b class="fc">&nbsp;        this.hugoSymbols = hugoSymbols;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

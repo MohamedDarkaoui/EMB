@@ -1,0 +1,154 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProductsFeaturesResource</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.javiermf.features.services.rest</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductsFeaturesResource (org.javiermf.features.services.rest)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductsFeaturesResource</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.javiermf.features.services.rest;
+&nbsp;
+&nbsp;import org.javiermf.features.models.Feature;
+&nbsp;import org.javiermf.features.services.ProductsService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import javax.ws.rs.*;
+&nbsp;import javax.ws.rs.core.Response;
+&nbsp;import java.net.URI;
+&nbsp;import java.net.URISyntaxException;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Component
+&nbsp;@Produces(&quot;application/json&quot;)
+<b class="nc">&nbsp;public class ProductsFeaturesResource {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    ProductsService productsService;
+&nbsp;
+&nbsp;    @GET
+&nbsp;    public Set&lt;Feature&gt; getFeaturesForProduct(@PathParam(&quot;productName&quot;) String productName) {
+<b class="nc">&nbsp;        return productsService.getFeaturesForProduct(productName);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @POST
+&nbsp;    @Path(&quot;/{featureName}&quot;)
+&nbsp;    public Response addFeatureToProduct(@PathParam(&quot;productName&quot;) String productName,
+&nbsp;                                        @PathParam(&quot;featureName&quot;) String featureName,
+&nbsp;                                        @FormParam(&quot;description&quot;) String featureDescription) throws URISyntaxException {
+<b class="nc">&nbsp;        productsService.addFeatureToProduct(productName, featureName, featureDescription);</b>
+<b class="nc">&nbsp;        return Response.created(new URI(&quot;/products/&quot; + productName + &quot;/features/&quot; + featureName)).build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PUT
+&nbsp;    @Path(&quot;/{featureName}&quot;)
+&nbsp;    public Feature updateFeatureOfProduct(@PathParam(&quot;productName&quot;) String productName,
+&nbsp;                                          @PathParam(&quot;featureName&quot;) String featureName,
+&nbsp;                                          @FormParam(&quot;description&quot;) String featureDescription) throws URISyntaxException {
+<b class="nc">&nbsp;        return productsService.updateFeatureOfProduct(productName, featureName, featureDescription);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @DELETE
+&nbsp;    @Path(&quot;/{featureName}&quot;)
+&nbsp;    public Response deleteFeatureOfProduct(@PathParam(&quot;productName&quot;) String productName,
+&nbsp;                                           @PathParam(&quot;featureName&quot;) String featureName) throws URISyntaxException {
+<b class="nc">&nbsp;        productsService.deleteFeatureOfProduct(productName, featureName);</b>
+<b class="nc">&nbsp;        return Response.noContent().build();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

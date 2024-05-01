@@ -1,0 +1,165 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > NucleotideContextController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.web</a>
+</div>
+
+<h1>Coverage Summary for Class: NucleotideContextController (org.cbioportal.genome_nexus.web)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NucleotideContextController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.web;
+&nbsp;
+&nbsp;import io.swagger.annotations.Api;
+&nbsp;import io.swagger.annotations.ApiOperation;
+&nbsp;import io.swagger.annotations.ApiParam;
+&nbsp;import org.cbioportal.genome_nexus.model.NucleotideContext;
+&nbsp;import org.cbioportal.genome_nexus.service.NucleotideContextService;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.NucleotideContextNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.NucleotideContextWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.web.config.InternalApi;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@InternalApi
+&nbsp;@RestController // shorthand for @Controller, @ResponseBody
+&nbsp;@CrossOrigin(origins=&quot;*&quot;) // allow all cross-domain requests
+&nbsp;@RequestMapping(value= &quot;/&quot;)
+&nbsp;@Api(tags = &quot;nucleotide-context-controller&quot;, description = &quot;Nucleotide Context Controller&quot;)
+&nbsp;public class NucleotideContextController
+&nbsp;{
+&nbsp;    private final NucleotideContextService nucleotideContextService;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public NucleotideContextController(NucleotideContextService nucleotideContextService)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.nucleotideContextService = nucleotideContextService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves nucleotide context information for the provided list of variants&quot;,
+&nbsp;        nickname = &quot;fetchNucleotideContextAnnotationGET&quot;)
+&nbsp;    @RequestMapping(value = &quot;/nucleotide_context/{variant:.+}&quot;,
+&nbsp;        method = RequestMethod.GET,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public NucleotideContext fetchNucleotideContextAnnotationGET(
+&nbsp;        @ApiParam(value=&quot;A variant. For example 7:g.140453136A&gt;T&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @PathVariable String variant)
+&nbsp;        throws VariantAnnotationNotFoundException, VariantAnnotationWebServiceException,
+&nbsp;        NucleotideContextWebServiceException, NucleotideContextNotFoundException
+&nbsp;    {
+<b class="nc">&nbsp;        return this.nucleotideContextService.getNucleotideContext(variant);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ApiOperation(value = &quot;Retrieves nucleotide context information for the provided list of variants&quot;,
+&nbsp;        nickname = &quot;postNucleotideContextAnnotation&quot;)
+&nbsp;    @RequestMapping(value = &quot;/nucleotide_context&quot;,
+&nbsp;        method = RequestMethod.POST,
+&nbsp;        produces = &quot;application/json&quot;)
+&nbsp;    public List&lt;NucleotideContext&gt; fetchNucleotideContextAnnotationPOST(
+&nbsp;        @ApiParam(value=&quot;List of variants. For example [\&quot;7:g.140453136A&gt;T\&quot;,\&quot;12:g.25398285C&gt;A\&quot;]&quot;,
+&nbsp;            required = true,
+&nbsp;            allowMultiple = true)
+&nbsp;        @RequestBody List&lt;String&gt; variants)
+&nbsp;    {
+<b class="nc">&nbsp;        return this.nucleotideContextService.getNucleotideContext(variants);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-18 22:00</div>
+</div>
+</body>
+</html>

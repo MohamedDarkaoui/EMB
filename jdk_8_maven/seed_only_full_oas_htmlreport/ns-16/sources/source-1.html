@@ -1,0 +1,173 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ApiObjectMapper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.web.config</a>
+</div>
+
+<h1>Coverage Summary for Class: ApiObjectMapper (org.cbioportal.genome_nexus.web.config)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ApiObjectMapper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (48/48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.web.config;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import org.cbioportal.genome_nexus.web.mixin.*;
+&nbsp;import org.cbioportal.genome_nexus.web.mixin.my_variant_info_mixin.*;
+&nbsp;import org.cbioportal.genome_nexus.model.*;
+&nbsp;import org.cbioportal.genome_nexus.model.my_variant_info_model.*;
+&nbsp;import org.cbioportal.genome_nexus.service.mixin.my_variant_info_mixin.AlleleCountMixin;
+&nbsp;import org.cbioportal.genome_nexus.service.mixin.my_variant_info_mixin.AlleleFrequencyMixin;
+&nbsp;import org.cbioportal.genome_nexus.service.mixin.my_variant_info_mixin.AlleleNumberMixin;
+&nbsp;import org.cbioportal.genome_nexus.service.mixin.my_variant_info_mixin.HomozygotesMixin;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;
+&nbsp;public class ApiObjectMapper extends ObjectMapper
+&nbsp;{
+&nbsp;    public ApiObjectMapper()
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; mixinMap = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        mixinMap.put(GeneXref.class, GeneXrefMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Hotspot.class, HotspotMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(MutationAssessor.class, MutationAssessorMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(NucleotideContext.class, NucleotideContextMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(PfamDomain.class, PfamDomainMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(PdbHeader.class, PdbHeaderMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(TranscriptConsequence.class, TranscriptConsequenceMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(ColocatedVariant.class, ColocatedVariantMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(TranscriptConsequenceSummary.class, TranscriptConsequenceSummaryMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(VariantAnnotation.class, VariantAnnotationMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(VariantAnnotationSummary.class, VariantAnnotationSummaryMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(EnsemblTranscript.class, EnsemblTranscriptMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(EnsemblGene.class, EnsemblGeneMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(PfamDomainRange.class, PfamDomainRangeMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Exon.class, ExonMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(UntranslatedRegion.class, UntranslatedRegionMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(GenomicLocation.class, GenomicLocationMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(AggregatedHotspots.class, AggregatedHotspotsMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(ProteinLocation.class, ProteinLocationMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(MyVariantInfo.class, MyVariantInfoMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Snpeff.class, SnpeffMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Ann.class, AnnMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Vcf.class, VcfMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Dbsnp.class, DbsnpMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Gene.class, GeneMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Alleles.class, AllelesMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Hg19.class, Hg19Mixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Cosmic.class, CosmicMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(ClinVar.class, ClinVarMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Hg38.class, Hg38Mixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Mutdb.class, MutdbMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Gnomad.class, GnomadMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Rcv.class, RcvMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(AlleleCount.class, AlleleCountMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(AlleleNumber.class, AlleleNumberMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(Homozygotes.class, HomozygotesMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(AlleleFrequency.class, AlleleFrequencyMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(IntergenicConsequences.class, IntergenicConsequencesMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(SignalMutation.class, SignalMutationMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(SignalQuery.class, SignalQueryMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(CountByTumorType.class, CountByTumorTypeMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(GeneralPopulationStats.class, GeneralPopulationStatsMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(StatsByTumorType.class, StatsByTumorTypeMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(SignalPopulationStats.class, SignalPopulationStatsMixin.class);</b>
+<b class="fc">&nbsp;        mixinMap.put(HrdScore.class, HrdScoreMixin.class);</b>
+<b class="fc">&nbsp;        super.setMixIns(mixinMap);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

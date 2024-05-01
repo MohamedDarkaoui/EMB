@@ -1,0 +1,122 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GenomicLocationAnnotationService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service</a>
+</div>
+
+<h1>Coverage Summary for Class: GenomicLocationAnnotationService (org.cbioportal.genome_nexus.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">GenomicLocationAnnotationService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright (c) 2015 Memorial Sloan-Kettering Cancer Center.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful, but WITHOUT
+&nbsp; * ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS
+&nbsp; * FOR A PARTICULAR PURPOSE. The software and documentation provided hereunder
+&nbsp; * is on an &quot;as is&quot; basis, and Memorial Sloan-Kettering Cancer Center has no
+&nbsp; * obligations to provide maintenance, support, updates, enhancements or
+&nbsp; * modifications. In no event shall Memorial Sloan-Kettering Cancer Center be
+&nbsp; * liable to any party for direct, indirect, special, incidental or
+&nbsp; * consequential damages, including lost profits, arising out of the use of this
+&nbsp; * software and its documentation, even if Memorial Sloan-Kettering Cancer
+&nbsp; * Center has been advised of the possibility of such damage.
+&nbsp; */
+&nbsp;
+&nbsp;/*
+&nbsp; * This file is part of cBioPortal Genome Nexus.
+&nbsp; *
+&nbsp; * cBioPortal is free software: you can redistribute it and/or modify
+&nbsp; * it under the terms of the GNU Affero General Public License as
+&nbsp; * published by the Free Software Foundation, either version 3 of the
+&nbsp; * License.
+&nbsp; *
+&nbsp; * This program is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+&nbsp; * GNU Affero General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Affero General Public License
+&nbsp; * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+&nbsp;*/
+&nbsp;
+&nbsp;package org.cbioportal.genome_nexus.service;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.GenomicLocation;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationWebServiceException;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;public interface GenomicLocationAnnotationService
+&nbsp;{
+&nbsp;    VariantAnnotation getAnnotation(GenomicLocation genomicLocation)
+&nbsp;        throws VariantAnnotationNotFoundException, VariantAnnotationWebServiceException;
+&nbsp;    VariantAnnotation getAnnotation(String genomicLocation)
+&nbsp;        throws VariantAnnotationNotFoundException, VariantAnnotationWebServiceException;
+&nbsp;    List&lt;VariantAnnotation&gt; getAnnotations(List&lt;GenomicLocation&gt; genomicLocations);
+&nbsp;    VariantAnnotation getAnnotation(String genomicLocation, String isoformOverrideSource, Map&lt;String, String&gt; token, List&lt;String&gt; fields)
+&nbsp;        throws VariantAnnotationWebServiceException, VariantAnnotationNotFoundException;
+&nbsp;    List&lt;VariantAnnotation&gt; getAnnotations(List&lt;GenomicLocation&gt; genomicLocations, String isoformOverrideSource, Map&lt;String, String&gt; token, List&lt;String&gt; fields);
+&nbsp;
+&nbsp;    String getVariantFormat(GenomicLocation genomicLocation);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

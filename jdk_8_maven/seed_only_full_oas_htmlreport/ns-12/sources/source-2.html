@@ -1,0 +1,175 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PdbHeaderTransformer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.transformer</a>
+</div>
+
+<h1>Coverage Summary for Class: PdbHeaderTransformer (org.cbioportal.genome_nexus.service.transformer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PdbHeaderTransformer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78,9%
+  </span>
+  <span class="absValue">
+    (15/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.transformer;
+&nbsp;
+&nbsp;import com.mongodb.DBObject;
+&nbsp;import org.cbioportal.genome_nexus.model.PdbHeader;
+&nbsp;import org.cbioportal.genome_nexus.service.ResourceTransformer;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.ResourceMappingException;
+&nbsp;import org.cbioportal.genome_nexus.util.PdbHeaderParser;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collection;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Component
+<b class="fc">&nbsp;public class PdbHeaderTransformer implements ResourceTransformer&lt;PdbHeader&gt;</b>
+&nbsp;{
+&nbsp;    @Autowired
+&nbsp;    private PdbHeaderParser parser;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;PdbHeader&gt; transform(DBObject rawJson, Class&lt;PdbHeader&gt; type) throws ResourceMappingException
+&nbsp;    {
+<b class="fc">&nbsp;        List&lt;PdbHeader&gt; list = null;</b>
+<b class="fc">&nbsp;        String pdbTextContent = this.extractPdbTextContent(rawJson);</b>
+<b class="fc">&nbsp;        PdbHeader pdbHeader = this.mapToInstance(pdbTextContent);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (pdbHeader != null) {</b>
+<b class="fc">&nbsp;            list = new ArrayList&lt;&gt;(1);</b>
+<b class="fc">&nbsp;            list.add(pdbHeader);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return list;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;DBObject&gt; transform(DBObject rawValue) {
+&nbsp;        // TODO implement if needed
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private PdbHeader mapToInstance(String pdbTextContent) throws ResourceMappingException
+&nbsp;    {
+<b class="fc">&nbsp;        PdbHeader pdbHeader = null;</b>
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            pdbHeader = this.parser.convertToInstance(pdbTextContent);</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            throw new ResourceMappingException(e.getMessage());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return pdbHeader;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Assuming that provided raw JSON is a simple map with a single key - value (pdb id - pdb header text) pair,
+&nbsp;     * extracts the text content by simply returning the first value.
+&nbsp;     */
+&nbsp;    @Nullable
+&nbsp;    private String extractPdbTextContent(DBObject rawJson)
+&nbsp;    {
+<b class="fc">&nbsp;        Collection&lt;?&gt; values = rawJson.toMap().values();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (!values.isEmpty()) {</b>
+<b class="fc">&nbsp;            return values.iterator().next().toString();</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

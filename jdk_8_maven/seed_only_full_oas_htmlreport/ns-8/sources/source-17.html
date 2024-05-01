@@ -1,0 +1,95 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > NucleotideContextService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service</a>
+</div>
+
+<h1>Coverage Summary for Class: NucleotideContextService (org.cbioportal.genome_nexus.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">NucleotideContextService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service;
+&nbsp;
+&nbsp;import org.cbioportal.genome_nexus.model.NucleotideContext;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.NucleotideContextNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.NucleotideContextWebServiceException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationNotFoundException;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.VariantAnnotationWebServiceException;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface NucleotideContextService
+&nbsp;{
+&nbsp;    // variant: hgvs variant (ex: 7:g.140453136A&gt;T)
+&nbsp;    NucleotideContext getNucleotideContext(String variant)
+&nbsp;        throws VariantAnnotationNotFoundException, VariantAnnotationWebServiceException,
+&nbsp;            NucleotideContextNotFoundException, NucleotideContextWebServiceException;
+&nbsp;
+&nbsp;    // variant: mutation assessor variant (e.g. 17:37880219..37880221:1)
+&nbsp;    NucleotideContext getNucleotideContextByEnsembleSequenceQuery(String sequenceQuery)
+&nbsp;        throws NucleotideContextNotFoundException, NucleotideContextWebServiceException;
+&nbsp;
+&nbsp;    // variant: hgvs variant (ex: 7:g.140453136A&gt;T)
+&nbsp;    List&lt;NucleotideContext&gt; getNucleotideContext(List&lt;String&gt; variants);
+&nbsp;
+&nbsp;    NucleotideContext getNucleotideContext(VariantAnnotation annotation)
+&nbsp;        throws NucleotideContextNotFoundException, NucleotideContextWebServiceException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>

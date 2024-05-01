@@ -13,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.testcontainers.containers.GenericContainer;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
 
     public static void main(String[] args) {
 
-        int port = 40100;
+        int port = 40410;
         if (args.length > 0) {
             port = Integer.parseInt(args[0]);
         }
@@ -34,6 +35,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
         InstrumentedSutStarter starter = new InstrumentedSutStarter(controller);
 
         starter.start();
+        //controller.startSut();
     }
 
 
@@ -64,7 +66,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
 
     @Override
     public String startSut() {
-
+        System.out.println("STARTING SUT >>>>");
         mongodbContainer.start();
 
         try {
@@ -76,12 +78,21 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
             throw new RuntimeException(e);
         }
 
-        ctx = SpringApplication.run(GenomeNexusAnnotation.class,
-                new String[]{"--server.port=0",
-                        "--spring.data.mongodb.uri=mongodb://" + mongodbContainer.getContainerIpAddress() + ":" + mongodbContainer.getMappedPort(MONGODB_PORT) + "/" + MONGODB_DATABASE_NAME,
-                        "--spring.cache.type=NONE"
-                });
+        String jacocoAgentPath = "C:\\Users\\moham\\Desktop\\jacoco-0.8.12\\lib\\jacocoagent.jar";
+        String reportOutputPath = "target/jacoco.exec";
 
+        String[] springBootArgs = {
+                "--server.port=38888",
+                "--spring.data.mongodb.uri=mongodb://" + mongodbContainer.getContainerIpAddress() + ":" + mongodbContainer.getMappedPort(MONGODB_PORT) + "/" + MONGODB_DATABASE_NAME,
+                "--spring.cache.type=NONE"
+        };
+
+        String[] newArgs = Arrays.copyOf(springBootArgs, springBootArgs.length + 2);
+        newArgs[springBootArgs.length] = "-javaagent:" + jacocoAgentPath + "=destfile=" + reportOutputPath;
+        newArgs[springBootArgs.length + 1] = "--spring.profiles.active=test";
+
+        ctx = SpringApplication.run(GenomeNexusAnnotation.class, newArgs);
+        System.out.println("JVM Args: " + Arrays.toString(newArgs));
         return "http://localhost:" + getSutPort();
     }
 

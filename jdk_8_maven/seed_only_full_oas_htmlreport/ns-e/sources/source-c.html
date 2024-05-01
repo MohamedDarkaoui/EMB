@@ -1,0 +1,243 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MutationAssessorServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.cbioportal.genome_nexus.service.internal</a>
+</div>
+
+<h1>Coverage Summary for Class: MutationAssessorServiceImpl (org.cbioportal.genome_nexus.service.internal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MutationAssessorServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (2/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9,1%
+  </span>
+  <span class="absValue">
+    (4/44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.cbioportal.genome_nexus.service.internal;
+&nbsp;
+&nbsp;import org.apache.commons.logging.Log;
+&nbsp;import org.apache.commons.logging.LogFactory;
+&nbsp;import org.cbioportal.genome_nexus.model.MutationAssessor;
+&nbsp;import org.cbioportal.genome_nexus.model.VariantAnnotation;
+&nbsp;import org.cbioportal.genome_nexus.service.MutationAssessorService;
+&nbsp;import org.cbioportal.genome_nexus.service.VariantAnnotationService;
+&nbsp;import org.cbioportal.genome_nexus.service.cached.CachedMutationAssessorFetcher;
+&nbsp;import org.cbioportal.genome_nexus.service.exception.*;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.client.HttpClientErrorException;
+&nbsp;import org.springframework.web.client.ResourceAccessException;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.NoSuchElementException;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class MutationAssessorServiceImpl implements MutationAssessorService
+&nbsp;{
+<b class="fc">&nbsp;    private static final Log LOG = LogFactory.getLog(MutationAssessorServiceImpl.class);</b>
+&nbsp;
+&nbsp;    private final CachedMutationAssessorFetcher cachedExternalResourceFetcher;
+&nbsp;    private final VariantAnnotationService variantAnnotationService;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    public MutationAssessorServiceImpl(CachedMutationAssessorFetcher cachedExternalResourceFetcher,
+&nbsp;                                       VariantAnnotationService verifiedHgvsVariantAnnotationService)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.cachedExternalResourceFetcher = cachedExternalResourceFetcher;</b>
+<b class="fc">&nbsp;        this.variantAnnotationService = verifiedHgvsVariantAnnotationService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param variant   hgvs variant (ex: 7:g.140453136A&gt;T)
+&nbsp;     */
+&nbsp;    public MutationAssessor getMutationAssessor(String variant)
+&nbsp;        throws VariantAnnotationNotFoundException, VariantAnnotationWebServiceException,
+&nbsp;        MutationAssessorWebServiceException, MutationAssessorNotFoundException
+&nbsp;    {
+<b class="nc">&nbsp;        VariantAnnotation variantAnnotation = this.variantAnnotationService.getAnnotation(variant);</b>
+&nbsp;
+<b class="nc">&nbsp;        return this.getMutationAssessorByVariantAnnotation(variantAnnotation);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param variants   hgvs variants (ex: 7:g.140453136A&gt;T)
+&nbsp;     */
+&nbsp;    public List&lt;MutationAssessor&gt; getMutationAssessor(List&lt;String&gt; variants)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;MutationAssessor&gt; mutationAssessors = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        List&lt;VariantAnnotation&gt; variantAnnotations = this.variantAnnotationService.getAnnotations(variants);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (VariantAnnotation variantAnnotation : variantAnnotations)</b>
+&nbsp;        {
+&nbsp;            try {
+<b class="nc">&nbsp;                mutationAssessors.add(this.getMutationAssessorByVariantAnnotation(variantAnnotation));</b>
+<b class="nc">&nbsp;            } catch (MutationAssessorWebServiceException e) {</b>
+<b class="nc">&nbsp;                LOG.warn(e.getLocalizedMessage());</b>
+<b class="nc">&nbsp;            } catch (MutationAssessorNotFoundException e) {</b>
+&nbsp;                // fail silently for this variant
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return mutationAssessors;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public MutationAssessor getMutationAssessor(VariantAnnotation annotation)
+&nbsp;        throws MutationAssessorNotFoundException, MutationAssessorWebServiceException
+&nbsp;    {
+&nbsp;        // checks annotation is SNP
+<b class="nc">&nbsp;        if (annotation.getStart() == null</b>
+<b class="nc">&nbsp;            || !annotation.getStart().equals(annotation.getEnd())</b>
+<b class="nc">&nbsp;            || !annotation.getAlleleString().matches(&quot;[A-Z]/[A-Z]&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new MutationAssessorNotFoundException(annotation.getVariant());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        MutationAssessor mutationAssessor = this.getMutationAssessorByMutationAssessorVariant(buildRequest(annotation));</b>
+&nbsp;
+&nbsp;        // add original hgvs variant value too
+<b class="nc">&nbsp;        mutationAssessor.setHgvs(annotation.getVariant());</b>
+&nbsp;
+<b class="nc">&nbsp;        return mutationAssessor;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param variant   mutation assessor variant (ex: 7,140453136,A,T)
+&nbsp;     */
+&nbsp;    public MutationAssessor getMutationAssessorByMutationAssessorVariant(String variant)
+&nbsp;        throws MutationAssessorNotFoundException, MutationAssessorWebServiceException
+&nbsp;    {
+<b class="nc">&nbsp;        Optional&lt;MutationAssessor&gt; mutationAssessor = null;</b>
+&nbsp;
+&nbsp;        try {
+&nbsp;            // get the annotation from the web service and save it to the DB
+<b class="nc">&nbsp;            mutationAssessor = Optional.of(cachedExternalResourceFetcher.fetchAndCache(variant));</b>
+<b class="nc">&nbsp;        } catch (ResourceMappingException e) {</b>
+<b class="nc">&nbsp;            throw new MutationAssessorWebServiceException(e.getMessage());</b>
+<b class="nc">&nbsp;        } catch (HttpClientErrorException e) {</b>
+<b class="nc">&nbsp;            throw new MutationAssessorWebServiceException(e.getResponseBodyAsString(), e.getStatusCode());</b>
+<b class="nc">&nbsp;        } catch (ResourceAccessException e) {</b>
+<b class="nc">&nbsp;            throw new MutationAssessorWebServiceException(e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            return mutationAssessor.get();</b>
+<b class="nc">&nbsp;        } catch (NoSuchElementException e) {</b>
+<b class="nc">&nbsp;            throw new MutationAssessorNotFoundException(variant);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private MutationAssessor getMutationAssessorByVariantAnnotation(VariantAnnotation variantAnnotation)
+&nbsp;        throws MutationAssessorWebServiceException, MutationAssessorNotFoundException
+&nbsp;    {
+<b class="nc">&nbsp;        MutationAssessor mutationAssessorObj = this.getMutationAssessor(variantAnnotation);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (mutationAssessorObj != null &amp;&amp;</b>
+<b class="nc">&nbsp;            mutationAssessorObj.getMappingIssue().length() == 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return mutationAssessorObj;</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            throw new MutationAssessorNotFoundException(variantAnnotation.getVariant());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private String buildRequest(VariantAnnotation annotation)
+&nbsp;    {
+<b class="nc">&nbsp;        StringBuilder sb = new StringBuilder(annotation.getSeqRegionName() + &quot;,&quot;);</b>
+<b class="nc">&nbsp;        sb.append(annotation.getStart() + &quot;,&quot;);</b>
+<b class="nc">&nbsp;        sb.append(annotation.getAlleleString().replaceAll(&quot;/&quot;, &quot;,&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;        return sb.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-01 05:19</div>
+</div>
+</body>
+</html>
