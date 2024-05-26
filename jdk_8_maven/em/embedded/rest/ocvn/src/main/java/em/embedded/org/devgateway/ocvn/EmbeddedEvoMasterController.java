@@ -40,8 +40,8 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
 
         EmbeddedEvoMasterController controller = new EmbeddedEvoMasterController(port);
         InstrumentedSutStarter starter = new InstrumentedSutStarter(controller);
-
-        starter.start();
+        controller.startSut();
+        //starter.start();
     }
 
 
@@ -74,7 +74,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
                 mongodb.getMappedPort(27017));
 
         ctx = SpringApplication.run(WebApplication.class,
-                new String[]{"--server.port=0",
+                new String[]{"--server.port=38888",
                         "--liquibase.enabled=false",
                         "--spring.data.mongodb.uri=mongodb://"+mongodb.getContainerIpAddress()+":"+mongodb.getMappedPort(27017)+"/ocvn",
                         "--spring.datasource.driver-class-name=org.h2.Driver",

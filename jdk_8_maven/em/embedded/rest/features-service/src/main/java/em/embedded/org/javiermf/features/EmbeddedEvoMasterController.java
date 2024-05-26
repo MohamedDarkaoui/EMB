@@ -40,6 +40,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
         InstrumentedSutStarter starter = new InstrumentedSutStarter(controller);
 
         starter.start();
+        //controller.startSut();
     }
 
 
@@ -63,7 +64,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
     public String startSut() {
 
         ctx = SpringApplication.run(Application.class, new String[]{
-                "--server.port=0",
+                "--server.port=38888",
                 "--spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;",
                 "--spring.jpa.database-platform=org.hibernate.dialect.H2Dialect",
                 "--spring.datasource.username=sa",

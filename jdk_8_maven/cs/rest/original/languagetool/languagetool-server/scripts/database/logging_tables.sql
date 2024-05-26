@@ -31,13 +31,13 @@ create table if not exists `servers` (
     `hostname` varchar(64) not null,
     primary key (`id`)
 ) engine=MyISAM default charset=utf8;
-    
+
 create table if not exists `clients` (
 	`id` int(10) unsigned not null auto_increment,
     `name` varchar(64) not null,
     primary key (`id`)
 ) engine=MyISAM default charset=utf8;
-    
+
 
 create table if not exists  `cache_stats` (
 	`id` int(10) unsigned not null auto_increment,
@@ -47,7 +47,7 @@ create table if not exists  `cache_stats` (
     primary key (`id`),
     key `date_index` (`date`)
     ) engine=MyISAM DEFAULT CHARSET=utf8;
-    
+
 create table if not exists  `misc_log` (
 	`id` int(10) unsigned not null auto_increment,
     `date` datetime not null,
@@ -73,7 +73,7 @@ create table if not exists  `check_error` (
     primary key (`id`),
     key `date_index` (`date`)
     ) engine=MyISAM default charset=utf8;
-    
+
 create table if not exists  `access_limits` (
 	`id` int(10) unsigned not null auto_increment,
     `type` varchar(64) not null,
@@ -88,4 +88,4 @@ create table if not exists  `access_limits` (
     key `date_index` (`date`)
     ) engine=MyISAM default charset=utf8;
 
-    
+

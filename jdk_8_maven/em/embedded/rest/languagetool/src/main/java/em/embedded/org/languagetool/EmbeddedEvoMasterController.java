@@ -29,6 +29,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
         SutController controller = new EmbeddedEvoMasterController();
         InstrumentedSutStarter starter = new InstrumentedSutStarter(controller);
 
+        //controller.startSut();
         starter.start();
     }
 
@@ -61,10 +62,14 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
 
     @Override
     public String startSut() {
-        HTTPServerConfig config = new HTTPServerConfig(0);
+        HTTPServerConfig config = new HTTPServerConfig(38888);
         //TODO looks like there is a DB, but only for logs???
-        DatabaseAccess.init(config);
 
+        config.setDatabaseDriver("com.mysql.cj.jdbc.Driver");
+        config.setDatabaseUrl("jdbc:mysql://localhost:3308/lt");
+        config.setDatabaseUsername("languagetooluser");
+        config.setDatabasePassword("pass");
+        DatabaseAccess.init(config);
         try {
             checkForNonRootUser();
             ServerTools.print("WARNING: running in HTTP mode, consider running LanguageTool behind a reverse proxy that takes care of encryption (HTTPS)");
@@ -81,6 +86,31 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
 
         return "http://localhost:" + server.getBoundPort();
     }
+//    @Override
+//    public String startSut() {
+//        HTTPServerConfig config = new HTTPServerConfig(38888);
+//
+//        // Set up in-memory HSQLDB database
+//        config.setDatabaseDriver("com.mysql.cj.jdbc.Driver");
+//        config.setDatabaseUrl("jdbc:mysql://localhost:3308/lt");
+//        config.setDatabaseUsername("languagetooluser");
+//        config.setDatabasePassword("pass");
+//        config.dbLogging = true;
+//
+//        // Initialize database access
+//        DatabaseAccess.init(config);
+//
+//        try {
+//            checkForNonRootUser();
+//            ServerTools.print("WARNING: running in HTTP mode, consider running LanguageTool behind a reverse proxy that takes care of encryption (HTTPS)");
+//            server = new HTTPServer(config, false);
+//            server.run();
+//        } catch (Exception e) {
+//            throw new RuntimeException("Could not start LanguageTool HTTP server on " + HTTPServerConfig.DEFAULT_HOST + ", port " + config.getPort(), e);
+//        }
+//
+//        return "http://localhost:" + server.getBoundPort();
+//    }
 
     @Override
     public void stopSut() {

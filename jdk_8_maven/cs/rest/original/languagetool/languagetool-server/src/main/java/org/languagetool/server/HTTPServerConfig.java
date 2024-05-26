@@ -511,7 +511,7 @@ public class HTTPServerConfig {
   /**
    * @since 4.0
    */
-  void setSecretTokenKey(String secretTokenKey) {
+  public void setSecretTokenKey(String secretTokenKey) {
     this.secretTokenKey = secretTokenKey;
   }
 
@@ -855,7 +855,7 @@ public class HTTPServerConfig {
   /**
    * @since 4.2
    */
-  void setDatabaseDriver(String dbDriver) {
+  public void setDatabaseDriver(String dbDriver) {
     this.dbDriver = dbDriver;
   }
 
@@ -871,7 +871,7 @@ public class HTTPServerConfig {
   /**
    * @since 4.2
    */
-  void setDatabaseUrl(String dbUrl) {
+  public void setDatabaseUrl(String dbUrl) {
     this.dbUrl = dbUrl;
   }
   
@@ -887,7 +887,7 @@ public class HTTPServerConfig {
   /**
    * @since 4.2
    */
-  void setDatabaseUsername(String dbUsername) {
+  public void setDatabaseUsername(String dbUsername) {
     this.dbUsername = dbUsername;
   }
   
@@ -903,7 +903,7 @@ public class HTTPServerConfig {
   /**
    * @since 4.2
    */
-  void setDatabasePassword(String dbPassword) {
+  public void setDatabasePassword(String dbPassword) {
     this.dbPassword = dbPassword;
   }
   

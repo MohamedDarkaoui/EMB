@@ -47,6 +47,8 @@ import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
  * Handle requests to {@code /v2/} of the HTTP API. 
  * @since 3.4
  */
+
+
 class ApiV2 {
 
   private static final String JSON_CONTENT_TYPE = "application/json";

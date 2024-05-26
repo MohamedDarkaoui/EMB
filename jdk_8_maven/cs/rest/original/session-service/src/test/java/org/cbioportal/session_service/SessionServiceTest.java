@@ -54,8 +54,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(
     classes = SessionService.class,
-    webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT,
-    properties = {
+    webEnvironment=SpringBootTest.WebEnvironment.DEFINED_PORT,
+    properties = { "server.port=8081",
         "server.error.include-exception=true",
         "spring.mongodb.embedded.version=3.5.5",
         "spring.mvc.pathmatch.matching-strategy=ANT_PATH_MATCHER"
@@ -64,15 +64,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class SessionServiceTest {
 
     // get randomly assigned port
-    @LocalServerPort
-    private int port;
+//    @LocalServerPort
+//    private int port;
 
     private URL base;
     private TestRestTemplate template;
 
     @Before
     public void setUp() throws Exception {
-        this.base = new URL("http://localhost:" + port + "/api/sessions/");
+        this.base = new URL("http://localhost:" + 8081 + "/api/sessions/");
         template = new TestRestTemplate();
     }
 
