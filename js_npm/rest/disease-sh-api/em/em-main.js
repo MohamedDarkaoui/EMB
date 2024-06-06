@@ -9,4 +9,5 @@
     port = process.env.EM_PORT || 40100;
     controller.setPort(port);
     controller.startTheControllerServer();
+    //app.startSut();
 })();

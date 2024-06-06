@@ -3,7 +3,6 @@ package org.devgateway.ocds.web.rest.controller.test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import java.io.File;
 import org.apache.log4j.Logger;
 import org.devgateway.ocds.persistence.mongo.Release;
 import org.devgateway.ocds.persistence.mongo.repository.main.ReleaseRepository;
@@ -19,20 +18,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.devgateway.utils.MockMvcLoggingUtils;
 
+import java.io.File;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * @author idobre
- * @since 6/1/16
+ * Test class for Release Export functionality.
  */
 public class ReleaseExportTest extends AbstractWebTest {
-    private static Logger logger = Logger.getLogger(ReleaseExportTest.class);
+    private static final Logger logger = Logger.getLogger(ReleaseExportTest.class);
 
     @Autowired
     private ReleaseRepository releaseRepository;
@@ -50,20 +51,16 @@ public class ReleaseExportTest extends AbstractWebTest {
 
     @Before
     public final void setUp() throws Exception {
-        // just be sure that the release collection is empty
+        // Ensure the release collection is empty
         releaseRepository.deleteAll();
 
-        // use a web app context setup because we want to do an integration test that involves loading of
-        // Controllers, Services and Repositories from the Spring configuration.
-        // for a more focused unit tests we can use:
-        // this.mockMvc = MockMvcBuilders.standaloneSetup(new OcdsController()).build();
+        // Setup MockMvc with web app context
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-
     }
 
     @After
     public final void tearDown() {
-        // be sure to clean up the release collection
+        // Clean up the release collection
         releaseRepository.deleteAll();
     }
 
@@ -75,14 +72,18 @@ public class ReleaseExportTest extends AbstractWebTest {
         final JsonImport releaseJsonImport = new ReleaseJsonImport(releaseRepository, file, false);
         final Release release = (Release) releaseJsonImport.importObject();
 
-        final MvcResult result = this.mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/ocds/release/ocid/" + release.getOcid()).
-                        accept(MediaType.APPLICATION_JSON_UTF8)).
-                andExpect(status().isOk()).
-                andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
-                andReturn();
-        final String content = result.getResponse().getContentAsString();
+        final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/ocds/release/ocid/" + release.getOcid())
+                .accept(MediaType.APPLICATION_JSON_UTF8);
 
+        final MvcResult result = this.mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andReturn();
+
+        // logging of request and response
+        MockMvcLoggingUtils.logRequestAndResponse(wac, requestBuilder, result);
+
+        final String content = result.getResponse().getContentAsString();
         final JsonNode jsonNodeResponse = JsonLoader.fromString(content);
         final OcdsSchemaValidatorService.ProcessingReportWithNode processingReport =
                 ocdsSchemaValidator.validate(jsonNodeResponse);
@@ -103,14 +104,18 @@ public class ReleaseExportTest extends AbstractWebTest {
         final JsonImport releaseJsonImport = new ReleaseJsonImport(releaseRepository, file, false);
         final Release release = (Release) releaseJsonImport.importObject();
 
-        final MvcResult result = this.mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/ocds/release/ocid/" + release.getOcid()).
-                        accept(MediaType.APPLICATION_JSON_UTF8)).
-                andExpect(status().isOk()).
-                andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
-                andReturn();
-        final String content = result.getResponse().getContentAsString();
+        final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/ocds/release/ocid/" + release.getOcid())
+                .accept(MediaType.APPLICATION_JSON_UTF8);
 
+        final MvcResult result = this.mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andReturn();
+
+        // logging of request and response
+        MockMvcLoggingUtils.logRequestAndResponse(wac, requestBuilder, result);
+
+        final String content = result.getResponse().getContentAsString();
         final JsonNode jsonNodeResponse = JsonLoader.fromString(content);
         final OcdsSchemaValidatorService.ProcessingReportWithNode processingReport =
                 ocdsSchemaAllRequiredValidator.validate(jsonNodeResponse);

@@ -1,91 +1,106 @@
-use lt;
+USE lt;
+-- Create the `ignore_words` table if it doesn't exist
+CREATE TABLE IF NOT EXISTS ignore_words (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    ignore_word VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
-CREATE TABLE if not exists `rule_matches` (
-  `match_id` int(10) unsigned auto_increment NOT NULL comment "primary key, one for each matching rule in a check",
-  `check_id` int(10) unsigned NOT NULL comment "foreign key, referencing corresponding row in check_log",
-  `rule_id` varchar(128) NOT NULL comment "name of the rule as defined in Java/XML code",
-  `match_count` int(10) unsigned NOT NULL comment "number of matches in the text",
-  PRIMARY KEY (`match_id`),
-  KEY `check_index` (`check_id`),
-  KEY `rule_index` (`rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- Create the `users` table if it doesn't exist
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    api_key VARCHAR(255) NOT NULL
+);
 
-#ALTER table `rule_matches` modify column `match_id` int(10) unsigned not null auto_increment;
+-- Insert test users if they don't already exist
+INSERT INTO users (email, api_key) VALUES ('test@test.de', 'foo') ON DUPLICATE KEY UPDATE email=email;
+INSERT INTO users (email, api_key) VALUES ('two@test.de', 'foo-two') ON DUPLICATE KEY UPDATE email=email;
 
-alter table `check_log` modify column `user_id` int(10) unsigned;
-alter table `check_log` add column `server` int(10) unsigned comment "host name of server responsible for this request";
-alter table `check_log` add column `client` int(10) unsigned comment "client responsible for this request, e.g. browser addon/website/word";
-alter table `check_log` add column `language_detected` varchar(8) comment "language code as detected by server";
-alter table `check_log` add column `computation_time` int(10) comment "request handling time in milliseconds";
-alter table `check_log` add column `text_session_id` int(10) unsigned comment "randomly generated number consistent across editing & check actions";
---alter table `check_log` change column `language` `language_set` varchar(8) not null comment "language code provided by client, e.g. de-DE";
+-- Create the `check_log` table if it doesn't exist
+CREATE TABLE IF NOT EXISTS check_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    language VARCHAR(8),
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    server INT,
+    client INT,
+    language_detected VARCHAR(8),
+    computation_time INT,
+    text_session_id INT,
+    INDEX (date),
+    INDEX (user_id)
+);
 
+-- Create the `servers` table if it doesn't exist
+CREATE TABLE IF NOT EXISTS servers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    hostname VARCHAR(64) NOT NULL
+);
 
---#alter table `check_log` drop column `day`;
-#alter table `check_log` add index `date_index` (`date`);
-#alter table `check_log` drop index `check_log_day_user_id_index`;
-#alter table `check_log` add index `date_user_index` (`date`, `user_id`);
+-- Create the `clients` table if it doesn't exist
+CREATE TABLE IF NOT EXISTS clients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(64) NOT NULL
+);
 
-create table if not exists `servers` (
-	`id` int(10) unsigned not null auto_increment,
-    `hostname` varchar(64) not null,
-    primary key (`id`)
-) engine=MyISAM default charset=utf8;
+-- Create the `rule_matches` table if it doesn't exist
+CREATE TABLE IF NOT EXISTS rule_matches (
+    match_id INT AUTO_INCREMENT PRIMARY KEY,
+    check_id INT NOT NULL,
+    rule_id VARCHAR(128) NOT NULL,
+    match_count INT NOT NULL,
+    INDEX (check_id),
+    INDEX (rule_id)
+);
 
-create table if not exists `clients` (
-	`id` int(10) unsigned not null auto_increment,
-    `name` varchar(64) not null,
-    primary key (`id`)
-) engine=MyISAM default charset=utf8;
+-- Create the `cache_stats` table if it doesn't exist
+CREATE TABLE IF NOT EXISTS cache_stats (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    date DATETIME NOT NULL,
+    server INT NOT NULL,
+    cache_hits FLOAT NOT NULL,
+    INDEX (date)
+);
 
+-- Create the `misc_log` table if it doesn't exist
+CREATE TABLE IF NOT EXISTS misc_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    date DATETIME NOT NULL,
+    server INT,
+    client INT,
+    user INT,
+    message VARCHAR(1024) NOT NULL,
+    INDEX (date)
+);
 
-create table if not exists  `cache_stats` (
-	`id` int(10) unsigned not null auto_increment,
-    `date` datetime not null,
-    `server` int(10) unsigned not null,
-    `cache_hits` float not null,
-    primary key (`id`),
-    key `date_index` (`date`)
-    ) engine=MyISAM DEFAULT CHARSET=utf8;
+-- Create the `check_error` table if it doesn't exist
+CREATE TABLE IF NOT EXISTS check_error (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type VARCHAR(64) NOT NULL,
+    date DATETIME NOT NULL,
+    server INT,
+    client INT,
+    user INT,
+    language_set VARCHAR(8),
+    language_detected VARCHAR(8),
+    text_length INT,
+    extra VARCHAR(256),
+    INDEX (date)
+);
 
-create table if not exists  `misc_log` (
-	`id` int(10) unsigned not null auto_increment,
-    `date` datetime not null,
-    `server` int(10) unsigned,
-    `client` int(10) unsigned,
-    `user` int(10) unsigned,
-    `message` varchar(1024) not null,
-    primary key (`id`),
-    key `date_index` (`date`)
-    ) engine=MyISAM default charset=utf8;
-
-create table if not exists  `check_error` (
-	`id` int(10) unsigned not null auto_increment,
-    `type` varchar(64) not null,
-    `date` datetime not null,
-    `server` int(10) unsigned,
-    `client` int(10) unsigned,
-    `user` int(10) unsigned,
-    `language_set` varchar(8),
-    `language_detected` varchar(8),
-    `text_length` int(10) unsigned,
-    `extra` varchar(256),
-    primary key (`id`),
-    key `date_index` (`date`)
-    ) engine=MyISAM default charset=utf8;
-
-create table if not exists  `access_limits` (
-	`id` int(10) unsigned not null auto_increment,
-    `type` varchar(64) not null,
-    `date` datetime not null,
-    `server` int(10) unsigned,
-    `client` int(10) unsigned,
-    `user` int(10) unsigned,
-    `referrer` varchar(128),
-    `user_agent` varchar(512),
-    `reason` varchar(128),
-    primary key (`id`),
-    key `date_index` (`date`)
-    ) engine=MyISAM default charset=utf8;
-
-
+-- Create the `access_limits` table if it doesn't exist (if it already exists, this command will be ignored)
+CREATE TABLE IF NOT EXISTS access_limits (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type VARCHAR(64) NOT NULL,
+    date DATETIME NOT NULL,
+    server INT,
+    client INT,
+    user INT,
+    referrer VARCHAR(128),
+    user_agent VARCHAR(512),
+    reason VARCHAR(128),
+    INDEX (date)
+);

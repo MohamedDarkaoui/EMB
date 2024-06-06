@@ -33,6 +33,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
         InstrumentedSutStarter starter = new InstrumentedSutStarter(controller);
 
         starter.start();
+        //controller.startSut();
     }
 
 
@@ -61,7 +62,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
         System.setProperty("dw.server.connector.port", "0");
 
         try {
-            application.run("server", "src/main/resources/scout_api_evomaster.yml");
+            application.run("server", "C:\\Users\\moham\\Desktop\\thesis\\benchmark\\EMB\\jdk_8_maven\\em\\embedded\\rest\\scout-api\\src\\main\\resources\\scout_api_evomaster.yml");
         } catch (Exception e) {
             e.printStackTrace();
             return null;

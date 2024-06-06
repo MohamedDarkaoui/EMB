@@ -10,89 +10,102 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import static org.junit.Assert.assertTrue;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(WebAppConfig.class)
-@WebIntegrationTest
+@SpringBootTest(
+        classes = WebAppConfig.class,
+        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
+        properties = {
+                "server.port=8080"
+        }
+)
 public class ConsumerTests {
 
-    @Autowired
-    WebApplicationContext wac;
     @Autowired
     private UserDAO users;
     @Autowired
     private Gson GSON;
 
-    private MockMvc mockMvc;
+    private RestTemplate restTemplate;
+    private String baseUrl;
 
     @Before
     public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+        this.restTemplate = new RestTemplate();
+        this.restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        this.baseUrl = "http://localhost:8080";
     }
 
-    //testar se o servidor regista utilizador
     @Test
     public void registerUser() throws Exception {
-        MvcResult mvcResult = this.mockMvc.perform(post("/consumer/register")
-                .param("username", "testusername")
-                .param("password", "testpassword")
-                .param("name", "testname")
-                .param("email", "testemail@mail.pt")
-                .param("latitude", "testlat")
-                .param("longitude", "testlong")).andReturn();
-        
+        String url = baseUrl + "/consumer/register";
 
-        String response = mvcResult.getResponse().getContentAsString();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("username", "testusername");
+        params.add("password", "testpassword");
+        params.add("name", "testname");
+        params.add("email", "testemail@mail.pt");
+        params.add("latitude", "testlat");
+        params.add("longitude", "testlong");
 
-        JsonObject jsonObject = (new JsonParser()).parse(response).getAsJsonObject();
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, new HttpHeaders());
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
 
+        JsonObject jsonObject = new JsonParser().parse(response.getBody()).getAsJsonObject();
         boolean status = jsonObject.get("success").getAsBoolean();
 
-        assert (status);
+        assertTrue(status);
     }
 
-    //testar login
     @Test
     public void login() throws Exception {
-        MvcResult mvcResult = this.mockMvc.perform(post("/login")
-                .param("username", "testusername")
-                .param("password", "testpassword")).andReturn();
+        String url = baseUrl + "/login";
 
-        String response = mvcResult.getResponse().getContentAsString();
-        JsonObject jsonObject = (new JsonParser()).parse(response).getAsJsonObject();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("username", "testusername");
+        params.add("password", "testpassword");
 
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, new HttpHeaders());
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+
+        JsonObject jsonObject = new JsonParser().parse(response.getBody()).getAsJsonObject();
         boolean status = jsonObject.get("success").getAsBoolean();
 
-        assert (status);
+        assertTrue(status);
     }
 
-    //testar se o servidor deteta utilizador jÃ¡ registado
     @Test
     public void errorRegisterUser() throws Exception {
-        MvcResult mvcResult = this.mockMvc.perform(post("/consumer/register")
-                .param("username", "testusername")
-                .param("password", "testpassword")
-                .param("name", "testname")
-                .param("email", "testemail@mail.pt")
-                .param("latitude", "testlat")
-                .param("longitude", "testlong")).andReturn();
+        String url = baseUrl + "/consumer/register";
 
-        String response = mvcResult.getResponse().getContentAsString();
-        JsonObject jsonObject = (new JsonParser()).parse(response).getAsJsonObject();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("username", "testusername");
+        params.add("password", "testpassword");
+        params.add("name", "testname");
+        params.add("email", "testemail@mail.pt");
+        params.add("latitude", "testlat");
+        params.add("longitude", "testlong");
 
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, new HttpHeaders());
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+
+        JsonObject jsonObject = new JsonParser().parse(response.getBody()).getAsJsonObject();
         boolean status = !jsonObject.get("success").getAsBoolean();
 
-        assert (status);
+        assertTrue(status);
 
         User user = this.users.findByUsername("testusername");
         this.users.delete(user);

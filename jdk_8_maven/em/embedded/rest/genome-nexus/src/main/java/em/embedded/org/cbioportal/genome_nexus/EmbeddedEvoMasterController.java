@@ -26,7 +26,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
 
     public static void main(String[] args) {
 
-        int port = 40410;
+        int port = 40100;
         if (args.length > 0) {
             port = Integer.parseInt(args[0]);
         }
@@ -56,7 +56,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
 
 
     public EmbeddedEvoMasterController() {
-        this(0);
+        this(40100);
     }
 
     public EmbeddedEvoMasterController(int port) {
@@ -82,7 +82,7 @@ public class EmbeddedEvoMasterController extends EmbeddedSutController {
         String reportOutputPath = "target/jacoco.exec";
 
         String[] springBootArgs = {
-                "--server.port=38888",
+                "--server.port=0",
                 "--spring.data.mongodb.uri=mongodb://" + mongodbContainer.getContainerIpAddress() + ":" + mongodbContainer.getMappedPort(MONGODB_PORT) + "/" + MONGODB_DATABASE_NAME,
                 "--spring.cache.type=NONE"
         };

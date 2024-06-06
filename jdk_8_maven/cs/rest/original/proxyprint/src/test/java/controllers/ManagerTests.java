@@ -13,42 +13,31 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.*;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.Charset;
 import java.util.Map;
-import org.junit.FixMethodOrder;
-import org.junit.runners.MethodSorters;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.junit.Assert.assertEquals;
 
-/**
- * Created by daniel on 20-06-2016.
- */
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(WebAppConfig.class)
-@WebIntegrationTest
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@SpringBootTest(
+        classes = WebAppConfig.class,
+        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
+        properties = {
+                "server.port=8080"
+        }
+)
 public class ManagerTests {
 
     private static boolean SEEDED = false;
-
-    @Autowired
-    private WebApplicationContext wac;
-    @Autowired
-    private FilterChainProxy springSecurityFilterChain;
-    private MockMvc mockMvc;
 
     @Autowired
     private AdminDAO admins;
@@ -61,20 +50,26 @@ public class ManagerTests {
     @Autowired
     private Gson GSON;
 
+    private RestTemplate restTemplate;
+    private String baseUrl;
+
     @Before
     public void setup() throws Exception {
-        this.mockMvc = MockMvcBuilders
-                .webAppContextSetup(this.wac)
-                .addFilters(springSecurityFilterChain)
-                .build();
-        /*this.admins.deleteAll();
-        this.managers.deleteAll();
-        this.printshops.deleteAll();
-        this.registerRequests.deleteAll();*/
+        this.restTemplate = new RestTemplate();
+        this.baseUrl = "http://localhost:8080";
         if (!SEEDED) {
             SEEDED = true;
-            this.mockMvc.perform(post("/admin/seed")).andReturn();
+            restTemplate.postForEntity(baseUrl + "/admin/seed", null, String.class);
         }
+    }
+
+    private HttpHeaders createHeaders(String username, String password){
+        return new HttpHeaders() {{
+            String auth = username + ":" + password;
+            byte[] encodedAuth = Base64.encode(auth.getBytes(Charset.forName("US-ASCII")));
+            String authHeader = "Basic " + new String(encodedAuth);
+            set("Authorization", authHeader);
+        }};
     }
 
     @Test
@@ -86,17 +81,16 @@ public class ManagerTests {
         Employee e = new Employee("jdc", "1234", "Daniel Caldas", pshop);
         String body = GSON.toJson(e);
 
-        MvcResult mvcResult = this.mockMvc.perform(post("/printshops/" + id + "/employees").with(httpBasic(m.getUsername(), m.getPassword()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(body)).andReturn();
+        HttpHeaders headers = createHeaders(m.getUsername(), m.getPassword());
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        assert (mvcResult.getResponse().getStatus() == 200);
+        HttpEntity<String> request = new HttpEntity<>(body, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl + "/printshops/" + id + "/employees", request, String.class);
 
-        String responseText = mvcResult.getResponse().getContentAsString();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        Map response = GSON.fromJson(responseText, Map.class);
-
-        assert (response.get("success").equals(true));
+        Map responseBody = GSON.fromJson(response.getBody(), Map.class);
+        assertEquals(true, responseBody.get("success"));
     }
 
     @Test
@@ -105,9 +99,11 @@ public class ManagerTests {
         PrintShop pshop = m.getPrintShop();
         long id = pshop.getId();
 
-        MvcResult mvcResult = this.mockMvc.perform(get("/printshops/" + id + "/employees").with(httpBasic(m.getUsername(), m.getPassword()))).andReturn();
+        HttpHeaders headers = createHeaders(m.getUsername(), m.getPassword());
 
-        assert (mvcResult.getResponse().getStatus() == 200);
+        HttpEntity<String> request = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(baseUrl + "/printshops/" + id + "/employees", HttpMethod.GET, request, String.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-
 }
