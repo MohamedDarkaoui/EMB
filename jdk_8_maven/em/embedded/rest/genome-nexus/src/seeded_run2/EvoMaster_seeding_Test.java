@@ -1158,731 +1158,731 @@ public class EvoMaster_seeding_Test {
     }
     
     
-//    @Test(timeout = 60000)
-//    public void test_16() throws Exception {
-//
-//        given().accept("application/json")
-//                .header("x-EMextraHeader123", "42")
-//                .contentType("application/json")
-//                .body(" [ " +
-//                    " \"chr17:g.7577566_7577567insA\", " +
-//                    " \"chr17:g.7577567A\u003eC\", " +
-//                    " \"chr17:g.7577567_7577567del\", " +
-//                    " \"chr17:g.7577567_7577568insCACATGTAGTTGT\", " +
-//                    " \"chr17:g.7577568C\u003eA\", " +
-//                    " \"chr17:g.7577568C\u003eG\", " +
-//                    " \"chr17:g.7577568C\u003eT\", " +
-//                    " \"chr17:g.7577569A\u003eC\", " +
-//                    " \"chr17:g.7577569A\u003eG\", " +
-//                    " \"chr17:g.7577569_7577569del\", " +
-//                    " \"chr17:g.7577569_7577572del\", " +
-//                    " \"chr17:g.7577569_7577580del\", " +
-//                    " \"chr17:g.7577570C\u003eA\", " +
-//                    " \"chr17:g.7577570C\u003eG\", " +
-//                    " \"chr17:g.7577570C\u003eT\", " +
-//                    " \"chr17:g.7577571A\u003eT\", " +
-//                    " \"chr17:g.7577571_7577572insTGTAGT\", " +
-//                    " \"chr17:g.7577572_7577572del\", " +
-//                    " \"chr17:g.7577572_7577574del\", " +
-//                    " \"chr17:g.7577573G\u003eC\", " +
-//                    " \"chr17:g.7577573G\u003eT\", " +
-//                    " \"chr17:g.7577573_7577573del\", " +
-//                    " \"chr17:g.7577574T\u003eC\", " +
-//                    " \"chr17:g.7577574T\u003eG\", " +
-//                    " \"chr17:g.7577575A\u003eC\", " +
-//                    " \"chr17:g.7577575A\u003eG\", " +
-//                    " \"chr17:g.7577575A\u003eT\", " +
-//                    " \"chr17:g.7577576_7577578del\", " +
-//                    " \"chr17:g.7577576_7577582del\", " +
-//                    " \"chr17:g.7577577T\u003eC\", " +
-//                    " \"chr17:g.7577578T\u003eC\", " +
-//                    " \"chr17:g.7577579G\u003eC\", " +
-//                    " \"chr17:g.7577579G\u003eT\", " +
-//                    " \"chr17:g.7577579_7577581del\", " +
-//                    " \"chr17:g.7577580T\u003eC\", " +
-//                    " \"chr17:g.7577580T\u003eG\", " +
-//                    " \"chr17:g.7577581A\u003eC\", " +
-//                    " \"chr17:g.7577581A\u003eG\", " +
-//                    " \"chr17:g.7577581A\u003eT\", " +
-//                    " \"chr17:g.7577581_7577595del\", " +
-//                    " \"chr17:g.7577584_7577585insCTAC\", " +
-//                    " \"chr17:g.7577585_7577590del\", " +
-//                    " \"chr17:g.7577586A\u003eC\", " +
-//                    " \"chr17:g.7577586A\u003eT\", " +
-//                    " \"chr17:g.7577586_7577587insTGGTGGTACAGTCAG\", " +
-//                    " \"chr17:g.7577587T\u003eA\", " +
-//                    " \"chr17:g.7577587_7577587del\", " +
-//                    " \"chr17:g.7577588_7577595del\", " +
-//                    " \"chr17:g.7577589G\u003eT\", " +
-//                    " \"chr17:g.7577589_7577590insT\", " +
-//                    " \"chr17:g.7577591_7577596del\", " +
-//                    " \"chr17:g.7577592_7577602del\", " +
-//                    " \"chr17:g.7577593_7577593del\", " +
-//                    " \"chr17:g.7577593_7577594del\", " +
-//                    " \"chr17:g.7577594A\u003eT\", " +
-//                    " \"chr17:g.7577594_7577595del\", " +
-//                    " \"chr17:g.7577595C\u003eT\", " +
-//                    " \"chr17:g.7577596_7577596del\", " +
-//                    " \"chr17:g.7577599C\u003eG\", " +
-//                    " \"chr17:g.7577599_7577600insA\", " +
-//                    " \"chr17:g.7577604C\u003eT\", " +
-//                    " \"chr17:g.7577608C\u003eT\", " +
-//                    " \"chr17:g.7577609C\u003eA\", " +
-//                    " \"chr17:g.7577609C\u003eG\", " +
-//                    " \"chr17:g.7577609C\u003eT\", " +
-//                    " \"chr17:g.7577610T\u003eA\", " +
-//                    " \"chr17:g.7577610T\u003eC\", " +
-//                    " \"chr17:g.7577610T\u003eG\", " +
-//                    " \"chr17:g.7578098_7578176del\", " +
-//                    " \"chr17:g.7578175A\u003eG\", " +
-//                    " \"chr17:g.7578175_7578233del\", " +
-//                    " \"chr17:g.7578176C\u003eA\", " +
-//                    " \"chr17:g.7578176C\u003eT\", " +
-//                    " \"chr17:g.7578177C\u003eA\", " +
-//                    " \"chr17:g.7578177C\u003eG\", " +
-//                    " \"chr17:g.7578179C\u003eA\", " +
-//                    " \"chr17:g.7578181G\u003eA\", " +
-//                    " \"chr17:g.7578181_7578181del\", " +
-//                    " \"chr17:g.7578184_7578184del\", " +
-//                    " \"chr17:g.7578184_7578187del\", " +
-//                    " \"chr17:g.7578184_7578208del\", " +
-//                    " \"chr17:g.7578188C\u003eA\", " +
-//                    " \"chr17:g.7578189A\u003eC\", " +
-//                    " \"chr17:g.7578189A\u003eT\", " +
-//                    " \"chr17:g.7578190T\u003eC\", " +
-//                    " \"chr17:g.7578190T\u003eG\", " +
-//                    " \"chr17:g.7578191A\u003eC\", " +
-//                    " \"chr17:g.7578191A\u003eG\", " +
-//                    " \"chr17:g.7578191A\u003eT\", " +
-//                    " \"chr17:g.7578192_7578192del\", " +
-//                    " \"chr17:g.7578192_7578193delinsA\", " +
-//                    " \"chr17:g.7578192_7578193insGGCACCACCACACTATGTCGAAAAGTGT\", " +
-//                    " \"chr17:g.7578193G\u003eC\", " +
-//                    " \"chr17:g.7578194_7578195insCAC\", " +
-//                    " \"chr17:g.7578195_7578197del\", " +
-//                    " \"chr17:g.7578196A\u003eC\", " +
-//                    " \"chr17:g.7578196_7578197insC\", " +
-//                    " \"chr17:g.7578196_7578197insCC\", " +
-//                    " \"chr17:g.7578196_7578197insCCACCACACTAT\", " +
-//                    " \"chr17:g.7578197C\u003eA\", " +
-//                    " \"chr17:g.7578197_7578198delinsTT\", " +
-//                    " \"chr17:g.7578199A\u003eC\", " +
-//                    " \"chr17:g.7578199_7578199del\", " +
-//                    " \"chr17:g.7578200_7578222del\", " +
-//                    " \"chr17:g.7578201_7578202del\", " +
-//                    " \"chr17:g.7578202A\u003eC\", " +
-//                    " \"chr17:g.7578202A\u003eT\", " +
-//                    " \"chr17:g.7578203C\u003eA\", " +
-//                    " \"chr17:g.7578203C\u003eG\", " +
-//                    " \"chr17:g.7578203C\u003eT\", " +
-//                    " \"chr17:g.7578204A\u003eC\", " +
-//                    " \"chr17:g.7578204A\u003eT\", " +
-//                    " \"chr17:g.7578205C\u003eA\", " +
-//                    " \"chr17:g.7578205C\u003eG\", " +
-//                    " \"chr17:g.7578205C\u003eT\", " +
-//                    " \"chr17:g.7578205_7578206insTATGTCGAAAA\", " +
-//                    " \"chr17:g.7578205_7578207delinsTTT\", " +
-//                    " \"chr17:g.7578206T\u003eA\", " +
-//                    " \"chr17:g.7578206T\u003eC\", " +
-//                    " \"chr17:g.7578206T\u003eG\", " +
-//                    " \"chr17:g.7578206_7578207del\", " +
-//                    " \"chr17:g.7578207A\u003eC\", " +
-//                    " \"chr17:g.7578207_7578215del\", " +
-//                    " \"chr17:g.7578208T\u003eA\", " +
-//                    " \"chr17:g.7578208T\u003eC\", " +
-//                    " \"chr17:g.7578208T\u003eG\", " +
-//                    " \"chr17:g.7578208_7578208del\", " +
-//                    " \"chr17:g.7578208_7578217del\", " +
-//                    " \"chr17:g.7578208_7578219del\", " +
-//                    " \"chr17:g.7578209_7578209del\", " +
-//                    " \"chr17:g.7578210_7578210del\", " +
-//                    " \"chr17:g.7578211C\u003eA\", " +
-//                    " \"chr17:g.7578211C\u003eT\", " +
-//                    " \"chr17:g.7578211_7578212delinsA\", " +
-//                    " \"chr17:g.7578212G\u003eA\", " +
-//                    " \"chr17:g.7578212G\u003eC\", " +
-//                    " \"chr17:g.7578212_7578213insA\", " +
-//                    " \"chr17:g.7578213_7578213del\", " +
-//                    " \"chr17:g.7578213_7578214del\", " +
-//                    " \"chr17:g.7578213_7578231del\", " +
-//                    " \"chr17:g.7578215_7578227del\", " +
-//                    " \"chr17:g.7578217G\u003eA\", " +
-//                    " \"chr17:g.7578219_7578220insT\", " +
-//                    " \"chr17:g.7578220_7578221del\", " +
-//                    " \"chr17:g.7578220_7578221insTTCTGTCATCCAAATACTCCACACG\", " +
-//                    " \"chr17:g.7578222_7578223del\", " +
-//                    " \"chr17:g.7578223C\u003eT\", " +
-//                    " \"chr17:g.7578224T\u003eA\", " +
-//                    " \"chr17:g.7578225G\u003eT\", " +
-//                    " \"chr17:g.7578226T\u003eA\", " +
-//                    " \"chr17:g.7578226_7578229del\", " +
-//                    " \"chr17:g.7578227C\u003eT\", " +
-//                    " \"chr17:g.7578229_7578237del\", " +
-//                    " \"chr17:g.7578230_7578230del\", " +
-//                    " \"chr17:g.7578231_7578232insAAAT\", " +
-//                    " \"chr17:g.7578235T\u003eA\", " +
-//                    " \"chr17:g.7578235T\u003eC\", " +
-//                    " \"chr17:g.7578235T\u003eG\", " +
-//                    " \"chr17:g.7578236A\u003eG\", " +
-//                    " \"chr17:g.7578238_7578255del\", " +
-//                    " \"chr17:g.7578239C\u003eA\", " +
-//                    " \"chr17:g.7578239_7578240delinsAG\", " +
-//                    " \"chr17:g.7578239_7578240insCA\", " +
-//                    " \"chr17:g.7578242C\u003eA\", " +
-//                    " \"chr17:g.7578244_7578261del\", " +
-//                    " \"chr17:g.7578245G\u003eA\", " +
-//                    " \"chr17:g.7578245_7578277del\", " +
-//                    " \"chr17:g.7578247A\u003eT\", " +
-//                    " \"chr17:g.7578247_7578247del\", " +
-//                    " \"chr17:g.7578247_7578248del\", " +
-//                    " \"chr17:g.7578248_7578249insAT\", " +
-//                    " \"chr17:g.7578250_7578250del\", " +
-//                    " \"chr17:g.7578252_7578299del\", " +
-//                    " \"chr17:g.7578253C\u003eA\", " +
-//                    " \"chr17:g.7578253C\u003eT\", " +
-//                    " \"chr17:g.7578254C\u003eA\", " +
-//                    " \"chr17:g.7578257C\u003eA\", " +
-//                    " \"chr17:g.7578257_7578257del\", " +
-//                    " \"chr17:g.7578257_7578258delinsAA\", " +
-//                    " \"chr17:g.7578259A\u003eT\", " +
-//                    " \"chr17:g.7578260C\u003eT\", " +
-//                    " \"chr17:g.7578262C\u003eA\", " +
-//                    " \"chr17:g.7578262C\u003eG\", " +
-//                    " \"chr17:g.7578262C\u003eT\", " +
-//                    " \"chr17:g.7578263G\u003eA\", " +
-//                    " \"chr17:g.7578263_7578282del\", " +
-//                    " \"chr17:g.7578264_7578265delinsTT\", " +
-//                    " \"chr17:g.7578264_7578338delinsTT\", " +
-//                    " \"chr17:g.7578265A\u003eC\", " +
-//                    " \"chr17:g.7578265A\u003eG\", " +
-//                    " \"chr17:g.7578265A\u003eT\", " +
-//                    " \"chr17:g.7578265_7578266insT\", " +
-//                    " \"chr17:g.7578266T\u003eA\", " +
-//                    " \"chr17:g.7578266_7578266del\", " +
-//                    " \"chr17:g.7578266_7578267insA\", " +
-//                    " \"chr17:g.7578267_7578268insAG\", " +
-//                    " \"chr17:g.7578268A\u003eC\", " +
-//                    " \"chr17:g.7578268A\u003eG\", " +
-//                    " \"chr17:g.7578268_7578280del\", " +
-//                    " \"chr17:g.7578269G\u003eA\", " +
-//                    " \"chr17:g.7578270A\u003eT\", " +
-//                    " \"chr17:g.7578271T\u003eA\", " +
-//                    " \"chr17:g.7578271T\u003eC\", " +
-//                    " \"chr17:g.7578271T\u003eG\", " +
-//                    " \"chr17:g.7578272G\u003eA\", " +
-//                    " \"chr17:g.7578272G\u003eC\", " +
-//                    " \"chr17:g.7578272G\u003eT\", " +
-//                    " \"chr17:g.7578272_7578273delinsAA\", " +
-//                    " \"chr17:g.7578274T\u003eA\", " +
-//                    " \"chr17:g.7578275G\u003eA\", " +
-//                    " \"chr17:g.7578275_7578277del\", " +
-//                    " \"chr17:g.7578275_7578293del\", " +
-//                    " \"chr17:g.7578277_7578281del\", " +
-//                    " \"chr17:g.7578280G\u003eA\", " +
-//                    " \"chr17:g.7578280_7578280del\", " +
-//                    " \"chr17:g.7578281G\u003eA\", " +
-//                    " \"chr17:g.7578281G\u003eT\", " +
-//                    " \"chr17:g.7578282_7578306del\", " +
-//                    " \"chr17:g.7578283_7578284insC\", " +
-//                    " \"chr17:g.7578284_7578284del\", " +
-//                    " \"chr17:g.7578284_7578288del\", " +
-//                    " \"chr17:g.7578284_7578297del\", " +
-//                    " \"chr17:g.7578284_7578310del\", " +
-//                    " \"chr17:g.7578285_7578296del\", " +
-//                    " \"chr17:g.7578286A\u003eT\", " +
-//                    " \"chr17:g.7578286_7578286del\", " +
-//                    " \"chr17:g.7578287_7578287del\", " +
-//                    " \"chr17:g.7578289C\u003eT\", " +
-//                    " \"chr17:g.7578289_7578290delinsTT\", " +
-//                    " \"chr17:g.7578290C\u003eA\", " +
-//                    " \"chr17:g.7578290C\u003eG\", " +
-//                    " \"chr17:g.7578290C\u003eT\", " +
-//                    " \"chr17:g.7578291T\u003eA\", " +
-//                    " \"chr17:g.7578291T\u003eC\", " +
-//                    " \"chr17:g.7578291T\u003eG\", " +
-//                    " \"chr17:g.7578293_7578977del\", " +
-//                    " \"chr17:g.7578313_7578425del\", " +
-//                    " \"chr17:g.7578359_7578373del\", " +
-//                    " \"chr17:g.7578359_7578375del\", " +
-//                    " \"chr17:g.7578360_7578373del\", " +
-//                    " \"chr17:g.7578362_7578385del\", " +
-//                    " \"chr17:g.7578365_7578383del\", " +
-//                    " \"chr17:g.7578370C\u003eA\", " +
-//                    " \"chr17:g.7578370C\u003eG\", " +
-//                    " \"chr17:g.7578370C\u003eT\", " +
-//                    " \"chr17:g.7578371C\u003eG\", " +
-//                    " \"chr17:g.7578371_7578382del\", " +
-//                    " \"chr17:g.7578372_7578373delinsC\", " +
-//                    " \"chr17:g.7578376_7578376del\", " +
-//                    " \"chr17:g.7578376_7578379del\", " +
-//                    " \"chr17:g.7578377_7578377del\", " +
-//                    " \"chr17:g.7578377_7578378del\", " +
-//                    " \"chr17:g.7578378A\u003eT\", " +
-//                    " \"chr17:g.7578378_7578379insTC\", " +
-//                    " \"chr17:g.7578378_7578395del\", " +
-//                    " \"chr17:g.7578379_7578379del\", " +
-//                    " \"chr17:g.7578382G\u003eC\", " +
-//                    " \"chr17:g.7578382_7578382del\", " +
-//                    " \"chr17:g.7578384_7578401del\", " +
-//                    " \"chr17:g.7578388C\u003eG\", " +
-//                    " \"chr17:g.7578388C\u003eT\", " +
-//                    " \"chr17:g.7578389G\u003eA\", " +
-//                    " \"chr17:g.7578389_7578402delinsT\", " +
-//                    " \"chr17:g.7578390C\u003eG\", " +
-//                    " \"chr17:g.7578392C\u003eA\", " +
-//                    " \"chr17:g.7578392C\u003eT\", " +
-//                    " \"chr17:g.7578393A\u003eC\", " +
-//                    " \"chr17:g.7578393A\u003eT\", " +
-//                    " \"chr17:g.7578393_7578405del\", " +
-//                    " \"chr17:g.7578394T\u003eA\", " +
-//                    " \"chr17:g.7578394T\u003eC\", " +
-//                    " \"chr17:g.7578394T\u003eG\", " +
-//                    " \"chr17:g.7578394_7578395del\", " +
-//                    " \"chr17:g.7578394_7578396del\", " +
-//                    " \"chr17:g.7578395G\u003eA\", " +
-//                    " \"chr17:g.7578395G\u003eC\", " +
-//                    " \"chr17:g.7578395G\u003eT\", " +
-//                    " \"chr17:g.7578397T\u003eG\", " +
-//                    " \"chr17:g.7578397_7578397del\", " +
-//                    " \"chr17:g.7578397_7578398insG\", " +
-//                    " \"chr17:g.7578398G\u003eC\", " +
-//                    " \"chr17:g.7578398_7578398del\", " +
-//                    " \"chr17:g.7578400G\u003eC\", " +
-//                    " \"chr17:g.7578401_7578402delinsT\", " +
-//                    " \"chr17:g.7578402G\u003eC\", " +
-//                    " \"chr17:g.7578402G\u003eT\", " +
-//                    " \"chr17:g.7578403C\u003eA\", " +
-//                    " \"chr17:g.7578403C\u003eT\", " +
-//                    " \"chr17:g.7578404A\u003eC\", " +
-//                    " \"chr17:g.7578404A\u003eG\", " +
-//                    " \"chr17:g.7578404A\u003eT\", " +
-//                    " \"chr17:g.7578406C\u003eA\", " +
-//                    " \"chr17:g.7578406C\u003eT\", " +
-//                    " \"chr17:g.7578406_7578406del\", " +
-//                    " \"chr17:g.7578407G\u003eA\", " +
-//                    " \"chr17:g.7578407G\u003eC\", " +
-//                    " \"chr17:g.7578407_7578412delinsCCC\", " +
-//                    " \"chr17:g.7578410T\u003eA\", " +
-//                    " \"chr17:g.7578410T\u003eC\", " +
-//                    " \"chr17:g.7578411_7578411del\", " +
-//                    " \"chr17:g.7578412A\u003eC\", " +
-//                    " \"chr17:g.7578412A\u003eG\", " +
-//                    " \"chr17:g.7578413C\u003eA\", " +
-//                    " \"chr17:g.7578413C\u003eG\", " +
-//                    " \"chr17:g.7578413C\u003eT\", " +
-//                    " \"chr17:g.7578413_7578413del\", " +
-//                    " \"chr17:g.7578414_7578414del\", " +
-//                    " \"chr17:g.7578415A\u003eT\", " +
-//                    " \"chr17:g.7578416C\u003eA\", " +
-//                    " \"chr17:g.7578417_7578419delinsTG\", " +
-//                    " \"chr17:g.7578418T\u003eC\", " +
-//                    " \"chr17:g.7578419C\u003eA\", " +
-//                    " \"chr17:g.7578419_7578419del\", " +
-//                    " \"chr17:g.7578419_7578420insCGTCATGTG\", " +
-//                    " \"chr17:g.7578421G\u003eA\", " +
-//                    " \"chr17:g.7578422_7578423insCATGTGCTG\", " +
-//                    " \"chr17:g.7578422_7578424del\", " +
-//                    " \"chr17:g.7578423_7578424insA\", " +
-//                    " \"chr17:g.7578423_7579121del\", " +
-//                    " \"chr17:g.7578424_7578425del\", " +
-//                    " \"chr17:g.7578424_7578427del\", " +
-//                    " \"chr17:g.7578427T\u003eC\", " +
-//                    " \"chr17:g.7578427T\u003eG\", " +
-//                    " \"chr17:g.7578428_7578431delinsACTA\", " +
-//                    " \"chr17:g.7578428_7578627del\", " +
-//                    " \"chr17:g.7578429_7578430insTG\", " +
-//                    " \"chr17:g.7578430_7578431del\", " +
-//                    " \"chr17:g.7578431G\u003eA\", " +
-//                    " \"chr17:g.7578433G\u003eC\", " +
-//                    " \"chr17:g.7578433G\u003eT\", " +
-//                    " \"chr17:g.7578435C\u003eA\", " +
-//                    " \"chr17:g.7578437G\u003eA\", " +
-//                    " \"chr17:g.7578439_7578439del\", " +
-//                    " \"chr17:g.7578440T\u003eA\", " +
-//                    " \"chr17:g.7578440T\u003eC\", " +
-//                    " \"chr17:g.7578441G\u003eT\", " +
-//                    " \"chr17:g.7578441_7578442delinsA\", " +
-//                    " \"chr17:g.7578442T\u003eC\", " +
-//                    " \"chr17:g.7578442_7578450delinsCCG\", " +
-//                    " \"chr17:g.7578443A\u003eC\", " +
-//                    " \"chr17:g.7578443A\u003eG\", " +
-//                    " \"chr17:g.7578443A\u003eT\", " +
-//                    " \"chr17:g.7578443_7578691del\", " +
-//                    " \"chr17:g.7578445A\u003eC\", " +
-//                    " \"chr17:g.7578445A\u003eT\", " +
-//                    " \"chr17:g.7578445_7578449delinsCTGGG\", " +
-//                    " \"chr17:g.7578446T\u003eA\", " +
-//                    " \"chr17:g.7578447_7578447del\", " +
-//                    " \"chr17:g.7578448G\u003eT\", " +
-//                    " \"chr17:g.7578449C\u003eA\", " +
-//                    " \"chr17:g.7578449C\u003eT\", " +
-//                    " \"chr17:g.7578452_7578453insGGCGCG\", " +
-//                    " \"chr17:g.7578453_7578455del\", " +
-//                    " \"chr17:g.7578453_7578458del\", " +
-//                    " \"chr17:g.7578454G\u003eA\", " +
-//                    " \"chr17:g.7578454_7578455del\", " +
-//                    " \"chr17:g.7578454_7578457del\", " +
-//                    " \"chr17:g.7578454_7578464delinsACGC\", " +
-//                    " \"chr17:g.7578454_7578467del\", " +
-//                    " \"chr17:g.7578455C\u003eG\", " +
-//                    " \"chr17:g.7578455_7578460del\", " +
-//                    " \"chr17:g.7578457C\u003eA\", " +
-//                    " \"chr17:g.7578457C\u003eG\", " +
-//                    " \"chr17:g.7578457C\u003eT\", " +
-//                    " \"chr17:g.7578457_7578458delinsAA\", " +
-//                    " \"chr17:g.7578458G\u003eA\", " +
-//                    " \"chr17:g.7578458G\u003eC\", " +
-//                    " \"chr17:g.7578458_7578459insA\", " +
-//                    " \"chr17:g.7578458_7578464del\", " +
-//                    " \"chr17:g.7578460A\u003eC\", " +
-//                    " \"chr17:g.7578460A\u003eG\", " +
-//                    " \"chr17:g.7578461C\u003eA\", " +
-//                    " \"chr17:g.7578461_7578473del\", " +
-//                    " \"chr17:g.7578462_7578463insC\", " +
-//                    " \"chr17:g.7578463C\u003eA\", " +
-//                    " \"chr17:g.7578463C\u003eG\", " +
-//                    " \"chr17:g.7578463C\u003eT\", " +
-//                    " \"chr17:g.7578463_7578464insA\", " +
-//                    " \"chr17:g.7578464G\u003eC\", " +
-//                    " \"chr17:g.7578464_7578464del\", " +
-//                    " \"chr17:g.7578464_7578476del\", " +
-//                    " \"chr17:g.7578465_7578470del\", " +
-//                    " \"chr17:g.7578466G\u003eA\", " +
-//                    " \"chr17:g.7578466G\u003eT\", " +
-//                    " \"chr17:g.7578467T\u003eG\", " +
-//                    " \"chr17:g.7578467_7578468insG\", " +
-//                    " \"chr17:g.7578467_7578468insGCCGGGC\", " +
-//                    " \"chr17:g.7578467_7578498del\", " +
-//                    " \"chr17:g.7578469C\u003eA\", " +
-//                    " \"chr17:g.7578469C\u003eT\", " +
-//                    " \"chr17:g.7578469_7578469del\", " +
-//                    " \"chr17:g.7578469_7578470insCGGG\", " +
-//                    " \"chr17:g.7578469_7578470insGGG\", " +
-//                    " \"chr17:g.7578469_7578474del\", " +
-//                    " \"chr17:g.7578470_7578471delinsA\", " +
-//                    " \"chr17:g.7578470_7578471insG\", " +
-//                    " \"chr17:g.7578470_7578473del\", " +
-//                    " \"chr17:g.7578470_7578482del\", " +
-//                    " \"chr17:g.7578470_7578502del\", " +
-//                    " \"chr17:g.7578471_7578471del\", " +
-//                    " \"chr17:g.7578471_7578478del\", " +
-//                    " \"chr17:g.7578471_7578483del\", " +
-//                    " \"chr17:g.7578472G\u003eA\", " +
-//                    " \"chr17:g.7578472_7578491del\", " +
-//                    " \"chr17:g.7578473_7578474insA\", " +
-//                    " \"chr17:g.7578473_7578474insC\", " +
-//                    " \"chr17:g.7578474_7578475insG\", " +
-//                    " \"chr17:g.7578475G\u003eA\", " +
-//                    " \"chr17:g.7578475G\u003eC\", " +
-//                    " \"chr17:g.7578475_7578475del\", " +
-//                    " \"chr17:g.7578475_7578476delinsTT\", " +
-//                    " \"chr17:g.7578476G\u003eA\", " +
-//                    " \"chr17:g.7578476G\u003eT\", " +
-//                    " \"chr17:g.7578476_7578477insGGGT\", " +
-//                    " \"chr17:g.7578478G\u003eC\", " +
-//                    " \"chr17:g.7578478G\u003eT\", " +
-//                    " \"chr17:g.7578478_7578479delinsAA\", " +
-//                    " \"chr17:g.7578478_7578480del\", " +
-//                    " \"chr17:g.7578479G\u003eA\", " +
-//                    " \"chr17:g.7578479G\u003eC\", " +
-//                    " \"chr17:g.7578479G\u003eT\", " +
-//                    " \"chr17:g.7578480_7578488del\", " +
-//                    " \"chr17:g.7578480_7578495del\", " +
-//                    " \"chr17:g.7578481_7578481del\", " +
-//                    " \"chr17:g.7578481_7578482insT\", " +
-//                    " \"chr17:g.7578482_7578482del\", " +
-//                    " \"chr17:g.7578484_7578485insA\", " +
-//                    " \"chr17:g.7578484_7578502del\", " +
-//                    " \"chr17:g.7578485_7578485del\", " +
-//                    " \"chr17:g.7578486A\u003eT\", " +
-//                    " \"chr17:g.7578488_7578488del\", " +
-//                    " \"chr17:g.7578490A\u003eC\", " +
-//                    " \"chr17:g.7578491_7578491del\", " +
-//                    " \"chr17:g.7578492C\u003eG\", " +
-//                    " \"chr17:g.7578492C\u003eT\", " +
-//                    " \"chr17:g.7578493C\u003eT\", " +
-//                    " \"chr17:g.7578493_7578500del\", " +
-//                    " \"chr17:g.7578494A\u003eC\", " +
-//                    " \"chr17:g.7578495_7578507del\", " +
-//                    " \"chr17:g.7578496A\u003eC\", " +
-//                    " \"chr17:g.7578496A\u003eG\", " +
-//                    " \"chr17:g.7578496A\u003eT\", " +
-//                    " \"chr17:g.7578499T\u003eA\", " +
-//                    " \"chr17:g.7578499T\u003eC\", " +
-//                    " \"chr17:g.7578499T\u003eG\", " +
-//                    " \"chr17:g.7578499_7578499del\", " +
-//                    " \"chr17:g.7578500G\u003eA\", " +
-//                    " \"chr17:g.7578500_7578500del\", " +
-//                    " \"chr17:g.7578500_7578524del\", " +
-//                    " \"chr17:g.7578501_7578502insA\", " +
-//                    " \"chr17:g.7578502A\u003eC\", " +
-//                    " \"chr17:g.7578502A\u003eG\", " +
-//                    " \"chr17:g.7578503C\u003eT\", " +
-//                    " \"chr17:g.7578503_7578507del\", " +
-//                    " \"chr17:g.7578503_7578518del\", " +
-//                    " \"chr17:g.7578504_7578505insGGG\", " +
-//                    " \"chr17:g.7578505G\u003eA\", " +
-//                    " \"chr17:g.7578505_7578505del\", " +
-//                    " \"chr17:g.7578505_7578510del\", " +
-//                    " \"chr17:g.7578507G\u003eC\", " +
-//                    " \"chr17:g.7578507G\u003eT\", " +
-//                    " \"chr17:g.7578508C\u003eT\", " +
-//                    " \"chr17:g.7578508_7578535delinsG\", " +
-//                    " \"chr17:g.7578509A\u003eC\", " +
-//                    " \"chr17:g.7578509A\u003eG\", " +
-//                    " \"chr17:g.7578510_7578510del\", " +
-//                    " \"chr17:g.7578511G\u003eA\", " +
-//                    " \"chr17:g.7578513C\u003eG\", " +
-//                    " \"chr17:g.7578513_7578549del\", " +
-//                    " \"chr17:g.7578514T\u003eG\", " +
-//                    " \"chr17:g.7578515T\u003eA\", " +
-//                    " \"chr17:g.7578515_7578516insGGCCAGTTGGCAAAACATCTTGTTGAG\", " +
-//                    " \"chr17:g.7578516_7578516del\", " +
-//                    " \"chr17:g.7578517G\u003eA\", " +
-//                    " \"chr17:g.7578518C\u003eG\", " +
-//                    " \"chr17:g.7578520A\u003eT\", " +
-//                    " \"chr17:g.7578520_7578525del\", " +
-//                    " \"chr17:g.7578521_7578521del\", " +
-//                    " \"chr17:g.7578521_7578531del\", " +
-//                    " \"chr17:g.7578522_7578522del\", " +
-//                    " \"chr17:g.7578523T\u003eG\", " +
-//                    " \"chr17:g.7578523_7578548del\", " +
-//                    " \"chr17:g.7578524G\u003eA\", " +
-//                    " \"chr17:g.7578524G\u003eC\", " +
-//                    " \"chr17:g.7578525G\u003eC\", " +
-//                    " \"chr17:g.7578525G\u003eT\", " +
-//                    " \"chr17:g.7578526C\u003eA\", " +
-//                    " \"chr17:g.7578526C\u003eG\", " +
-//                    " \"chr17:g.7578526C\u003eT\", " +
-//                    " \"chr17:g.7578526_7578527insA\", " +
-//                    " \"chr17:g.7578527A\u003eC\", " +
-//                    " \"chr17:g.7578527A\u003eG\", " +
-//                    " \"chr17:g.7578527A\u003eT\", " +
-//                    " \"chr17:g.7578527_7578527del\", " +
-//                    " \"chr17:g.7578527_7578528del\", " +
-//                    " \"chr17:g.7578528A\u003eC\", " +
-//                    " \"chr17:g.7578528A\u003eT\", " +
-//                    " \"chr17:g.7578529A\u003eC\", " +
-//                    " \"chr17:g.7578530A\u003eC\", " +
-//                    " \"chr17:g.7578530A\u003eG\" " +
-//                    " ] ")
-//                .post(baseUrlOfSut + "/my_variant_info/variant?EMextraParam123=42")
-//                .then()
-//                .statusCode(200)
-//                .assertThat()
-//                .contentType("application/json")
-//                .body("size()", equalTo(280))
-//                .body("[0].'variant'", containsString("chr17:g.7577567A>C"))
-//                .body("[0].'query'", containsString("chr17:g.7577567A>C"))
-//                .body("[0].'hgvs'", containsString("chr17:g.7577567A>C"))
-//                .body("[0].'snpeff'.'license'", containsString("http://bit.ly/2suyRKt"))
-//                .body("[0].'vcf'.'alt'", containsString("C"))
-//                .body("[0].'vcf'.'position'", containsString("7577567"))
-//                .body("[0].'vcf'.'ref'", containsString("A"))
-//                .body("[0].'dbsnp'.'license'", containsString("http://bit.ly/2AqoLOc"))
-//                .body("[0].'dbsnp'.'alleles'.size()", equalTo(1))
-//                .body("[0].'dbsnp'.'alleles'[0]", nullValue())
-//                .body("[0].'dbsnp'.'alt'", containsString("C"))
-//                .body("[0].'dbsnp'.'chrom'", containsString("17"))
-//                .body("[0].'dbsnp'.'dbsnpBuild'", numberMatches(156.0))
-//                .body("[0].'dbsnp'.'flags'.size()", equalTo(1))
-//                .body("[0].'dbsnp'.'flags'[0]", nullValue())
-//                .body("[0].'dbsnp'.'hg19'.'start'", numberMatches(7577567.0))
-//                .body("[0].'dbsnp'.'hg19'.'end'", numberMatches(7577567.0))
-//                .body("[0].'dbsnp'.'ref'", containsString("A"))
-//                .body("[0].'dbsnp'.'rsid'", containsString("rs193920789"))
-//                .body("[0].'dbsnp'.'vartype'", containsString("snv"))
-//                .body("[0].'cosmic'.'license'", containsString("http://bit.ly/2VMkY7R"))
-//                .body("[0].'cosmic'.'alt'", containsString("G"))
-//                .body("[0].'cosmic'.'chrom'", containsString("17"))
-//                .body("[0].'cosmic'.'cosmicId'", containsString("COSM44676"))
-//                .body("[0].'cosmic'.'hg19'.'start'", numberMatches(7577567.0))
-//                .body("[0].'cosmic'.'hg19'.'end'", numberMatches(7577567.0))
-//                .body("[0].'cosmic'.'mutFreq'", numberMatches(0.03))
-//                .body("[0].'cosmic'.'mutNt'", containsString("T>G"))
-//                .body("[0].'cosmic'.'ref'", containsString("T"))
-//                .body("[0].'cosmic'.'tumorSite'", containsString("urinary_tract"))
-//                .body("[0].'clinVar'.'license'", containsString("http://bit.ly/2SQdcI0"))
-//                .body("[0].'clinVar'.'alleleId'", numberMatches(171615.0))
-//                .body("[0].'clinVar'.'alt'", containsString("C"))
-//                .body("[0].'clinVar'.'chrom'", containsString("17"))
-//                .body("[0].'clinVar'.'cytogenic'", containsString("17p13.1"))
-//                .body("[0].'clinVar'.'gene'.'symbol'", containsString("TP53"))
-//                .body("[0].'clinVar'.'hg19'.'start'", numberMatches(7577567.0))
-//                .body("[0].'clinVar'.'hg19'.'end'", numberMatches(7577567.0))
-//                .body("[0].'clinVar'.'hg38'.'start'", containsString("7674249"))
-//                .body("[0].'clinVar'.'hg38'.'end'", containsString("7674249"))
-//                .body("[0].'clinVar'.'hgvs'.'coding'.size()", equalTo(17))
-//                .body("[0].'clinVar'.'hgvs'.'coding'", hasItems("LRG_321t1:c.714T>G", "LRG_321t5:c.318T>G", "NM_000546.6:c.714T>G", "NM_001126112.3:c.714T>G", "NM_001126113.3:c.714T>G", "NM_001126114.3:c.714T>G", "NM_001126115.2:c.318T>G", "NM_001126116.2:c.318T>G", "NM_001126117.2:c.318T>G", "NM_001126118.2:c.597T>G", "NM_001276695.3:c.597T>G", "NM_001276696.3:c.597T>G", "NM_001276697.3:c.237T>G", "NM_001276698.3:c.237T>G", "NM_001276699.3:c.237T>G", "NM_001276760.3:c.597T>G", "NM_001276761.3:c.597T>G"))
-//                .body("[0].'clinVar'.'hgvs'.'genomic'.size()", equalTo(4))
-//                .body("[0].'clinVar'.'hgvs'.'genomic'", hasItems("LRG_321:g.18302T>G", "NC_000017.10:g.7577567A>C", "NC_000017.11:g.7674249A>C", "NG_017013.2:g.18302T>G"))
-//                .body("[0].'clinVar'.'hgvs'.'protein'.size()", equalTo(19))
-//                .body("[0].'clinVar'.'hgvs'.'protein'", hasItems("LRG_321p1:p.Cys238Trp", "LRG_321p5:p.Cys106Trp", "NP_000537.3:p.Cys238Trp", "NP_000537.3:p.Cys238Trp", "NP_001119584.1:p.Cys238Trp", "NP_001119585.1:p.Cys238Trp", "NP_001119586.1:p.Cys238Trp", "NP_001119587.1:p.Cys106Trp", "NP_001119587.1:p.Cys106Trp", "NP_001119588.1:p.Cys106Trp", "NP_001119589.1:p.Cys106Trp", "NP_001119590.1:p.Cys199Trp", "NP_001263624.1:p.Cys199Trp", "NP_001263625.1:p.Cys199Trp", "NP_001263626.1:p.Cys79Trp", "NP_001263627.1:p.Cys79Trp", "NP_001263628.1:p.Cys79Trp", "NP_001263689.1:p.Cys199Trp", "NP_001263690.1:p.Cys199Trp"))
-//                .body("[0].'clinVar'.'rcv'.size()", equalTo(3))
-//                .body("[0].'clinVar'.'rcv'[0].'accession'", containsString("RCV000149049"))
-//                .body("[0].'clinVar'.'rcv'[0].'clinicalSignificance'", containsString("Uncertain significance"))
-//                .body("[0].'clinVar'.'rcv'[0].'origin'", containsString("somatic"))
-//                .body("[0].'clinVar'.'rcv'[0].'preferredName'", containsString("NM_000546.6(TP53):c.714T>G (p.Cys238Trp)"))
-//                .body("[0].'clinVar'.'rcv'[1].'accession'", containsString("RCV000203823"))
-//                .body("[0].'clinVar'.'rcv'[1].'clinicalSignificance'", containsString("Pathogenic"))
-//                .body("[0].'clinVar'.'rcv'[1].'origin'", containsString("germline"))
-//                .body("[0].'clinVar'.'rcv'[1].'preferredName'", containsString("NM_000546.6(TP53):c.714T>G (p.Cys238Trp)"))
-//                .body("[0].'clinVar'.'rcv'[2].'accession'", containsString("RCV002362784"))
-//                .body("[0].'clinVar'.'rcv'[2].'clinicalSignificance'", containsString("Likely pathogenic"))
-//                .body("[0].'clinVar'.'rcv'[2].'origin'", containsString("germline"))
-//                .body("[0].'clinVar'.'rcv'[2].'preferredName'", containsString("NM_000546.6(TP53):c.714T>G (p.Cys238Trp)"))
-//                .body("[0].'clinVar'.'variantId'", numberMatches(161515.0))
-//                .body("[0].'mutdb'.'ref'", containsString("T"))
-//                .body("[0].'mutdb'.'alt'", containsString("G"))
-//                .body("[0].'mutdb'.'uniprotId'", containsString("VAR_045203"))
-//                .body("[0].'mutdb'.'mutpredScore'", numberMatches(0.963))
-//                .body("[0].'mutdb'.'cosmicId'", containsString("44676"))
-//                .body("[0].'mutdb'.'chrom'", containsString("17"))
-//                .body("[0].'mutdb'.'hg19'.'start'", numberMatches(7577567.0))
-//                .body("[0].'mutdb'.'hg19'.'end'", numberMatches(7577567.0))
-//                .body("[1].'variant'", containsString("chr17:g.7577568C>A"))
-//                .body("[1].'query'", containsString("chr17:g.7577568C>A"))
-//                .body("[1].'hgvs'", containsString("chr17:g.7577568C>A"))
-//                .body("[1].'snpeff'.'license'", containsString("http://bit.ly/2suyRKt"))
-//                .body("[1].'vcf'.'alt'", containsString("A"))
-//                .body("[1].'vcf'.'position'", containsString("7577568"))
-//                .body("[1].'vcf'.'ref'", containsString("C"))
-//                .body("[1].'dbsnp'.'license'", containsString("http://bit.ly/2AqoLOc"))
-//                .body("[1].'dbsnp'.'alleles'.size()", equalTo(2))
-//                .body("[1].'dbsnp'.'alleles'[0].'allele'", containsString("C"))
-//                .body("[1].'dbsnp'.'alleles'[1].'allele'", containsString("T"))
-//                .body("[1].'dbsnp'.'alt'", containsString("A"))
-//                .body("[1].'dbsnp'.'chrom'", containsString("17"))
-//                .body("[1].'dbsnp'.'dbsnpBuild'", numberMatches(156.0))
-//                .body("[1].'dbsnp'.'flags'.size()", equalTo(1))
-//                .body("[1].'dbsnp'.'flags'[0]", nullValue())
-//                .body("[1].'dbsnp'.'hg19'.'start'", numberMatches(7577568.0))
-//                .body("[1].'dbsnp'.'hg19'.'end'", numberMatches(7577568.0))
-//                .body("[1].'dbsnp'.'ref'", containsString("C"))
-//                .body("[1].'dbsnp'.'rsid'", containsString("rs730882005"))
-//                .body("[1].'dbsnp'.'vartype'", containsString("snv"))
-//                .body("[1].'cosmic'.'license'", containsString("http://bit.ly/2VMkY7R"))
-//                .body("[1].'cosmic'.'alt'", containsString("T"))
-//                .body("[1].'cosmic'.'chrom'", containsString("17"))
-//                .body("[1].'cosmic'.'cosmicId'", containsString("COSM43778"))
-//                .body("[1].'cosmic'.'hg19'.'start'", numberMatches(7577568.0))
-//                .body("[1].'cosmic'.'hg19'.'end'", numberMatches(7577568.0))
-//                .body("[1].'cosmic'.'mutFreq'", numberMatches(0.63))
-//                .body("[1].'cosmic'.'mutNt'", containsString("G>T"))
-//                .body("[1].'cosmic'.'ref'", containsString("G"))
-//                .body("[1].'cosmic'.'tumorSite'", containsString("meninges"))
-//                .body("[1].'clinVar'.'license'", containsString("http://bit.ly/2SQdcI0"))
-//                .body("[1].'clinVar'.'alleleId'", numberMatches(363453.0))
-//                .body("[1].'clinVar'.'alt'", containsString("A"))
-//                .body("[1].'clinVar'.'chrom'", containsString("17"))
-//                .body("[1].'clinVar'.'cytogenic'", containsString("17p13.1"))
-//                .body("[1].'clinVar'.'gene'.'symbol'", containsString("TP53"))
-//                .body("[1].'clinVar'.'hg19'.'start'", numberMatches(7577568.0))
-//                .body("[1].'clinVar'.'hg19'.'end'", numberMatches(7577568.0))
-//                .body("[1].'clinVar'.'hg38'.'start'", containsString("7674250"))
-//                .body("[1].'clinVar'.'hg38'.'end'", containsString("7674250"))
-//                .body("[1].'clinVar'.'hgvs'.'coding'.size()", equalTo(16))
-//                .body("[1].'clinVar'.'hgvs'.'coding'", hasItems("LRG_321t1:c.713G>T", "NM_000546.6:c.713G>T", "NM_001126112.3:c.713G>T", "NM_001126113.3:c.713G>T", "NM_001126114.3:c.713G>T", "NM_001126115.2:c.317G>T", "NM_001126116.2:c.317G>T", "NM_001126117.2:c.317G>T", "NM_001126118.2:c.596G>T", "NM_001276695.3:c.596G>T", "NM_001276696.3:c.596G>T", "NM_001276697.3:c.236G>T", "NM_001276698.3:c.236G>T", "NM_001276699.3:c.236G>T", "NM_001276760.3:c.596G>T", "NM_001276761.3:c.596G>T"))
-//                .body("[1].'clinVar'.'hgvs'.'genomic'.size()", equalTo(4))
-//                .body("[1].'clinVar'.'hgvs'.'genomic'", hasItems("LRG_321:g.18301G>T", "NC_000017.10:g.7577568C>A", "NC_000017.11:g.7674250C>A", "NG_017013.2:g.18301G>T"))
-//                .body("[1].'clinVar'.'hgvs'.'protein'.size()", equalTo(17))
-//                .body("[1].'clinVar'.'hgvs'.'protein'", hasItems("LRG_321p1:p.Cys238Phe", "NP_000537.3:p.Cys238Phe", "NP_000537.3:p.Cys238Phe", "NP_001119584.1:p.Cys238Phe", "NP_001119585.1:p.Cys238Phe", "NP_001119586.1:p.Cys238Phe", "NP_001119587.1:p.Cys106Phe", "NP_001119588.1:p.Cys106Phe", "NP_001119589.1:p.Cys106Phe", "NP_001119590.1:p.Cys199Phe", "NP_001263624.1:p.Cys199Phe", "NP_001263625.1:p.Cys199Phe", "NP_001263626.1:p.Cys79Phe", "NP_001263627.1:p.Cys79Phe", "NP_001263628.1:p.Cys79Phe", "NP_001263689.1:p.Cys199Phe", "NP_001263690.1:p.Cys199Phe"))
-//                .body("[1].'clinVar'.'rcv'.size()", equalTo(19))
-//                .body("[1].'clinVar'.'rcv'[0].'accession'", containsString("RCV000417498"))
-//                .body("[1].'clinVar'.'rcv'[0].'clinicalSignificance'", containsString("Likely pathogenic"))
-//                .body("[1].'clinVar'.'rcv'[0].'origin'", containsString("somatic"))
-//                .body("[1].'clinVar'.'rcv'[0].'preferredName'", containsString("NM_000546.6(TP53):c.713G>T (p.Cys238Phe)"))
-//                .body("[1].'clinVar'.'rcv'[1].'accession'", containsString("RCV000418555"))
-//                .body("[1].'clinVar'.'rcv'[1].'clinicalSignificance'", containsString("Likely pathogenic"))
-//                .body("[1].'clinVar'.'rcv'[1].'origin'", containsString("somatic"))
-//                .body("[1].'clinVar'.'rcv'[1].'preferredName'", containsString("NM_000546.6(TP53):c.713G>T (p.Cys238Phe)"))
-//                .body("[1].'clinVar'.'rcv'[2].'accession'", containsString("RCV000422481"))
-//                .body("[1].'clinVar'.'rcv'[2].'clinicalSignificance'", containsString("Likely pathogenic"))
-//                .body("[1].'clinVar'.'rcv'[2].'origin'", containsString("somatic"))
-//                .body("[1].'clinVar'.'rcv'[2].'preferredName'", containsString("NM_000546.6(TP53):c.713G>T (p.Cys238Phe)"))
-//                // Skipping assertions on the remaining 16 elements. This limit of 3 elements can be increased in the configurations
-//                .body("[1].'clinVar'.'variantId'", numberMatches(376574.0))
-//                .body("[1].'mutdb'.'ref'", containsString("G"))
-//                .body("[1].'mutdb'.'alt'", containsString("T"))
-//                .body("[1].'mutdb'.'uniprotId'", containsString("VAR_005966"))
-//                .body("[1].'mutdb'.'mutpredScore'", numberMatches(0.976))
-//                .body("[1].'mutdb'.'cosmicId'", containsString("43778, 99626, 99624, 99625"))
-//                .body("[1].'mutdb'.'chrom'", containsString("17"))
-//                .body("[1].'mutdb'.'hg19'.'start'", numberMatches(7577568.0))
-//                .body("[1].'mutdb'.'hg19'.'end'", numberMatches(7577568.0))
-//                .body("[2].'variant'", containsString("chr17:g.7577568C>G"))
-//                .body("[2].'query'", containsString("chr17:g.7577568C>G"))
-//                .body("[2].'hgvs'", containsString("chr17:g.7577568C>G"))
-//                .body("[2].'snpeff'.'license'", containsString("http://bit.ly/2suyRKt"))
-//                .body("[2].'vcf'.'alt'", containsString("G"))
-//                .body("[2].'vcf'.'position'", containsString("7577568"))
-//                .body("[2].'vcf'.'ref'", containsString("C"))
-//                .body("[2].'dbsnp'.'license'", containsString("http://bit.ly/2AqoLOc"))
-//                .body("[2].'dbsnp'.'alleles'.size()", equalTo(2))
-//                .body("[2].'dbsnp'.'alleles'[0].'allele'", containsString("C"))
-//                .body("[2].'dbsnp'.'alleles'[1].'allele'", containsString("T"))
-//                .body("[2].'dbsnp'.'alt'", containsString("G"))
-//                .body("[2].'dbsnp'.'chrom'", containsString("17"))
-//                .body("[2].'dbsnp'.'dbsnpBuild'", numberMatches(156.0))
-//                .body("[2].'dbsnp'.'flags'.size()", equalTo(1))
-//                .body("[2].'dbsnp'.'flags'[0]", nullValue())
-//                .body("[2].'dbsnp'.'hg19'.'start'", numberMatches(7577568.0))
-//                .body("[2].'dbsnp'.'hg19'.'end'", numberMatches(7577568.0))
-//                .body("[2].'dbsnp'.'ref'", containsString("C"))
-//                .body("[2].'dbsnp'.'rsid'", containsString("rs730882005"))
-//                .body("[2].'dbsnp'.'vartype'", containsString("snv"))
-//                .body("[2].'cosmic'.'license'", containsString("http://bit.ly/2VMkY7R"))
-//                .body("[2].'cosmic'.'alt'", containsString("C"))
-//                .body("[2].'cosmic'.'chrom'", containsString("17"))
-//                .body("[2].'cosmic'.'cosmicId'", containsString("COSM44653"))
-//                .body("[2].'cosmic'.'hg19'.'start'", numberMatches(7577568.0))
-//                .body("[2].'cosmic'.'hg19'.'end'", numberMatches(7577568.0))
-//                .body("[2].'cosmic'.'mutFreq'", numberMatches(0.04))
-//                .body("[2].'cosmic'.'mutNt'", containsString("G>C"))
-//                .body("[2].'cosmic'.'ref'", containsString("G"))
-//                .body("[2].'cosmic'.'tumorSite'", containsString("central_nervous_system"))
-//                .body("[2].'clinVar'.'license'", containsString("http://bit.ly/2SQdcI0"))
-//                .body("[2].'clinVar'.'alleleId'", numberMatches(363454.0))
-//                .body("[2].'clinVar'.'alt'", containsString("G"))
-//                .body("[2].'clinVar'.'chrom'", containsString("17"))
-//                .body("[2].'clinVar'.'cytogenic'", containsString("17p13.1"))
-//                .body("[2].'clinVar'.'gene'.'symbol'", containsString("TP53"))
-//                .body("[2].'clinVar'.'hg19'.'start'", numberMatches(7577568.0))
-//                .body("[2].'clinVar'.'hg19'.'end'", numberMatches(7577568.0))
-//                .body("[2].'clinVar'.'hg38'.'start'", containsString("7674250"))
-//                .body("[2].'clinVar'.'hg38'.'end'", containsString("7674250"))
-//                .body("[2].'clinVar'.'hgvs'.'coding'.size()", equalTo(16))
-//                .body("[2].'clinVar'.'hgvs'.'coding'", hasItems("LRG_321t1:c.713G>C", "NM_000546.6:c.713G>C", "NM_001126112.3:c.713G>C", "NM_001126113.3:c.713G>C", "NM_001126114.3:c.713G>C", "NM_001126115.2:c.317G>C", "NM_001126116.2:c.317G>C", "NM_001126117.2:c.317G>C", "NM_001126118.2:c.596G>C", "NM_001276695.3:c.596G>C", "NM_001276696.3:c.596G>C", "NM_001276697.3:c.236G>C", "NM_001276698.3:c.236G>C", "NM_001276699.3:c.236G>C", "NM_001276760.3:c.596G>C", "NM_001276761.3:c.596G>C"))
-//                .body("[2].'clinVar'.'hgvs'.'genomic'.size()", equalTo(4))
-//                .body("[2].'clinVar'.'hgvs'.'genomic'", hasItems("LRG_321:g.18301G>C", "NC_000017.10:g.7577568C>G", "NC_000017.11:g.7674250C>G", "NG_017013.2:g.18301G>C"))
-//                .body("[2].'clinVar'.'hgvs'.'protein'.size()", equalTo(17))
-//                .body("[2].'clinVar'.'hgvs'.'protein'", hasItems("LRG_321p1:p.Cys238Ser", "NP_000537.3:p.Cys238Ser", "NP_000537.3:p.Cys238Ser", "NP_001119584.1:p.Cys238Ser", "NP_001119585.1:p.Cys238Ser", "NP_001119586.1:p.Cys238Ser", "NP_001119587.1:p.Cys106Ser", "NP_001119588.1:p.Cys106Ser", "NP_001119589.1:p.Cys106Ser", "NP_001119590.1:p.Cys199Ser", "NP_001263624.1:p.Cys199Ser", "NP_001263625.1:p.Cys199Ser", "NP_001263626.1:p.Cys79Ser", "NP_001263627.1:p.Cys79Ser", "NP_001263628.1:p.Cys79Ser", "NP_001263689.1:p.Cys199Ser", "NP_001263690.1:p.Cys199Ser"))
-//                .body("[2].'clinVar'.'rcv'.size()", equalTo(21))
-//                .body("[2].'clinVar'.'rcv'[0].'accession'", containsString("RCV000419485"))
-//                .body("[2].'clinVar'.'rcv'[0].'clinicalSignificance'", containsString("Likely pathogenic"))
-//                .body("[2].'clinVar'.'rcv'[0].'origin'", containsString("somatic"))
-//                .body("[2].'clinVar'.'rcv'[0].'preferredName'", containsString("NM_000546.6(TP53):c.713G>C (p.Cys238Ser)"))
-//                .body("[2].'clinVar'.'rcv'[1].'accession'", containsString("RCV000418923"))
-//                .body("[2].'clinVar'.'rcv'[1].'clinicalSignificance'", containsString("Likely pathogenic"))
-//                .body("[2].'clinVar'.'rcv'[1].'origin'", containsString("somatic"))
-//                .body("[2].'clinVar'.'rcv'[1].'preferredName'", containsString("NM_000546.6(TP53):c.713G>C (p.Cys238Ser)"))
-//                .body("[2].'clinVar'.'rcv'[2].'accession'", containsString("RCV000423226"))
-//                .body("[2].'clinVar'.'rcv'[2].'clinicalSignificance'", containsString("Likely pathogenic"))
-//                .body("[2].'clinVar'.'rcv'[2].'origin'", containsString("somatic"))
-//                .body("[2].'clinVar'.'rcv'[2].'preferredName'", containsString("NM_000546.6(TP53):c.713G>C (p.Cys238Ser)"))
-//                // Skipping assertions on the remaining 18 elements. This limit of 3 elements can be increased in the configurations
-//                .body("[2].'clinVar'.'variantId'", numberMatches(376575.0))
-//                .body("[2].'mutdb'.'ref'", containsString("G"))
-//                .body("[2].'mutdb'.'alt'", containsString("C"))
-//                .body("[2].'mutdb'.'uniprotId'", containsString("VAR_045202"))
-//                .body("[2].'mutdb'.'mutpredScore'", numberMatches(0.977))
-//                .body("[2].'mutdb'.'cosmicId'", containsString("44653"))
-//                .body("[2].'mutdb'.'chrom'", containsString("17"))
-//                .body("[2].'mutdb'.'hg19'.'start'", numberMatches(7577568.0))
-//                .body("[2].'mutdb'.'hg19'.'end'", numberMatches(7577568.0))
-//                ; // Skipping assertions on the remaining 277 elements. This limit of 3 elements can be increased in the configurations
-//
-//    }
+    @Test(timeout = 60000)
+    public void test_16() throws Exception {
+
+        given().accept("application/json")
+                .header("x-EMextraHeader123", "42")
+                .contentType("application/json")
+                .body(" [ " +
+                    " \"chr17:g.7577566_7577567insA\", " +
+                    " \"chr17:g.7577567A\u003eC\", " +
+                    " \"chr17:g.7577567_7577567del\", " +
+                    " \"chr17:g.7577567_7577568insCACATGTAGTTGT\", " +
+                    " \"chr17:g.7577568C\u003eA\", " +
+                    " \"chr17:g.7577568C\u003eG\", " +
+                    " \"chr17:g.7577568C\u003eT\", " +
+                    " \"chr17:g.7577569A\u003eC\", " +
+                    " \"chr17:g.7577569A\u003eG\", " +
+                    " \"chr17:g.7577569_7577569del\", " +
+                    " \"chr17:g.7577569_7577572del\", " +
+                    " \"chr17:g.7577569_7577580del\", " +
+                    " \"chr17:g.7577570C\u003eA\", " +
+                    " \"chr17:g.7577570C\u003eG\", " +
+                    " \"chr17:g.7577570C\u003eT\", " +
+                    " \"chr17:g.7577571A\u003eT\", " +
+                    " \"chr17:g.7577571_7577572insTGTAGT\", " +
+                    " \"chr17:g.7577572_7577572del\", " +
+                    " \"chr17:g.7577572_7577574del\", " +
+                    " \"chr17:g.7577573G\u003eC\", " +
+                    " \"chr17:g.7577573G\u003eT\", " +
+                    " \"chr17:g.7577573_7577573del\", " +
+                    " \"chr17:g.7577574T\u003eC\", " +
+                    " \"chr17:g.7577574T\u003eG\", " +
+                    " \"chr17:g.7577575A\u003eC\", " +
+                    " \"chr17:g.7577575A\u003eG\", " +
+                    " \"chr17:g.7577575A\u003eT\", " +
+                    " \"chr17:g.7577576_7577578del\", " +
+                    " \"chr17:g.7577576_7577582del\", " +
+                    " \"chr17:g.7577577T\u003eC\", " +
+                    " \"chr17:g.7577578T\u003eC\", " +
+                    " \"chr17:g.7577579G\u003eC\", " +
+                    " \"chr17:g.7577579G\u003eT\", " +
+                    " \"chr17:g.7577579_7577581del\", " +
+                    " \"chr17:g.7577580T\u003eC\", " +
+                    " \"chr17:g.7577580T\u003eG\", " +
+                    " \"chr17:g.7577581A\u003eC\", " +
+                    " \"chr17:g.7577581A\u003eG\", " +
+                    " \"chr17:g.7577581A\u003eT\", " +
+                    " \"chr17:g.7577581_7577595del\", " +
+                    " \"chr17:g.7577584_7577585insCTAC\", " +
+                    " \"chr17:g.7577585_7577590del\", " +
+                    " \"chr17:g.7577586A\u003eC\", " +
+                    " \"chr17:g.7577586A\u003eT\", " +
+                    " \"chr17:g.7577586_7577587insTGGTGGTACAGTCAG\", " +
+                    " \"chr17:g.7577587T\u003eA\", " +
+                    " \"chr17:g.7577587_7577587del\", " +
+                    " \"chr17:g.7577588_7577595del\", " +
+                    " \"chr17:g.7577589G\u003eT\", " +
+                    " \"chr17:g.7577589_7577590insT\", " +
+                    " \"chr17:g.7577591_7577596del\", " +
+                    " \"chr17:g.7577592_7577602del\", " +
+                    " \"chr17:g.7577593_7577593del\", " +
+                    " \"chr17:g.7577593_7577594del\", " +
+                    " \"chr17:g.7577594A\u003eT\", " +
+                    " \"chr17:g.7577594_7577595del\", " +
+                    " \"chr17:g.7577595C\u003eT\", " +
+                    " \"chr17:g.7577596_7577596del\", " +
+                    " \"chr17:g.7577599C\u003eG\", " +
+                    " \"chr17:g.7577599_7577600insA\", " +
+                    " \"chr17:g.7577604C\u003eT\", " +
+                    " \"chr17:g.7577608C\u003eT\", " +
+                    " \"chr17:g.7577609C\u003eA\", " +
+                    " \"chr17:g.7577609C\u003eG\", " +
+                    " \"chr17:g.7577609C\u003eT\", " +
+                    " \"chr17:g.7577610T\u003eA\", " +
+                    " \"chr17:g.7577610T\u003eC\", " +
+                    " \"chr17:g.7577610T\u003eG\", " +
+                    " \"chr17:g.7578098_7578176del\", " +
+                    " \"chr17:g.7578175A\u003eG\", " +
+                    " \"chr17:g.7578175_7578233del\", " +
+                    " \"chr17:g.7578176C\u003eA\", " +
+                    " \"chr17:g.7578176C\u003eT\", " +
+                    " \"chr17:g.7578177C\u003eA\", " +
+                    " \"chr17:g.7578177C\u003eG\", " +
+                    " \"chr17:g.7578179C\u003eA\", " +
+                    " \"chr17:g.7578181G\u003eA\", " +
+                    " \"chr17:g.7578181_7578181del\", " +
+                    " \"chr17:g.7578184_7578184del\", " +
+                    " \"chr17:g.7578184_7578187del\", " +
+                    " \"chr17:g.7578184_7578208del\", " +
+                    " \"chr17:g.7578188C\u003eA\", " +
+                    " \"chr17:g.7578189A\u003eC\", " +
+                    " \"chr17:g.7578189A\u003eT\", " +
+                    " \"chr17:g.7578190T\u003eC\", " +
+                    " \"chr17:g.7578190T\u003eG\", " +
+                    " \"chr17:g.7578191A\u003eC\", " +
+                    " \"chr17:g.7578191A\u003eG\", " +
+                    " \"chr17:g.7578191A\u003eT\", " +
+                    " \"chr17:g.7578192_7578192del\", " +
+                    " \"chr17:g.7578192_7578193delinsA\", " +
+                    " \"chr17:g.7578192_7578193insGGCACCACCACACTATGTCGAAAAGTGT\", " +
+                    " \"chr17:g.7578193G\u003eC\", " +
+                    " \"chr17:g.7578194_7578195insCAC\", " +
+                    " \"chr17:g.7578195_7578197del\", " +
+                    " \"chr17:g.7578196A\u003eC\", " +
+                    " \"chr17:g.7578196_7578197insC\", " +
+                    " \"chr17:g.7578196_7578197insCC\", " +
+                    " \"chr17:g.7578196_7578197insCCACCACACTAT\", " +
+                    " \"chr17:g.7578197C\u003eA\", " +
+                    " \"chr17:g.7578197_7578198delinsTT\", " +
+                    " \"chr17:g.7578199A\u003eC\", " +
+                    " \"chr17:g.7578199_7578199del\", " +
+                    " \"chr17:g.7578200_7578222del\", " +
+                    " \"chr17:g.7578201_7578202del\", " +
+                    " \"chr17:g.7578202A\u003eC\", " +
+                    " \"chr17:g.7578202A\u003eT\", " +
+                    " \"chr17:g.7578203C\u003eA\", " +
+                    " \"chr17:g.7578203C\u003eG\", " +
+                    " \"chr17:g.7578203C\u003eT\", " +
+                    " \"chr17:g.7578204A\u003eC\", " +
+                    " \"chr17:g.7578204A\u003eT\", " +
+                    " \"chr17:g.7578205C\u003eA\", " +
+                    " \"chr17:g.7578205C\u003eG\", " +
+                    " \"chr17:g.7578205C\u003eT\", " +
+                    " \"chr17:g.7578205_7578206insTATGTCGAAAA\", " +
+                    " \"chr17:g.7578205_7578207delinsTTT\", " +
+                    " \"chr17:g.7578206T\u003eA\", " +
+                    " \"chr17:g.7578206T\u003eC\", " +
+                    " \"chr17:g.7578206T\u003eG\", " +
+                    " \"chr17:g.7578206_7578207del\", " +
+                    " \"chr17:g.7578207A\u003eC\", " +
+                    " \"chr17:g.7578207_7578215del\", " +
+                    " \"chr17:g.7578208T\u003eA\", " +
+                    " \"chr17:g.7578208T\u003eC\", " +
+                    " \"chr17:g.7578208T\u003eG\", " +
+                    " \"chr17:g.7578208_7578208del\", " +
+                    " \"chr17:g.7578208_7578217del\", " +
+                    " \"chr17:g.7578208_7578219del\", " +
+                    " \"chr17:g.7578209_7578209del\", " +
+                    " \"chr17:g.7578210_7578210del\", " +
+                    " \"chr17:g.7578211C\u003eA\", " +
+                    " \"chr17:g.7578211C\u003eT\", " +
+                    " \"chr17:g.7578211_7578212delinsA\", " +
+                    " \"chr17:g.7578212G\u003eA\", " +
+                    " \"chr17:g.7578212G\u003eC\", " +
+                    " \"chr17:g.7578212_7578213insA\", " +
+                    " \"chr17:g.7578213_7578213del\", " +
+                    " \"chr17:g.7578213_7578214del\", " +
+                    " \"chr17:g.7578213_7578231del\", " +
+                    " \"chr17:g.7578215_7578227del\", " +
+                    " \"chr17:g.7578217G\u003eA\", " +
+                    " \"chr17:g.7578219_7578220insT\", " +
+                    " \"chr17:g.7578220_7578221del\", " +
+                    " \"chr17:g.7578220_7578221insTTCTGTCATCCAAATACTCCACACG\", " +
+                    " \"chr17:g.7578222_7578223del\", " +
+                    " \"chr17:g.7578223C\u003eT\", " +
+                    " \"chr17:g.7578224T\u003eA\", " +
+                    " \"chr17:g.7578225G\u003eT\", " +
+                    " \"chr17:g.7578226T\u003eA\", " +
+                    " \"chr17:g.7578226_7578229del\", " +
+                    " \"chr17:g.7578227C\u003eT\", " +
+                    " \"chr17:g.7578229_7578237del\", " +
+                    " \"chr17:g.7578230_7578230del\", " +
+                    " \"chr17:g.7578231_7578232insAAAT\", " +
+                    " \"chr17:g.7578235T\u003eA\", " +
+                    " \"chr17:g.7578235T\u003eC\", " +
+                    " \"chr17:g.7578235T\u003eG\", " +
+                    " \"chr17:g.7578236A\u003eG\", " +
+                    " \"chr17:g.7578238_7578255del\", " +
+                    " \"chr17:g.7578239C\u003eA\", " +
+                    " \"chr17:g.7578239_7578240delinsAG\", " +
+                    " \"chr17:g.7578239_7578240insCA\", " +
+                    " \"chr17:g.7578242C\u003eA\", " +
+                    " \"chr17:g.7578244_7578261del\", " +
+                    " \"chr17:g.7578245G\u003eA\", " +
+                    " \"chr17:g.7578245_7578277del\", " +
+                    " \"chr17:g.7578247A\u003eT\", " +
+                    " \"chr17:g.7578247_7578247del\", " +
+                    " \"chr17:g.7578247_7578248del\", " +
+                    " \"chr17:g.7578248_7578249insAT\", " +
+                    " \"chr17:g.7578250_7578250del\", " +
+                    " \"chr17:g.7578252_7578299del\", " +
+                    " \"chr17:g.7578253C\u003eA\", " +
+                    " \"chr17:g.7578253C\u003eT\", " +
+                    " \"chr17:g.7578254C\u003eA\", " +
+                    " \"chr17:g.7578257C\u003eA\", " +
+                    " \"chr17:g.7578257_7578257del\", " +
+                    " \"chr17:g.7578257_7578258delinsAA\", " +
+                    " \"chr17:g.7578259A\u003eT\", " +
+                    " \"chr17:g.7578260C\u003eT\", " +
+                    " \"chr17:g.7578262C\u003eA\", " +
+                    " \"chr17:g.7578262C\u003eG\", " +
+                    " \"chr17:g.7578262C\u003eT\", " +
+                    " \"chr17:g.7578263G\u003eA\", " +
+                    " \"chr17:g.7578263_7578282del\", " +
+                    " \"chr17:g.7578264_7578265delinsTT\", " +
+                    " \"chr17:g.7578264_7578338delinsTT\", " +
+                    " \"chr17:g.7578265A\u003eC\", " +
+                    " \"chr17:g.7578265A\u003eG\", " +
+                    " \"chr17:g.7578265A\u003eT\", " +
+                    " \"chr17:g.7578265_7578266insT\", " +
+                    " \"chr17:g.7578266T\u003eA\", " +
+                    " \"chr17:g.7578266_7578266del\", " +
+                    " \"chr17:g.7578266_7578267insA\", " +
+                    " \"chr17:g.7578267_7578268insAG\", " +
+                    " \"chr17:g.7578268A\u003eC\", " +
+                    " \"chr17:g.7578268A\u003eG\", " +
+                    " \"chr17:g.7578268_7578280del\", " +
+                    " \"chr17:g.7578269G\u003eA\", " +
+                    " \"chr17:g.7578270A\u003eT\", " +
+                    " \"chr17:g.7578271T\u003eA\", " +
+                    " \"chr17:g.7578271T\u003eC\", " +
+                    " \"chr17:g.7578271T\u003eG\", " +
+                    " \"chr17:g.7578272G\u003eA\", " +
+                    " \"chr17:g.7578272G\u003eC\", " +
+                    " \"chr17:g.7578272G\u003eT\", " +
+                    " \"chr17:g.7578272_7578273delinsAA\", " +
+                    " \"chr17:g.7578274T\u003eA\", " +
+                    " \"chr17:g.7578275G\u003eA\", " +
+                    " \"chr17:g.7578275_7578277del\", " +
+                    " \"chr17:g.7578275_7578293del\", " +
+                    " \"chr17:g.7578277_7578281del\", " +
+                    " \"chr17:g.7578280G\u003eA\", " +
+                    " \"chr17:g.7578280_7578280del\", " +
+                    " \"chr17:g.7578281G\u003eA\", " +
+                    " \"chr17:g.7578281G\u003eT\", " +
+                    " \"chr17:g.7578282_7578306del\", " +
+                    " \"chr17:g.7578283_7578284insC\", " +
+                    " \"chr17:g.7578284_7578284del\", " +
+                    " \"chr17:g.7578284_7578288del\", " +
+                    " \"chr17:g.7578284_7578297del\", " +
+                    " \"chr17:g.7578284_7578310del\", " +
+                    " \"chr17:g.7578285_7578296del\", " +
+                    " \"chr17:g.7578286A\u003eT\", " +
+                    " \"chr17:g.7578286_7578286del\", " +
+                    " \"chr17:g.7578287_7578287del\", " +
+                    " \"chr17:g.7578289C\u003eT\", " +
+                    " \"chr17:g.7578289_7578290delinsTT\", " +
+                    " \"chr17:g.7578290C\u003eA\", " +
+                    " \"chr17:g.7578290C\u003eG\", " +
+                    " \"chr17:g.7578290C\u003eT\", " +
+                    " \"chr17:g.7578291T\u003eA\", " +
+                    " \"chr17:g.7578291T\u003eC\", " +
+                    " \"chr17:g.7578291T\u003eG\", " +
+                    " \"chr17:g.7578293_7578977del\", " +
+                    " \"chr17:g.7578313_7578425del\", " +
+                    " \"chr17:g.7578359_7578373del\", " +
+                    " \"chr17:g.7578359_7578375del\", " +
+                    " \"chr17:g.7578360_7578373del\", " +
+                    " \"chr17:g.7578362_7578385del\", " +
+                    " \"chr17:g.7578365_7578383del\", " +
+                    " \"chr17:g.7578370C\u003eA\", " +
+                    " \"chr17:g.7578370C\u003eG\", " +
+                    " \"chr17:g.7578370C\u003eT\", " +
+                    " \"chr17:g.7578371C\u003eG\", " +
+                    " \"chr17:g.7578371_7578382del\", " +
+                    " \"chr17:g.7578372_7578373delinsC\", " +
+                    " \"chr17:g.7578376_7578376del\", " +
+                    " \"chr17:g.7578376_7578379del\", " +
+                    " \"chr17:g.7578377_7578377del\", " +
+                    " \"chr17:g.7578377_7578378del\", " +
+                    " \"chr17:g.7578378A\u003eT\", " +
+                    " \"chr17:g.7578378_7578379insTC\", " +
+                    " \"chr17:g.7578378_7578395del\", " +
+                    " \"chr17:g.7578379_7578379del\", " +
+                    " \"chr17:g.7578382G\u003eC\", " +
+                    " \"chr17:g.7578382_7578382del\", " +
+                    " \"chr17:g.7578384_7578401del\", " +
+                    " \"chr17:g.7578388C\u003eG\", " +
+                    " \"chr17:g.7578388C\u003eT\", " +
+                    " \"chr17:g.7578389G\u003eA\", " +
+                    " \"chr17:g.7578389_7578402delinsT\", " +
+                    " \"chr17:g.7578390C\u003eG\", " +
+                    " \"chr17:g.7578392C\u003eA\", " +
+                    " \"chr17:g.7578392C\u003eT\", " +
+                    " \"chr17:g.7578393A\u003eC\", " +
+                    " \"chr17:g.7578393A\u003eT\", " +
+                    " \"chr17:g.7578393_7578405del\", " +
+                    " \"chr17:g.7578394T\u003eA\", " +
+                    " \"chr17:g.7578394T\u003eC\", " +
+                    " \"chr17:g.7578394T\u003eG\", " +
+                    " \"chr17:g.7578394_7578395del\", " +
+                    " \"chr17:g.7578394_7578396del\", " +
+                    " \"chr17:g.7578395G\u003eA\", " +
+                    " \"chr17:g.7578395G\u003eC\", " +
+                    " \"chr17:g.7578395G\u003eT\", " +
+                    " \"chr17:g.7578397T\u003eG\", " +
+                    " \"chr17:g.7578397_7578397del\", " +
+                    " \"chr17:g.7578397_7578398insG\", " +
+                    " \"chr17:g.7578398G\u003eC\", " +
+                    " \"chr17:g.7578398_7578398del\", " +
+                    " \"chr17:g.7578400G\u003eC\", " +
+                    " \"chr17:g.7578401_7578402delinsT\", " +
+                    " \"chr17:g.7578402G\u003eC\", " +
+                    " \"chr17:g.7578402G\u003eT\", " +
+                    " \"chr17:g.7578403C\u003eA\", " +
+                    " \"chr17:g.7578403C\u003eT\", " +
+                    " \"chr17:g.7578404A\u003eC\", " +
+                    " \"chr17:g.7578404A\u003eG\", " +
+                    " \"chr17:g.7578404A\u003eT\", " +
+                    " \"chr17:g.7578406C\u003eA\", " +
+                    " \"chr17:g.7578406C\u003eT\", " +
+                    " \"chr17:g.7578406_7578406del\", " +
+                    " \"chr17:g.7578407G\u003eA\", " +
+                    " \"chr17:g.7578407G\u003eC\", " +
+                    " \"chr17:g.7578407_7578412delinsCCC\", " +
+                    " \"chr17:g.7578410T\u003eA\", " +
+                    " \"chr17:g.7578410T\u003eC\", " +
+                    " \"chr17:g.7578411_7578411del\", " +
+                    " \"chr17:g.7578412A\u003eC\", " +
+                    " \"chr17:g.7578412A\u003eG\", " +
+                    " \"chr17:g.7578413C\u003eA\", " +
+                    " \"chr17:g.7578413C\u003eG\", " +
+                    " \"chr17:g.7578413C\u003eT\", " +
+                    " \"chr17:g.7578413_7578413del\", " +
+                    " \"chr17:g.7578414_7578414del\", " +
+                    " \"chr17:g.7578415A\u003eT\", " +
+                    " \"chr17:g.7578416C\u003eA\", " +
+                    " \"chr17:g.7578417_7578419delinsTG\", " +
+                    " \"chr17:g.7578418T\u003eC\", " +
+                    " \"chr17:g.7578419C\u003eA\", " +
+                    " \"chr17:g.7578419_7578419del\", " +
+                    " \"chr17:g.7578419_7578420insCGTCATGTG\", " +
+                    " \"chr17:g.7578421G\u003eA\", " +
+                    " \"chr17:g.7578422_7578423insCATGTGCTG\", " +
+                    " \"chr17:g.7578422_7578424del\", " +
+                    " \"chr17:g.7578423_7578424insA\", " +
+                    " \"chr17:g.7578423_7579121del\", " +
+                    " \"chr17:g.7578424_7578425del\", " +
+                    " \"chr17:g.7578424_7578427del\", " +
+                    " \"chr17:g.7578427T\u003eC\", " +
+                    " \"chr17:g.7578427T\u003eG\", " +
+                    " \"chr17:g.7578428_7578431delinsACTA\", " +
+                    " \"chr17:g.7578428_7578627del\", " +
+                    " \"chr17:g.7578429_7578430insTG\", " +
+                    " \"chr17:g.7578430_7578431del\", " +
+                    " \"chr17:g.7578431G\u003eA\", " +
+                    " \"chr17:g.7578433G\u003eC\", " +
+                    " \"chr17:g.7578433G\u003eT\", " +
+                    " \"chr17:g.7578435C\u003eA\", " +
+                    " \"chr17:g.7578437G\u003eA\", " +
+                    " \"chr17:g.7578439_7578439del\", " +
+                    " \"chr17:g.7578440T\u003eA\", " +
+                    " \"chr17:g.7578440T\u003eC\", " +
+                    " \"chr17:g.7578441G\u003eT\", " +
+                    " \"chr17:g.7578441_7578442delinsA\", " +
+                    " \"chr17:g.7578442T\u003eC\", " +
+                    " \"chr17:g.7578442_7578450delinsCCG\", " +
+                    " \"chr17:g.7578443A\u003eC\", " +
+                    " \"chr17:g.7578443A\u003eG\", " +
+                    " \"chr17:g.7578443A\u003eT\", " +
+                    " \"chr17:g.7578443_7578691del\", " +
+                    " \"chr17:g.7578445A\u003eC\", " +
+                    " \"chr17:g.7578445A\u003eT\", " +
+                    " \"chr17:g.7578445_7578449delinsCTGGG\", " +
+                    " \"chr17:g.7578446T\u003eA\", " +
+                    " \"chr17:g.7578447_7578447del\", " +
+                    " \"chr17:g.7578448G\u003eT\", " +
+                    " \"chr17:g.7578449C\u003eA\", " +
+                    " \"chr17:g.7578449C\u003eT\", " +
+                    " \"chr17:g.7578452_7578453insGGCGCG\", " +
+                    " \"chr17:g.7578453_7578455del\", " +
+                    " \"chr17:g.7578453_7578458del\", " +
+                    " \"chr17:g.7578454G\u003eA\", " +
+                    " \"chr17:g.7578454_7578455del\", " +
+                    " \"chr17:g.7578454_7578457del\", " +
+                    " \"chr17:g.7578454_7578464delinsACGC\", " +
+                    " \"chr17:g.7578454_7578467del\", " +
+                    " \"chr17:g.7578455C\u003eG\", " +
+                    " \"chr17:g.7578455_7578460del\", " +
+                    " \"chr17:g.7578457C\u003eA\", " +
+                    " \"chr17:g.7578457C\u003eG\", " +
+                    " \"chr17:g.7578457C\u003eT\", " +
+                    " \"chr17:g.7578457_7578458delinsAA\", " +
+                    " \"chr17:g.7578458G\u003eA\", " +
+                    " \"chr17:g.7578458G\u003eC\", " +
+                    " \"chr17:g.7578458_7578459insA\", " +
+                    " \"chr17:g.7578458_7578464del\", " +
+                    " \"chr17:g.7578460A\u003eC\", " +
+                    " \"chr17:g.7578460A\u003eG\", " +
+                    " \"chr17:g.7578461C\u003eA\", " +
+                    " \"chr17:g.7578461_7578473del\", " +
+                    " \"chr17:g.7578462_7578463insC\", " +
+                    " \"chr17:g.7578463C\u003eA\", " +
+                    " \"chr17:g.7578463C\u003eG\", " +
+                    " \"chr17:g.7578463C\u003eT\", " +
+                    " \"chr17:g.7578463_7578464insA\", " +
+                    " \"chr17:g.7578464G\u003eC\", " +
+                    " \"chr17:g.7578464_7578464del\", " +
+                    " \"chr17:g.7578464_7578476del\", " +
+                    " \"chr17:g.7578465_7578470del\", " +
+                    " \"chr17:g.7578466G\u003eA\", " +
+                    " \"chr17:g.7578466G\u003eT\", " +
+                    " \"chr17:g.7578467T\u003eG\", " +
+                    " \"chr17:g.7578467_7578468insG\", " +
+                    " \"chr17:g.7578467_7578468insGCCGGGC\", " +
+                    " \"chr17:g.7578467_7578498del\", " +
+                    " \"chr17:g.7578469C\u003eA\", " +
+                    " \"chr17:g.7578469C\u003eT\", " +
+                    " \"chr17:g.7578469_7578469del\", " +
+                    " \"chr17:g.7578469_7578470insCGGG\", " +
+                    " \"chr17:g.7578469_7578470insGGG\", " +
+                    " \"chr17:g.7578469_7578474del\", " +
+                    " \"chr17:g.7578470_7578471delinsA\", " +
+                    " \"chr17:g.7578470_7578471insG\", " +
+                    " \"chr17:g.7578470_7578473del\", " +
+                    " \"chr17:g.7578470_7578482del\", " +
+                    " \"chr17:g.7578470_7578502del\", " +
+                    " \"chr17:g.7578471_7578471del\", " +
+                    " \"chr17:g.7578471_7578478del\", " +
+                    " \"chr17:g.7578471_7578483del\", " +
+                    " \"chr17:g.7578472G\u003eA\", " +
+                    " \"chr17:g.7578472_7578491del\", " +
+                    " \"chr17:g.7578473_7578474insA\", " +
+                    " \"chr17:g.7578473_7578474insC\", " +
+                    " \"chr17:g.7578474_7578475insG\", " +
+                    " \"chr17:g.7578475G\u003eA\", " +
+                    " \"chr17:g.7578475G\u003eC\", " +
+                    " \"chr17:g.7578475_7578475del\", " +
+                    " \"chr17:g.7578475_7578476delinsTT\", " +
+                    " \"chr17:g.7578476G\u003eA\", " +
+                    " \"chr17:g.7578476G\u003eT\", " +
+                    " \"chr17:g.7578476_7578477insGGGT\", " +
+                    " \"chr17:g.7578478G\u003eC\", " +
+                    " \"chr17:g.7578478G\u003eT\", " +
+                    " \"chr17:g.7578478_7578479delinsAA\", " +
+                    " \"chr17:g.7578478_7578480del\", " +
+                    " \"chr17:g.7578479G\u003eA\", " +
+                    " \"chr17:g.7578479G\u003eC\", " +
+                    " \"chr17:g.7578479G\u003eT\", " +
+                    " \"chr17:g.7578480_7578488del\", " +
+                    " \"chr17:g.7578480_7578495del\", " +
+                    " \"chr17:g.7578481_7578481del\", " +
+                    " \"chr17:g.7578481_7578482insT\", " +
+                    " \"chr17:g.7578482_7578482del\", " +
+                    " \"chr17:g.7578484_7578485insA\", " +
+                    " \"chr17:g.7578484_7578502del\", " +
+                    " \"chr17:g.7578485_7578485del\", " +
+                    " \"chr17:g.7578486A\u003eT\", " +
+                    " \"chr17:g.7578488_7578488del\", " +
+                    " \"chr17:g.7578490A\u003eC\", " +
+                    " \"chr17:g.7578491_7578491del\", " +
+                    " \"chr17:g.7578492C\u003eG\", " +
+                    " \"chr17:g.7578492C\u003eT\", " +
+                    " \"chr17:g.7578493C\u003eT\", " +
+                    " \"chr17:g.7578493_7578500del\", " +
+                    " \"chr17:g.7578494A\u003eC\", " +
+                    " \"chr17:g.7578495_7578507del\", " +
+                    " \"chr17:g.7578496A\u003eC\", " +
+                    " \"chr17:g.7578496A\u003eG\", " +
+                    " \"chr17:g.7578496A\u003eT\", " +
+                    " \"chr17:g.7578499T\u003eA\", " +
+                    " \"chr17:g.7578499T\u003eC\", " +
+                    " \"chr17:g.7578499T\u003eG\", " +
+                    " \"chr17:g.7578499_7578499del\", " +
+                    " \"chr17:g.7578500G\u003eA\", " +
+                    " \"chr17:g.7578500_7578500del\", " +
+                    " \"chr17:g.7578500_7578524del\", " +
+                    " \"chr17:g.7578501_7578502insA\", " +
+                    " \"chr17:g.7578502A\u003eC\", " +
+                    " \"chr17:g.7578502A\u003eG\", " +
+                    " \"chr17:g.7578503C\u003eT\", " +
+                    " \"chr17:g.7578503_7578507del\", " +
+                    " \"chr17:g.7578503_7578518del\", " +
+                    " \"chr17:g.7578504_7578505insGGG\", " +
+                    " \"chr17:g.7578505G\u003eA\", " +
+                    " \"chr17:g.7578505_7578505del\", " +
+                    " \"chr17:g.7578505_7578510del\", " +
+                    " \"chr17:g.7578507G\u003eC\", " +
+                    " \"chr17:g.7578507G\u003eT\", " +
+                    " \"chr17:g.7578508C\u003eT\", " +
+                    " \"chr17:g.7578508_7578535delinsG\", " +
+                    " \"chr17:g.7578509A\u003eC\", " +
+                    " \"chr17:g.7578509A\u003eG\", " +
+                    " \"chr17:g.7578510_7578510del\", " +
+                    " \"chr17:g.7578511G\u003eA\", " +
+                    " \"chr17:g.7578513C\u003eG\", " +
+                    " \"chr17:g.7578513_7578549del\", " +
+                    " \"chr17:g.7578514T\u003eG\", " +
+                    " \"chr17:g.7578515T\u003eA\", " +
+                    " \"chr17:g.7578515_7578516insGGCCAGTTGGCAAAACATCTTGTTGAG\", " +
+                    " \"chr17:g.7578516_7578516del\", " +
+                    " \"chr17:g.7578517G\u003eA\", " +
+                    " \"chr17:g.7578518C\u003eG\", " +
+                    " \"chr17:g.7578520A\u003eT\", " +
+                    " \"chr17:g.7578520_7578525del\", " +
+                    " \"chr17:g.7578521_7578521del\", " +
+                    " \"chr17:g.7578521_7578531del\", " +
+                    " \"chr17:g.7578522_7578522del\", " +
+                    " \"chr17:g.7578523T\u003eG\", " +
+                    " \"chr17:g.7578523_7578548del\", " +
+                    " \"chr17:g.7578524G\u003eA\", " +
+                    " \"chr17:g.7578524G\u003eC\", " +
+                    " \"chr17:g.7578525G\u003eC\", " +
+                    " \"chr17:g.7578525G\u003eT\", " +
+                    " \"chr17:g.7578526C\u003eA\", " +
+                    " \"chr17:g.7578526C\u003eG\", " +
+                    " \"chr17:g.7578526C\u003eT\", " +
+                    " \"chr17:g.7578526_7578527insA\", " +
+                    " \"chr17:g.7578527A\u003eC\", " +
+                    " \"chr17:g.7578527A\u003eG\", " +
+                    " \"chr17:g.7578527A\u003eT\", " +
+                    " \"chr17:g.7578527_7578527del\", " +
+                    " \"chr17:g.7578527_7578528del\", " +
+                    " \"chr17:g.7578528A\u003eC\", " +
+                    " \"chr17:g.7578528A\u003eT\", " +
+                    " \"chr17:g.7578529A\u003eC\", " +
+                    " \"chr17:g.7578530A\u003eC\", " +
+                    " \"chr17:g.7578530A\u003eG\" " +
+                    " ] ")
+                .post(baseUrlOfSut + "/my_variant_info/variant?EMextraParam123=42")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .contentType("application/json")
+                .body("size()", equalTo(280))
+                .body("[0].'variant'", containsString("chr17:g.7577567A>C"))
+                .body("[0].'query'", containsString("chr17:g.7577567A>C"))
+                .body("[0].'hgvs'", containsString("chr17:g.7577567A>C"))
+                .body("[0].'snpeff'.'license'", containsString("http://bit.ly/2suyRKt"))
+                .body("[0].'vcf'.'alt'", containsString("C"))
+                .body("[0].'vcf'.'position'", containsString("7577567"))
+                .body("[0].'vcf'.'ref'", containsString("A"))
+                .body("[0].'dbsnp'.'license'", containsString("http://bit.ly/2AqoLOc"))
+                .body("[0].'dbsnp'.'alleles'.size()", equalTo(1))
+                .body("[0].'dbsnp'.'alleles'[0]", nullValue())
+                .body("[0].'dbsnp'.'alt'", containsString("C"))
+                .body("[0].'dbsnp'.'chrom'", containsString("17"))
+                .body("[0].'dbsnp'.'dbsnpBuild'", numberMatches(156.0))
+                .body("[0].'dbsnp'.'flags'.size()", equalTo(1))
+                .body("[0].'dbsnp'.'flags'[0]", nullValue())
+                .body("[0].'dbsnp'.'hg19'.'start'", numberMatches(7577567.0))
+                .body("[0].'dbsnp'.'hg19'.'end'", numberMatches(7577567.0))
+                .body("[0].'dbsnp'.'ref'", containsString("A"))
+                .body("[0].'dbsnp'.'rsid'", containsString("rs193920789"))
+                .body("[0].'dbsnp'.'vartype'", containsString("snv"))
+                .body("[0].'cosmic'.'license'", containsString("http://bit.ly/2VMkY7R"))
+                .body("[0].'cosmic'.'alt'", containsString("G"))
+                .body("[0].'cosmic'.'chrom'", containsString("17"))
+                .body("[0].'cosmic'.'cosmicId'", containsString("COSM44676"))
+                .body("[0].'cosmic'.'hg19'.'start'", numberMatches(7577567.0))
+                .body("[0].'cosmic'.'hg19'.'end'", numberMatches(7577567.0))
+                .body("[0].'cosmic'.'mutFreq'", numberMatches(0.03))
+                .body("[0].'cosmic'.'mutNt'", containsString("T>G"))
+                .body("[0].'cosmic'.'ref'", containsString("T"))
+                .body("[0].'cosmic'.'tumorSite'", containsString("urinary_tract"))
+                .body("[0].'clinVar'.'license'", containsString("http://bit.ly/2SQdcI0"))
+                .body("[0].'clinVar'.'alleleId'", numberMatches(171615.0))
+                .body("[0].'clinVar'.'alt'", containsString("C"))
+                .body("[0].'clinVar'.'chrom'", containsString("17"))
+                .body("[0].'clinVar'.'cytogenic'", containsString("17p13.1"))
+                .body("[0].'clinVar'.'gene'.'symbol'", containsString("TP53"))
+                .body("[0].'clinVar'.'hg19'.'start'", numberMatches(7577567.0))
+                .body("[0].'clinVar'.'hg19'.'end'", numberMatches(7577567.0))
+                .body("[0].'clinVar'.'hg38'.'start'", containsString("7674249"))
+                .body("[0].'clinVar'.'hg38'.'end'", containsString("7674249"))
+                .body("[0].'clinVar'.'hgvs'.'coding'.size()", equalTo(17))
+                .body("[0].'clinVar'.'hgvs'.'coding'", hasItems("LRG_321t1:c.714T>G", "LRG_321t5:c.318T>G", "NM_000546.6:c.714T>G", "NM_001126112.3:c.714T>G", "NM_001126113.3:c.714T>G", "NM_001126114.3:c.714T>G", "NM_001126115.2:c.318T>G", "NM_001126116.2:c.318T>G", "NM_001126117.2:c.318T>G", "NM_001126118.2:c.597T>G", "NM_001276695.3:c.597T>G", "NM_001276696.3:c.597T>G", "NM_001276697.3:c.237T>G", "NM_001276698.3:c.237T>G", "NM_001276699.3:c.237T>G", "NM_001276760.3:c.597T>G", "NM_001276761.3:c.597T>G"))
+                .body("[0].'clinVar'.'hgvs'.'genomic'.size()", equalTo(4))
+                .body("[0].'clinVar'.'hgvs'.'genomic'", hasItems("LRG_321:g.18302T>G", "NC_000017.10:g.7577567A>C", "NC_000017.11:g.7674249A>C", "NG_017013.2:g.18302T>G"))
+                .body("[0].'clinVar'.'hgvs'.'protein'.size()", equalTo(19))
+                .body("[0].'clinVar'.'hgvs'.'protein'", hasItems("LRG_321p1:p.Cys238Trp", "LRG_321p5:p.Cys106Trp", "NP_000537.3:p.Cys238Trp", "NP_000537.3:p.Cys238Trp", "NP_001119584.1:p.Cys238Trp", "NP_001119585.1:p.Cys238Trp", "NP_001119586.1:p.Cys238Trp", "NP_001119587.1:p.Cys106Trp", "NP_001119587.1:p.Cys106Trp", "NP_001119588.1:p.Cys106Trp", "NP_001119589.1:p.Cys106Trp", "NP_001119590.1:p.Cys199Trp", "NP_001263624.1:p.Cys199Trp", "NP_001263625.1:p.Cys199Trp", "NP_001263626.1:p.Cys79Trp", "NP_001263627.1:p.Cys79Trp", "NP_001263628.1:p.Cys79Trp", "NP_001263689.1:p.Cys199Trp", "NP_001263690.1:p.Cys199Trp"))
+                .body("[0].'clinVar'.'rcv'.size()", equalTo(3))
+                .body("[0].'clinVar'.'rcv'[0].'accession'", containsString("RCV000149049"))
+                .body("[0].'clinVar'.'rcv'[0].'clinicalSignificance'", containsString("Uncertain significance"))
+                .body("[0].'clinVar'.'rcv'[0].'origin'", containsString("somatic"))
+                .body("[0].'clinVar'.'rcv'[0].'preferredName'", containsString("NM_000546.6(TP53):c.714T>G (p.Cys238Trp)"))
+                .body("[0].'clinVar'.'rcv'[1].'accession'", containsString("RCV000203823"))
+                .body("[0].'clinVar'.'rcv'[1].'clinicalSignificance'", containsString("Pathogenic"))
+                .body("[0].'clinVar'.'rcv'[1].'origin'", containsString("germline"))
+                .body("[0].'clinVar'.'rcv'[1].'preferredName'", containsString("NM_000546.6(TP53):c.714T>G (p.Cys238Trp)"))
+                .body("[0].'clinVar'.'rcv'[2].'accession'", containsString("RCV002362784"))
+                .body("[0].'clinVar'.'rcv'[2].'clinicalSignificance'", containsString("Likely pathogenic"))
+                .body("[0].'clinVar'.'rcv'[2].'origin'", containsString("germline"))
+                .body("[0].'clinVar'.'rcv'[2].'preferredName'", containsString("NM_000546.6(TP53):c.714T>G (p.Cys238Trp)"))
+                .body("[0].'clinVar'.'variantId'", numberMatches(161515.0))
+                .body("[0].'mutdb'.'ref'", containsString("T"))
+                .body("[0].'mutdb'.'alt'", containsString("G"))
+                .body("[0].'mutdb'.'uniprotId'", containsString("VAR_045203"))
+                .body("[0].'mutdb'.'mutpredScore'", numberMatches(0.963))
+                .body("[0].'mutdb'.'cosmicId'", containsString("44676"))
+                .body("[0].'mutdb'.'chrom'", containsString("17"))
+                .body("[0].'mutdb'.'hg19'.'start'", numberMatches(7577567.0))
+                .body("[0].'mutdb'.'hg19'.'end'", numberMatches(7577567.0))
+                .body("[1].'variant'", containsString("chr17:g.7577568C>A"))
+                .body("[1].'query'", containsString("chr17:g.7577568C>A"))
+                .body("[1].'hgvs'", containsString("chr17:g.7577568C>A"))
+                .body("[1].'snpeff'.'license'", containsString("http://bit.ly/2suyRKt"))
+                .body("[1].'vcf'.'alt'", containsString("A"))
+                .body("[1].'vcf'.'position'", containsString("7577568"))
+                .body("[1].'vcf'.'ref'", containsString("C"))
+                .body("[1].'dbsnp'.'license'", containsString("http://bit.ly/2AqoLOc"))
+                .body("[1].'dbsnp'.'alleles'.size()", equalTo(2))
+                .body("[1].'dbsnp'.'alleles'[0].'allele'", containsString("C"))
+                .body("[1].'dbsnp'.'alleles'[1].'allele'", containsString("T"))
+                .body("[1].'dbsnp'.'alt'", containsString("A"))
+                .body("[1].'dbsnp'.'chrom'", containsString("17"))
+                .body("[1].'dbsnp'.'dbsnpBuild'", numberMatches(156.0))
+                .body("[1].'dbsnp'.'flags'.size()", equalTo(1))
+                .body("[1].'dbsnp'.'flags'[0]", nullValue())
+                .body("[1].'dbsnp'.'hg19'.'start'", numberMatches(7577568.0))
+                .body("[1].'dbsnp'.'hg19'.'end'", numberMatches(7577568.0))
+                .body("[1].'dbsnp'.'ref'", containsString("C"))
+                .body("[1].'dbsnp'.'rsid'", containsString("rs730882005"))
+                .body("[1].'dbsnp'.'vartype'", containsString("snv"))
+                .body("[1].'cosmic'.'license'", containsString("http://bit.ly/2VMkY7R"))
+                .body("[1].'cosmic'.'alt'", containsString("T"))
+                .body("[1].'cosmic'.'chrom'", containsString("17"))
+                .body("[1].'cosmic'.'cosmicId'", containsString("COSM43778"))
+                .body("[1].'cosmic'.'hg19'.'start'", numberMatches(7577568.0))
+                .body("[1].'cosmic'.'hg19'.'end'", numberMatches(7577568.0))
+                .body("[1].'cosmic'.'mutFreq'", numberMatches(0.63))
+                .body("[1].'cosmic'.'mutNt'", containsString("G>T"))
+                .body("[1].'cosmic'.'ref'", containsString("G"))
+                .body("[1].'cosmic'.'tumorSite'", containsString("meninges"))
+                .body("[1].'clinVar'.'license'", containsString("http://bit.ly/2SQdcI0"))
+                .body("[1].'clinVar'.'alleleId'", numberMatches(363453.0))
+                .body("[1].'clinVar'.'alt'", containsString("A"))
+                .body("[1].'clinVar'.'chrom'", containsString("17"))
+                .body("[1].'clinVar'.'cytogenic'", containsString("17p13.1"))
+                .body("[1].'clinVar'.'gene'.'symbol'", containsString("TP53"))
+                .body("[1].'clinVar'.'hg19'.'start'", numberMatches(7577568.0))
+                .body("[1].'clinVar'.'hg19'.'end'", numberMatches(7577568.0))
+                .body("[1].'clinVar'.'hg38'.'start'", containsString("7674250"))
+                .body("[1].'clinVar'.'hg38'.'end'", containsString("7674250"))
+                .body("[1].'clinVar'.'hgvs'.'coding'.size()", equalTo(16))
+                .body("[1].'clinVar'.'hgvs'.'coding'", hasItems("LRG_321t1:c.713G>T", "NM_000546.6:c.713G>T", "NM_001126112.3:c.713G>T", "NM_001126113.3:c.713G>T", "NM_001126114.3:c.713G>T", "NM_001126115.2:c.317G>T", "NM_001126116.2:c.317G>T", "NM_001126117.2:c.317G>T", "NM_001126118.2:c.596G>T", "NM_001276695.3:c.596G>T", "NM_001276696.3:c.596G>T", "NM_001276697.3:c.236G>T", "NM_001276698.3:c.236G>T", "NM_001276699.3:c.236G>T", "NM_001276760.3:c.596G>T", "NM_001276761.3:c.596G>T"))
+                .body("[1].'clinVar'.'hgvs'.'genomic'.size()", equalTo(4))
+                .body("[1].'clinVar'.'hgvs'.'genomic'", hasItems("LRG_321:g.18301G>T", "NC_000017.10:g.7577568C>A", "NC_000017.11:g.7674250C>A", "NG_017013.2:g.18301G>T"))
+                .body("[1].'clinVar'.'hgvs'.'protein'.size()", equalTo(17))
+                .body("[1].'clinVar'.'hgvs'.'protein'", hasItems("LRG_321p1:p.Cys238Phe", "NP_000537.3:p.Cys238Phe", "NP_000537.3:p.Cys238Phe", "NP_001119584.1:p.Cys238Phe", "NP_001119585.1:p.Cys238Phe", "NP_001119586.1:p.Cys238Phe", "NP_001119587.1:p.Cys106Phe", "NP_001119588.1:p.Cys106Phe", "NP_001119589.1:p.Cys106Phe", "NP_001119590.1:p.Cys199Phe", "NP_001263624.1:p.Cys199Phe", "NP_001263625.1:p.Cys199Phe", "NP_001263626.1:p.Cys79Phe", "NP_001263627.1:p.Cys79Phe", "NP_001263628.1:p.Cys79Phe", "NP_001263689.1:p.Cys199Phe", "NP_001263690.1:p.Cys199Phe"))
+                .body("[1].'clinVar'.'rcv'.size()", equalTo(19))
+                .body("[1].'clinVar'.'rcv'[0].'accession'", containsString("RCV000417498"))
+                .body("[1].'clinVar'.'rcv'[0].'clinicalSignificance'", containsString("Likely pathogenic"))
+                .body("[1].'clinVar'.'rcv'[0].'origin'", containsString("somatic"))
+                .body("[1].'clinVar'.'rcv'[0].'preferredName'", containsString("NM_000546.6(TP53):c.713G>T (p.Cys238Phe)"))
+                .body("[1].'clinVar'.'rcv'[1].'accession'", containsString("RCV000418555"))
+                .body("[1].'clinVar'.'rcv'[1].'clinicalSignificance'", containsString("Likely pathogenic"))
+                .body("[1].'clinVar'.'rcv'[1].'origin'", containsString("somatic"))
+                .body("[1].'clinVar'.'rcv'[1].'preferredName'", containsString("NM_000546.6(TP53):c.713G>T (p.Cys238Phe)"))
+                .body("[1].'clinVar'.'rcv'[2].'accession'", containsString("RCV000422481"))
+                .body("[1].'clinVar'.'rcv'[2].'clinicalSignificance'", containsString("Likely pathogenic"))
+                .body("[1].'clinVar'.'rcv'[2].'origin'", containsString("somatic"))
+                .body("[1].'clinVar'.'rcv'[2].'preferredName'", containsString("NM_000546.6(TP53):c.713G>T (p.Cys238Phe)"))
+                // Skipping assertions on the remaining 16 elements. This limit of 3 elements can be increased in the configurations
+                .body("[1].'clinVar'.'variantId'", numberMatches(376574.0))
+                .body("[1].'mutdb'.'ref'", containsString("G"))
+                .body("[1].'mutdb'.'alt'", containsString("T"))
+                .body("[1].'mutdb'.'uniprotId'", containsString("VAR_005966"))
+                .body("[1].'mutdb'.'mutpredScore'", numberMatches(0.976))
+                .body("[1].'mutdb'.'cosmicId'", containsString("43778, 99626, 99624, 99625"))
+                .body("[1].'mutdb'.'chrom'", containsString("17"))
+                .body("[1].'mutdb'.'hg19'.'start'", numberMatches(7577568.0))
+                .body("[1].'mutdb'.'hg19'.'end'", numberMatches(7577568.0))
+                .body("[2].'variant'", containsString("chr17:g.7577568C>G"))
+                .body("[2].'query'", containsString("chr17:g.7577568C>G"))
+                .body("[2].'hgvs'", containsString("chr17:g.7577568C>G"))
+                .body("[2].'snpeff'.'license'", containsString("http://bit.ly/2suyRKt"))
+                .body("[2].'vcf'.'alt'", containsString("G"))
+                .body("[2].'vcf'.'position'", containsString("7577568"))
+                .body("[2].'vcf'.'ref'", containsString("C"))
+                .body("[2].'dbsnp'.'license'", containsString("http://bit.ly/2AqoLOc"))
+                .body("[2].'dbsnp'.'alleles'.size()", equalTo(2))
+                .body("[2].'dbsnp'.'alleles'[0].'allele'", containsString("C"))
+                .body("[2].'dbsnp'.'alleles'[1].'allele'", containsString("T"))
+                .body("[2].'dbsnp'.'alt'", containsString("G"))
+                .body("[2].'dbsnp'.'chrom'", containsString("17"))
+                .body("[2].'dbsnp'.'dbsnpBuild'", numberMatches(156.0))
+                .body("[2].'dbsnp'.'flags'.size()", equalTo(1))
+                .body("[2].'dbsnp'.'flags'[0]", nullValue())
+                .body("[2].'dbsnp'.'hg19'.'start'", numberMatches(7577568.0))
+                .body("[2].'dbsnp'.'hg19'.'end'", numberMatches(7577568.0))
+                .body("[2].'dbsnp'.'ref'", containsString("C"))
+                .body("[2].'dbsnp'.'rsid'", containsString("rs730882005"))
+                .body("[2].'dbsnp'.'vartype'", containsString("snv"))
+                .body("[2].'cosmic'.'license'", containsString("http://bit.ly/2VMkY7R"))
+                .body("[2].'cosmic'.'alt'", containsString("C"))
+                .body("[2].'cosmic'.'chrom'", containsString("17"))
+                .body("[2].'cosmic'.'cosmicId'", containsString("COSM44653"))
+                .body("[2].'cosmic'.'hg19'.'start'", numberMatches(7577568.0))
+                .body("[2].'cosmic'.'hg19'.'end'", numberMatches(7577568.0))
+                .body("[2].'cosmic'.'mutFreq'", numberMatches(0.04))
+                .body("[2].'cosmic'.'mutNt'", containsString("G>C"))
+                .body("[2].'cosmic'.'ref'", containsString("G"))
+                .body("[2].'cosmic'.'tumorSite'", containsString("central_nervous_system"))
+                .body("[2].'clinVar'.'license'", containsString("http://bit.ly/2SQdcI0"))
+                .body("[2].'clinVar'.'alleleId'", numberMatches(363454.0))
+                .body("[2].'clinVar'.'alt'", containsString("G"))
+                .body("[2].'clinVar'.'chrom'", containsString("17"))
+                .body("[2].'clinVar'.'cytogenic'", containsString("17p13.1"))
+                .body("[2].'clinVar'.'gene'.'symbol'", containsString("TP53"))
+                .body("[2].'clinVar'.'hg19'.'start'", numberMatches(7577568.0))
+                .body("[2].'clinVar'.'hg19'.'end'", numberMatches(7577568.0))
+                .body("[2].'clinVar'.'hg38'.'start'", containsString("7674250"))
+                .body("[2].'clinVar'.'hg38'.'end'", containsString("7674250"))
+                .body("[2].'clinVar'.'hgvs'.'coding'.size()", equalTo(16))
+                .body("[2].'clinVar'.'hgvs'.'coding'", hasItems("LRG_321t1:c.713G>C", "NM_000546.6:c.713G>C", "NM_001126112.3:c.713G>C", "NM_001126113.3:c.713G>C", "NM_001126114.3:c.713G>C", "NM_001126115.2:c.317G>C", "NM_001126116.2:c.317G>C", "NM_001126117.2:c.317G>C", "NM_001126118.2:c.596G>C", "NM_001276695.3:c.596G>C", "NM_001276696.3:c.596G>C", "NM_001276697.3:c.236G>C", "NM_001276698.3:c.236G>C", "NM_001276699.3:c.236G>C", "NM_001276760.3:c.596G>C", "NM_001276761.3:c.596G>C"))
+                .body("[2].'clinVar'.'hgvs'.'genomic'.size()", equalTo(4))
+                .body("[2].'clinVar'.'hgvs'.'genomic'", hasItems("LRG_321:g.18301G>C", "NC_000017.10:g.7577568C>G", "NC_000017.11:g.7674250C>G", "NG_017013.2:g.18301G>C"))
+                .body("[2].'clinVar'.'hgvs'.'protein'.size()", equalTo(17))
+                .body("[2].'clinVar'.'hgvs'.'protein'", hasItems("LRG_321p1:p.Cys238Ser", "NP_000537.3:p.Cys238Ser", "NP_000537.3:p.Cys238Ser", "NP_001119584.1:p.Cys238Ser", "NP_001119585.1:p.Cys238Ser", "NP_001119586.1:p.Cys238Ser", "NP_001119587.1:p.Cys106Ser", "NP_001119588.1:p.Cys106Ser", "NP_001119589.1:p.Cys106Ser", "NP_001119590.1:p.Cys199Ser", "NP_001263624.1:p.Cys199Ser", "NP_001263625.1:p.Cys199Ser", "NP_001263626.1:p.Cys79Ser", "NP_001263627.1:p.Cys79Ser", "NP_001263628.1:p.Cys79Ser", "NP_001263689.1:p.Cys199Ser", "NP_001263690.1:p.Cys199Ser"))
+                .body("[2].'clinVar'.'rcv'.size()", equalTo(21))
+                .body("[2].'clinVar'.'rcv'[0].'accession'", containsString("RCV000419485"))
+                .body("[2].'clinVar'.'rcv'[0].'clinicalSignificance'", containsString("Likely pathogenic"))
+                .body("[2].'clinVar'.'rcv'[0].'origin'", containsString("somatic"))
+                .body("[2].'clinVar'.'rcv'[0].'preferredName'", containsString("NM_000546.6(TP53):c.713G>C (p.Cys238Ser)"))
+                .body("[2].'clinVar'.'rcv'[1].'accession'", containsString("RCV000418923"))
+                .body("[2].'clinVar'.'rcv'[1].'clinicalSignificance'", containsString("Likely pathogenic"))
+                .body("[2].'clinVar'.'rcv'[1].'origin'", containsString("somatic"))
+                .body("[2].'clinVar'.'rcv'[1].'preferredName'", containsString("NM_000546.6(TP53):c.713G>C (p.Cys238Ser)"))
+                .body("[2].'clinVar'.'rcv'[2].'accession'", containsString("RCV000423226"))
+                .body("[2].'clinVar'.'rcv'[2].'clinicalSignificance'", containsString("Likely pathogenic"))
+                .body("[2].'clinVar'.'rcv'[2].'origin'", containsString("somatic"))
+                .body("[2].'clinVar'.'rcv'[2].'preferredName'", containsString("NM_000546.6(TP53):c.713G>C (p.Cys238Ser)"))
+                // Skipping assertions on the remaining 18 elements. This limit of 3 elements can be increased in the configurations
+                .body("[2].'clinVar'.'variantId'", numberMatches(376575.0))
+                .body("[2].'mutdb'.'ref'", containsString("G"))
+                .body("[2].'mutdb'.'alt'", containsString("C"))
+                .body("[2].'mutdb'.'uniprotId'", containsString("VAR_045202"))
+                .body("[2].'mutdb'.'mutpredScore'", numberMatches(0.977))
+                .body("[2].'mutdb'.'cosmicId'", containsString("44653"))
+                .body("[2].'mutdb'.'chrom'", containsString("17"))
+                .body("[2].'mutdb'.'hg19'.'start'", numberMatches(7577568.0))
+                .body("[2].'mutdb'.'hg19'.'end'", numberMatches(7577568.0))
+                ; // Skipping assertions on the remaining 277 elements. This limit of 3 elements can be increased in the configurations
+
+    }
     
     
     @Test(timeout = 60000)

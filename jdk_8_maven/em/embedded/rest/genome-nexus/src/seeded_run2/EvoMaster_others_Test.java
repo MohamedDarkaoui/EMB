@@ -116,89 +116,89 @@ public class EvoMaster_others_Test {
     }
     
     
-//    @Test(timeout = 60000)
-//    public void test_2() throws Exception {
-//        ExpectationHandler expectationHandler = expectationHandler();
-//
-//        try{
-//            given().accept("*/*")
-//                    .header("x-EMextraHeader123", "")
-//                    .contentType("application/json")
-//                    .body(" [ " +
-//                        " { " +
-//                        " \"chromosome\": \"_EM_1824_XYZ_\", " +
-//                        " \"start\": 138, " +
-//                        " \"end\": -512, " +
-//                        " \"referenceAllele\": \"_EM_7752_XYZ_\", " +
-//                        " \"variantAllele\": \"NA\" " +
-//                        " }, " +
-//                        " { " +
-//                        " \"chromosome\": \"c\", " +
-//                        " \"start\": 982, " +
-//                        " \"end\": 4325891, " +
-//                        " \"referenceAllele\": \"_EM_7753_XYZ_\", " +
-//                        " \"variantAllele\": \"_EM_1385_XYZ_\" " +
-//                        " }, " +
-//                        " { " +
-//                        " \"chromosome\": \"_EM_1386_XYZ_\", " +
-//                        " \"start\": 209, " +
-//                        " \"end\": 0, " +
-//                        " \"referenceAllele\": \"-\", " +
-//                        " \"variantAllele\": \"]\" " +
-//                        " }, " +
-//                        " { " +
-//                        " \"chromosome\": \"_EM_1389_XYZ_\", " +
-//                        " \"start\": -67107778, " +
-//                        " \"end\": -33553985, " +
-//                        " \"referenceAllele\": \"_EM_1390_XYZ_\", " +
-//                        " \"variantAllele\": \"_EM_7754_XYZ_\" " +
-//                        " }, " +
-//                        " { " +
-//                        " \"chromosome\": \"_EM_3716_XYZ_\", " +
-//                        " \"start\": -260045, " +
-//                        " \"end\": 706, " +
-//                        " \"referenceAllele\": \"i\", " +
-//                        " \"variantAllele\": \"7\" " +
-//                        " } " +
-//                        " ] ")
-//                    .post(baseUrlOfSut + "/annotation/genomic?" +
-//                        "isoformOverrideSource=_EM_3713_XYZ_&" +
-//                        "token=_EM_3714_XYZ_&" +
-//                        "fields=zFYl9M&fields=E&fields=_EM_3718_XYZ_&" +
-//                        "EMextraParam123=42");
-//        } catch(Exception e){
-//        }
-//    }
-//
-//
-//    @Test(timeout = 60000)
-//    public void test_3() throws Exception {
-//        ExpectationHandler expectationHandler = expectationHandler();
-//
-//        try{
-//            given().accept("*/*")
-//                    .header("x-EMextraHeader123", "42")
-//                    .contentType("application/json")
-//                    .body(" [ " +
-//                        " { " +
-//                        " \"chromosome\": \"7\", " +
-//                        " \"start\": 55242466, " +
-//                        " \"end\": 55242480, " +
-//                        " \"referenceAllele\": \"GAATTAAGAGAAGCA\", " +
-//                        " \"variantAllele\": \"-\" " +
-//                        " }, " +
-//                        " { " +
-//                        " \"chromosome\": \"5\", " +
-//                        " \"start\": 54986874, " +
-//                        " \"end\": 55248939, " +
-//                        " \"referenceAllele\": \"CAGCGTGGA\", " +
-//                        " \"variantAllele\": \"_EM_3837_XYZ_\" " +
-//                        " } " +
-//                        " ] ")
-//                    .post(baseUrlOfSut + "/cancer_hotspots/genomic");
-//        } catch(Exception e){
-//        }
-//    }
+    @Test(timeout = 60000)
+    public void test_2() throws Exception {
+        ExpectationHandler expectationHandler = expectationHandler();
+
+        try{
+            given().accept("*/*")
+                    .header("x-EMextraHeader123", "")
+                    .contentType("application/json")
+                    .body(" [ " +
+                        " { " +
+                        " \"chromosome\": \"_EM_1824_XYZ_\", " +
+                        " \"start\": 138, " +
+                        " \"end\": -512, " +
+                        " \"referenceAllele\": \"_EM_7752_XYZ_\", " +
+                        " \"variantAllele\": \"NA\" " +
+                        " }, " +
+                        " { " +
+                        " \"chromosome\": \"c\", " +
+                        " \"start\": 982, " +
+                        " \"end\": 4325891, " +
+                        " \"referenceAllele\": \"_EM_7753_XYZ_\", " +
+                        " \"variantAllele\": \"_EM_1385_XYZ_\" " +
+                        " }, " +
+                        " { " +
+                        " \"chromosome\": \"_EM_1386_XYZ_\", " +
+                        " \"start\": 209, " +
+                        " \"end\": 0, " +
+                        " \"referenceAllele\": \"-\", " +
+                        " \"variantAllele\": \"]\" " +
+                        " }, " +
+                        " { " +
+                        " \"chromosome\": \"_EM_1389_XYZ_\", " +
+                        " \"start\": -67107778, " +
+                        " \"end\": -33553985, " +
+                        " \"referenceAllele\": \"_EM_1390_XYZ_\", " +
+                        " \"variantAllele\": \"_EM_7754_XYZ_\" " +
+                        " }, " +
+                        " { " +
+                        " \"chromosome\": \"_EM_3716_XYZ_\", " +
+                        " \"start\": -260045, " +
+                        " \"end\": 706, " +
+                        " \"referenceAllele\": \"i\", " +
+                        " \"variantAllele\": \"7\" " +
+                        " } " +
+                        " ] ")
+                    .post(baseUrlOfSut + "/annotation/genomic?" +
+                        "isoformOverrideSource=_EM_3713_XYZ_&" +
+                        "token=_EM_3714_XYZ_&" +
+                        "fields=zFYl9M&fields=E&fields=_EM_3718_XYZ_&" +
+                        "EMextraParam123=42");
+        } catch(Exception e){
+        }
+    }
+
+
+    @Test(timeout = 60000)
+    public void test_3() throws Exception {
+        ExpectationHandler expectationHandler = expectationHandler();
+
+        try{
+            given().accept("*/*")
+                    .header("x-EMextraHeader123", "42")
+                    .contentType("application/json")
+                    .body(" [ " +
+                        " { " +
+                        " \"chromosome\": \"7\", " +
+                        " \"start\": 55242466, " +
+                        " \"end\": 55242480, " +
+                        " \"referenceAllele\": \"GAATTAAGAGAAGCA\", " +
+                        " \"variantAllele\": \"-\" " +
+                        " }, " +
+                        " { " +
+                        " \"chromosome\": \"5\", " +
+                        " \"start\": 54986874, " +
+                        " \"end\": 55248939, " +
+                        " \"referenceAllele\": \"CAGCGTGGA\", " +
+                        " \"variantAllele\": \"_EM_3837_XYZ_\" " +
+                        " } " +
+                        " ] ")
+                    .post(baseUrlOfSut + "/cancer_hotspots/genomic");
+        } catch(Exception e){
+        }
+    }
     
     
     @Test(timeout = 60000)
